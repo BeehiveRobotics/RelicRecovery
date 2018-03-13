@@ -24,9 +24,9 @@ public class AutoDrive {
     static private final int CPR = 1120; //Clicks per rotation of the encoder with the NeveRest 40 motors. Please do not edit.
     static final double MIN_MOVE_SPEED = 0.25;
     public static final double MAX_SPEED = 1;
-    static final double MIN_SPIN_SPEED = 0.2;
+    static final double MIN_SPIN_SPEED = 0.25;
     static final double MIN_STRAFE_SPEED = 0.35;
-    static final double GYRO_OFFSET = 2.25;
+    static final double GYRO_OFFSET = 3;
     static final double SPIN_ON_BALANCE_BOARD_SPEED = 0.15;
     static final double DRIVE_OFF_BALANCE_BOARD_SPEED = 1; //TEMPORARY... SWITCH BACK TO 0.4 SOMETIME SOON
     static final double STRAFING_PAST_CRYPTOBOX_SPEED = 0.75;
@@ -227,7 +227,7 @@ public class AutoDrive {
         while (heading >= Adjustedtarget) {
             heading = getHeading();
             double proportion = 1 - (Math.abs((heading - start) / distance));
-            driveSpeeds(clipSpinSpeed(fl*proportion), clipSpinSpeed(rl*proportion), clipSpinSpeed(rl*proportion), clipSpinSpeed(rr*proportion));
+            driveSpeeds(clipSpinSpeed(fl*proportion), clipSpinSpeed(fr*proportion), clipSpinSpeed(rl*proportion), clipSpinSpeed(rr*proportion));
         }
         stopMotors();
     }

@@ -27,7 +27,8 @@ public class DriveMecanum {
         this.RearRight = hardwareMap.dcMotor.get("m4");
         this.RearRight.setDirection(DcMotor.Direction.REVERSE);
         this.telemetry = telemetry;
-        setBRAKE();
+        //setBRAKE();
+        setFLOAT();
     }
 
     public void driveTranslateRotate(double x, double y, double z) {
@@ -92,14 +93,24 @@ public class DriveMecanum {
     public void stop() {
         driveSpeeds(0,0,0,0);
     }
+
     public double clip(double value) {
         return Range.clip(value, -1, 1);
     }
+
     public void sleep(long miliseconds) {try {Thread.sleep(miliseconds);} catch (InterruptedException e) {}}
+
     private void setBRAKE() {
         this.FrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         this.FrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         this.RearLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         this.RearRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    }
+    private void setFLOAT() {
+        this.FrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        this.FrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        this.RearLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        this.RearRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
     }
 }
