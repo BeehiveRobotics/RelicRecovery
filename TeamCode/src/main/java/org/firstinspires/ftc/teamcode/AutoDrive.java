@@ -319,7 +319,15 @@ public class AutoDrive {
             return -expo_speed;
         }
     }
-
+    private double calculateSpeedLog(double current, double target, double speed) {
+      if (speed > 0) {
+        return Math.abs(clipMoveSpeed(speed * (target - current/target)));
+      } else if (speed < 0) {
+        return -Math.abs(clipMoveSpeed(speed * (target - current/target)));
+      }
+        return 0;
+      }
+    
     private double calculateSpeedLinear(DcMotor motor, double targetClicks, double defaultSpeed) {
         if (defaultSpeed != 0) {
             return clipMoveSpeed(defaultSpeed * (targetClicks - Math.abs(motor.getCurrentPosition())) / targetClicks);
