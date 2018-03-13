@@ -40,6 +40,7 @@ public class AutoDrive {
     static final double SPIN_TO_CENTER_SPEED = 1;
     static final double DRIVE_EXPO = 3;
     static final double RAMP_LOG_EXPO = 0.8;
+    static final double RAMP_EXPO_GYRO = 2;
     static final double DISTANCE_TO_FAR_COLUMN = 32.75;
     static final double DISTANCE_TO_CENTER_COLUMN = 25.5;
     static final double DISTANCE_TO_CLOSE_COLUMN = 17.5;
@@ -226,7 +227,7 @@ public class AutoDrive {
         while (heading >= Adjustedtarget) {
             heading = getHeading();
             double proportion = 1 - (Math.abs((heading - start) / distance));
-            driveSpeeds(clipSpinSpeed(fl * proportion), clipSpinSpeed(fr * proportion), clipSpinSpeed(rl * proportion), clipSpinSpeed(rr * proportion));
+            driveSpeeds(clipSpinSpeed(fl*proportion), clipSpinSpeed(rl*proportion), clipSpinSpeed(rl*proportion), clipSpinSpeed(rr*proportion));
         }
         stopMotors();
     }
@@ -321,13 +322,13 @@ public class AutoDrive {
     }
     private double calculateSpeedLog(double current, double target, double speed) {
       if (speed > 0) {
-        return Math.abs(clipMoveSpeed(speed * (target - current/target)));
+        return Math.pow(Math.abs(clipMoveSpeed(speed * (target - current/target))), RAMP_EXPO_GYRO);
       } else if (speed < 0) {
-        return -Math.abs(clipMoveSpeed(speed * (target - current/target)));
+        return -Math.pow(Math.abs(clipMoveSpeed(speed * (target - current/target))), RAMP_EXPO_GYRO);
       }
         return 0;
       }
-    
+
     private double calculateSpeedLinear(DcMotor motor, double targetClicks, double defaultSpeed) {
         if (defaultSpeed != 0) {
             return clipMoveSpeed(defaultSpeed * (targetClicks - Math.abs(motor.getCurrentPosition())) / targetClicks);

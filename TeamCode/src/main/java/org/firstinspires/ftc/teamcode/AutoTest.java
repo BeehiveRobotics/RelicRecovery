@@ -17,13 +17,13 @@ public class AutoTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         telemetry.addLine("DO NOT PRESS PLAY YET"); telemetry.update();
         drive = new AutoDrive(hardwareMap, telemetry);
+        drive.init();
         jewelArm = new JewelArm(hardwareMap, telemetry);
         forkLift = new ForkLift(hardwareMap, telemetry);
         phone = new Phone(hardwareMap, telemetry);
         systems = new Systems(drive, forkLift, jewelArm, phone, hardwareMap, telemetry);
         telemetry.addLine("NOW YOU CAN PRESS PLAY"); telemetry.update();
         waitForStart();
-        systems.testFindingGlyphs();
-        sleep(2000);
+        drive.rightGyro(1, -90);
     }
 }
