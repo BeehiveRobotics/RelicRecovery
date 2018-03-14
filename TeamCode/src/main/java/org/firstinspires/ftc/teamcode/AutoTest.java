@@ -18,10 +18,10 @@ public class AutoTest extends LinearOpMode {
         telemetry.addLine("DO NOT PRESS PLAY YET"); telemetry.update();
         drive = new AutoDrive(hardwareMap, telemetry);
         drive.init();
-        jewelArm = new JewelArm(hardwareMap, telemetry);
+        //jewelArm = new JewelArm(hardwareMap, telemetry);
         forkLift = new ForkLift(hardwareMap, telemetry);
         phone = new Phone(hardwareMap, telemetry);
-        systems = new Systems(drive, forkLift, jewelArm, phone, hardwareMap, telemetry);
+        //systems = new Systems(drive, forkLift, jewelArm, phone, hardwareMap, telemetry);
         telemetry.addLine("NOW YOU CAN PRESS PLAY"); telemetry.update();
         waitForStart();
         drive.rightGyro(1, -90);

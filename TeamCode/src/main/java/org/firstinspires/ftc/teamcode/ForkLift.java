@@ -49,8 +49,8 @@ public class ForkLift {
         moveMotor(1, 150);
         init();
         closeClaw();
-        sleep(200);
-        moveMotor(1, 300);
+        sleep(300);
+        moveMotor(1, 400);
     }
 
     public void closeClaw() {

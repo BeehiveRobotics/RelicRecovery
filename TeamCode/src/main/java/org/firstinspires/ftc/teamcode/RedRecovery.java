@@ -48,8 +48,6 @@ public class RedRecovery extends LinearOpMode {
         Systems.pushInBlock();
         drive.backward(drive.BACK_AWAY_FROM_BLOCK_SPEED, 6);
         drive.leftGyro(drive.SPIN_TO_CENTER_SPEED, 90);
-        ForkLift.openClaw();
-        sleep(3000);
         Systems.getMoreGlyphs(-90, CryptoboxColumn.CENTER);
         sleep(2000);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
