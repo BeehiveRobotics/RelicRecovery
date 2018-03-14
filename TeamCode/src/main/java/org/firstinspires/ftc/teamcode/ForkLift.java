@@ -49,7 +49,7 @@ public class ForkLift {
         moveMotor(1, 150);
         init();
         closeClaw();
-        sleep(300);
+        sleep(350);
         moveMotor(1, 400);
     }
 
