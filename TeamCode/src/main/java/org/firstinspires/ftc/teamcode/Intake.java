@@ -32,6 +32,7 @@ public class Intake {
 
         this.rightServo = hardwareMap.servo.get("s8");
         this.leftServo = hardwareMap.servo.get("s9");
+        this.leftServo.setDirection(Servo.Direction.REVERSE);
 
         this.telemetry = telemetry;
     }
