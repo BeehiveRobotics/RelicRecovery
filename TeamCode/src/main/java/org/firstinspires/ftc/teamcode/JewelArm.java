@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
  * Created by Kaden on 11/28/2017.
  */
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -21,14 +22,10 @@ public class JewelArm {
     private final double MIDDLE_POSITION = 0.55;
     private final double MIN_COLOR_DETECTION_THRESHOLD = 30;
     private Telemetry telemetry;
+    private HardwareMap hardwareMap;
 
-    public JewelArm(Servo upDownServo, Servo endServo, ColorSensor cs, Telemetry telemetry) {
-        this.upDownServo = upDownServo;
-        this.endServo = endServo;
-        this.cs = cs;
-        this.telemetry = telemetry;
-    }
-    public JewelArm (HardwareMap hardwareMap, Telemetry telemetry) {
+    public JewelArm (OpMode opMode) {
+        this.hardwareMap = opMode.hardwareMap;
         this.endServo = hardwareMap.servo.get("s3");
         this.upDownServo = hardwareMap.servo.get("s4");
         this.cs = hardwareMap.colorSensor.get("cs1");
@@ -56,7 +53,7 @@ public class JewelArm {
         Color jewelColor = Color.UNKNOWN;
         setEndPosition(MIDDLE_POSITION);
         down();
-        Systems.sleep(500);
+        Robot.sleep(500);
         ElapsedTime time = new ElapsedTime();
         time.reset();
         while(cs.red() < MIN_COLOR_DETECTION_THRESHOLD && cs.blue() < MIN_COLOR_DETECTION_THRESHOLD) {
@@ -64,7 +61,7 @@ public class JewelArm {
                 setEndPosition(MIDDLE_POSITION);
                 cs.enableLed(false);
                 up();
-                Systems.sleep(750);
+                Robot.sleep(750);
                 left();
                 return;
             }
@@ -75,7 +72,7 @@ public class JewelArm {
         else if (cs.blue()>cs.red()) {
             jewelColor = Color.BLUE;
         }
-        Systems.sleep(250);
+        Robot.sleep(250);
         if(allianceColor == Color.RED) {
           if (jewelColor == Color.RED) {
             right();
@@ -92,11 +89,11 @@ public class JewelArm {
             left();
           }
         }
-        Systems.sleep(500);
+        Robot.sleep(500);
         setEndPosition(MIDDLE_POSITION);
         cs.enableLed(false);
         up();
-        Systems.sleep(500);
+        Robot.sleep(500);
         left();
     }
 
