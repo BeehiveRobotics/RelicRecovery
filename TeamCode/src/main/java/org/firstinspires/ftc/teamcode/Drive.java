@@ -25,7 +25,7 @@ public class Drive {
     static final double MIN_SPIN_SPEED = 0.2;
     static final double MIN_STRAFE_SPEED = 0.35;
     static final double SPIN_ON_BALANCE_BOARD_SPEED = 0.15;
-    static final double DRIVE_OFF_BALANCE_BOARD_SPEED = 1; //TEMPORARY... SWITCH BACK TO 0.4 SOMETIME SOON
+    static final double DRIVE_OFF_BALANCE_BOARD_SPEED = 0.6; //TEMPORARY... SWITCH BACK TO 0.4 SOMETIME SOON
     static final double STRAFING_PAST_CRYPTOBOX_SPEED = 0.75;
     static final double SPIN_TO_CRYPTOBOX_SPEED = 1;
     static final double DRIVE_INTO_CRYPTOBOX_SPEED = 0.8;
@@ -36,6 +36,7 @@ public class Drive {
     static final double DRIVE_TO_CYRPTOBOX_DISTANCE_FAR = 24;
     static final double SPIN_TO_CENTER_SPEED = 1;
     static final double RAMP_LOG_EXPO = 0.8;
+    static final double RAMP_EXPO_GYRO = 2;
     static final double DISTANCE_TO_FAR_COLUMN = 32.75;
     static final double DISTANCE_TO_CENTER_COLUMN = 25.5;
     static final double DISTANCE_TO_CLOSE_COLUMN = 17.5;
@@ -238,8 +239,76 @@ public class Drive {
         return Math.abs(getCurrentPosition(motor)) >= Math.abs(target);
     }
 
-    public void stop() {
-        driveSpeeds(0,0,0,0);
+    public void rightGyro(double x, double y, double z, double target) {
+        double Adjustedtarget = target + GYRO_OFFSET;
+        heading = getHeading();
+        double derivative = 0;
+        double fl = clip(-y + -x - z);
+        double fr = clip(-y + x + z);
+        double rl = clip(-y + x - z);
+        double rr = clip(-y + -x + z);
+        driveSpeeds(fl, fr, rl, rr);
+        if (heading < target) {
+            while (derivative <= 0) {
+                derivative = getHeading() - heading;
+                heading = getHeading();
+            }
+        }
+        double start = getHeading();
+        double distance = Adjustedtarget - start;
+        while (heading >= Adjustedtarget) {
+            heading = getHeading();
+            double proportion = 1 - (Math.abs((heading - start) / distance));
+            driveSpeeds(clipSpinSpeed(fl*proportion), clipSpinSpeed(fr*proportion), clipSpinSpeed(rl*proportion), clipSpinSpeed(rr*proportion));
+        }
+        stopMotors();
+    }
+
+    public void rightGyro(double speed, double target) {
+        rightGyro(0, 0, Math.abs(speed), target);
+    }
+
+    public void leftGyro(double x, double y, double z, double target) {
+        double adjustedTarget = target - GYRO_OFFSET;
+        heading = getHeading();
+        double derivative = 0;
+        double fl = clip(-y + -x - z);
+        double fr = clip(-y + x + z);
+        double rl = clip(-y + x - z);
+        double rr = clip(-y + -x + z);
+        driveSpeeds(fl, fr, rl, rr);
+        if (adjustedTarget < heading) {
+            while (derivative >= 0) {
+                derivative = getHeading() - heading;
+                heading = getHeading();
+            }
+        }
+        double start = heading;
+        double distance = adjustedTarget - start;
+        while (heading <= adjustedTarget) {
+            heading = getHeading();
+            double proportion = 1 - (Math.abs((heading - start) / distance));
+            driveSpeeds(clipSpinSpeed(fl * proportion), clipSpinSpeed(fr * proportion), clipSpinSpeed(rl * proportion), clipSpinSpeed(rr * proportion));
+        }
+        stopMotors();
+    }
+
+    public void leftGyro(double speed, double target) {
+        leftGyro(0, 0, -Math.abs(speed), target);
+    }
+
+    public void init() {
+        imu.calibrate();
+        heading = getHeading();
+    }
+
+    public double getHeading() {
+        return imu.getHeading();
+    }
+
+    private void telemetrizeGyro() {
+        telemetry.addData("Current heading: ", heading);
+>>>>>>> master:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/AutoDrive.java
     }
 
     private void telemetrizeEncoders() {
@@ -273,6 +342,14 @@ public class Drive {
             return -expo_speed;
         }
     }
+    private double calculateSpeedLog(double current, double target, double speed) {
+      if (speed > 0) {
+        return Math.pow(Math.abs(clipMoveSpeed(speed * (target - current/target))), RAMP_EXPO_GYRO);
+      } else if (speed < 0) {
+        return -Math.pow(Math.abs(clipMoveSpeed(speed * (target - current/target))), RAMP_EXPO_GYRO);
+      }
+        return 0;
+      }
 
     public double clipSpinSpeed(double speed) {
         if (speed > 0) {
@@ -318,4 +395,10 @@ public class Drive {
         driveSpeeds(0, 0, 1, -1);
     }
 
+<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Drive.java
+=======
+    public double getDistance() {
+        return getDistance(DistanceUnit.INCH);
+    }
+>>>>>>> master:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/AutoDrive.java
 }
