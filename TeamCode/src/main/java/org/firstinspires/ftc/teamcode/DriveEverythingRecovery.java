@@ -51,7 +51,7 @@ public class DriveEverythingRecovery extends OpMode {
                 robot.drive.driveTranslateRotate(robot.drive.D_PAD_SLOW_SPEED, 0, 0);
             }
             else {
-                robot.drive.stop();
+                robot.drive.stopMotors();
             }
         }
         /*if (gamepad1.x) {

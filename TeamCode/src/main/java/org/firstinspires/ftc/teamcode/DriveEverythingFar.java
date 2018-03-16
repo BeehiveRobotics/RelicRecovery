@@ -53,7 +53,7 @@ public class DriveEverythingFar extends OpMode {
                 robot.drive.strafeRight(robot.drive.D_PAD_SLOW_SPEED);
             }
             else {
-                robot.drive.stop();
+                robot.drive.stopMotors();
             }
         }
         //ForkLift

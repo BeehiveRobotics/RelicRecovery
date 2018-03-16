@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 /**
  * Created by Kaden on 3/15/18.
@@ -51,6 +52,9 @@ public class Drive {
 
     private HardwareMap hardwareMap;
     private Telemetry telemetry;
+
+    public double heading;
+    public final double GYRO_OFFSET = 2.25;
 
     public Drive(OpMode opMode) {
         this.hardwareMap = opMode.hardwareMap;
@@ -239,78 +243,6 @@ public class Drive {
         return Math.abs(getCurrentPosition(motor)) >= Math.abs(target);
     }
 
-    public void rightGyro(double x, double y, double z, double target) {
-        double Adjustedtarget = target + GYRO_OFFSET;
-        heading = getHeading();
-        double derivative = 0;
-        double fl = clip(-y + -x - z);
-        double fr = clip(-y + x + z);
-        double rl = clip(-y + x - z);
-        double rr = clip(-y + -x + z);
-        driveSpeeds(fl, fr, rl, rr);
-        if (heading < target) {
-            while (derivative <= 0) {
-                derivative = getHeading() - heading;
-                heading = getHeading();
-            }
-        }
-        double start = getHeading();
-        double distance = Adjustedtarget - start;
-        while (heading >= Adjustedtarget) {
-            heading = getHeading();
-            double proportion = 1 - (Math.abs((heading - start) / distance));
-            driveSpeeds(clipSpinSpeed(fl*proportion), clipSpinSpeed(fr*proportion), clipSpinSpeed(rl*proportion), clipSpinSpeed(rr*proportion));
-        }
-        stopMotors();
-    }
-
-    public void rightGyro(double speed, double target) {
-        rightGyro(0, 0, Math.abs(speed), target);
-    }
-
-    public void leftGyro(double x, double y, double z, double target) {
-        double adjustedTarget = target - GYRO_OFFSET;
-        heading = getHeading();
-        double derivative = 0;
-        double fl = clip(-y + -x - z);
-        double fr = clip(-y + x + z);
-        double rl = clip(-y + x - z);
-        double rr = clip(-y + -x + z);
-        driveSpeeds(fl, fr, rl, rr);
-        if (adjustedTarget < heading) {
-            while (derivative >= 0) {
-                derivative = getHeading() - heading;
-                heading = getHeading();
-            }
-        }
-        double start = heading;
-        double distance = adjustedTarget - start;
-        while (heading <= adjustedTarget) {
-            heading = getHeading();
-            double proportion = 1 - (Math.abs((heading - start) / distance));
-            driveSpeeds(clipSpinSpeed(fl * proportion), clipSpinSpeed(fr * proportion), clipSpinSpeed(rl * proportion), clipSpinSpeed(rr * proportion));
-        }
-        stopMotors();
-    }
-
-    public void leftGyro(double speed, double target) {
-        leftGyro(0, 0, -Math.abs(speed), target);
-    }
-
-    public void init() {
-        imu.calibrate();
-        heading = getHeading();
-    }
-
-    public double getHeading() {
-        return imu.getHeading();
-    }
-
-    private void telemetrizeGyro() {
-        telemetry.addData("Current heading: ", heading);
->>>>>>> master:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/AutoDrive.java
-    }
-
     private void telemetrizeEncoders() {
         telemetry.addData("First motor: ", FrontLeft.getCurrentPosition());
         telemetry.addData("Second motor: ", FrontRight.getCurrentPosition());
@@ -395,10 +327,4 @@ public class Drive {
         driveSpeeds(0, 0, 1, -1);
     }
 
-<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Drive.java
-=======
-    public double getDistance() {
-        return getDistance(DistanceUnit.INCH);
-    }
->>>>>>> master:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/AutoDrive.java
 }
