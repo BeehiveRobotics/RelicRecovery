@@ -23,8 +23,9 @@ public class ForkLift {
     private Telemetry telemetry;
     private final double CLAW_GRAB_POSITION = 0.55;
     private final double CLAW_PUSH_IN_BLOCK_POSITION = 0.85;
-    private final double CLAW_OPEN_POSITION = 0;
+    private final double CLAW_OPEN_POSITION = 0.3;
     private final double CLAW_CLOSE_POSITION = 1;
+    public boolean isClosed = false;
 
     public ForkLift(OpMode opMode) {
         this.hardwareMap = opMode.hardwareMap;
@@ -56,13 +57,18 @@ public class ForkLift {
 
     public void closeClaw() {
         setClawPosition(CLAW_GRAB_POSITION);
+        isClosed = true;
     }
 
     public void openClaw() {
         setClawPosition(CLAW_OPEN_POSITION);
+        isClosed = false;
     }
 
-    public void setClawPositionPushInBlock() {setClawPosition(CLAW_PUSH_IN_BLOCK_POSITION);}
+    public void setClawPositionPushInBlock() {
+        setClawPosition(CLAW_PUSH_IN_BLOCK_POSITION);
+        isClosed = true;
+    }
 
     public void moveMotor(double speed) {
         if (speed < 0 && !bottomButton.getState()) {
@@ -78,8 +84,6 @@ public class ForkLift {
 
     private void setClawPosition(double position) {
         rightClaw.setPosition(position);
-        rightClaw.setPosition(position);
-        leftClaw.setPosition(position);
         leftClaw.setPosition(position);
     }
 

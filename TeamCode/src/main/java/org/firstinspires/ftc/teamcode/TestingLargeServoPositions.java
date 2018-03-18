@@ -15,10 +15,12 @@ public class TestingLargeServoPositions extends OpMode {
     }
     public void loop() {
         if(gamepad1.a) {
-            intake.setServoPosition(intake.getServoPosition() + 0.001);
+            intake.setServoPosition(intake.getServoPosition() + 0.0002);
         }
         if(gamepad1.b) {
-            intake.setServoPosition(intake.getServoPosition() - 0.001);
+            intake.setServoPosition(intake.getServoPosition() - 0.0002);
         }
+        telemetry.addData("Servo position", intake.getServoPosition());
+        telemetry.update();
     }
 }

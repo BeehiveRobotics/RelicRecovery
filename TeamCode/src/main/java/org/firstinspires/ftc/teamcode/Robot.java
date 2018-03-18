@@ -24,7 +24,8 @@ public class Robot {
     public JewelArm jewelArm;
     public RelicClaw relicClaw;
     public Phone phone;
-    public REVGyro imu;
+    public Intake intake;
+    private REVGyro imu;
     public double heading;
     private ModernRoboticsI2cRangeSensor rangeSensor;
 
@@ -46,6 +47,7 @@ public class Robot {
         relicClaw = new RelicClaw(opMode);
         phone = new Phone(opMode);
         imu = new REVGyro(opMode);
+        intake = new Intake(opMode);
         rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "d1");
 
     }

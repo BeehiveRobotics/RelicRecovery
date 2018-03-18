@@ -25,9 +25,12 @@ public class Intake {
     private final double ON_SPEED = 1;
     private final double REVERSE_SPEED = -1;
 
-    private final double OUT_POSITION = 0;
-    private final double IN_POSITION = 1;
+    private final double OUT_POSITION = 0.5;
+    private final double IN_POSITION = 0.57;
     private double servoPosition;
+
+    public boolean isOut = false;
+    public boolean isOn = false;
 
     public Intake(OpMode opMode) {
         this.telemetry = opMode.telemetry;
@@ -36,6 +39,8 @@ public class Intake {
         this.rightMotor = hardwareMap.dcMotor.get("m7");
         this.leftMotor = hardwareMap.dcMotor.get("m8");
         this.leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        this.rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         this.rightServo = hardwareMap.servo.get("s8");
         this.leftServo = hardwareMap.servo.get("s9");
@@ -44,10 +49,12 @@ public class Intake {
 
     public void on() {
         setMotorSpeed(1);
+        isOn = true;
     }
 
     public void off() {
         setMotorSpeed(0);
+        isOn = false;
     }
 
     public void reverse() {
@@ -56,10 +63,12 @@ public class Intake {
 
     public void out() {
         setServoPosition(OUT_POSITION);
+        isOut = true;
     }
 
     public void in() {
         setServoPosition(IN_POSITION);
+        isOut = false;
     }
 
     private void setMotorSpeed(double speed) {
