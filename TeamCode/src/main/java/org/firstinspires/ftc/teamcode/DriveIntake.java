@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 /**
  * Created by Kaden on 3/17/18.
  */
-@TeleOp(name = "Drive Intake", group = "test")
+@TeleOp(name = "vroom vroom", group = "test")
 public class DriveIntake extends OpMode {
     private Robot robot;
     boolean xPrev = false;

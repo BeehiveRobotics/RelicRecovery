@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
- * Created by root on 3/15/18.
+ * Created by Kaden on 3/15/18.
  */
 
 public class Intake {
@@ -48,7 +48,9 @@ public class Intake {
     }
 
     public void on() {
-        setMotorSpeed(1);
+        if(isOut) {
+            setMotorSpeed(1);
+        }
         isOn = true;
     }
 
@@ -58,7 +60,7 @@ public class Intake {
     }
 
     public void reverse() {
-        setMotorSpeed(REVERSE_SPEED);
+        if(isOut){setMotorSpeed(REVERSE_SPEED);}
     }
 
     public void out() {
@@ -68,6 +70,7 @@ public class Intake {
 
     public void in() {
         setServoPosition(IN_POSITION);
+        off();
         isOut = false;
     }
 
