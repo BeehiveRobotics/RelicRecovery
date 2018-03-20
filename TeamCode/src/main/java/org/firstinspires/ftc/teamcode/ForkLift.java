@@ -23,7 +23,7 @@ public class ForkLift {
     private Telemetry telemetry;
     private final double CLAW_GRAB_POSITION = 0.6;
     private final double CLAW_PUSH_IN_BLOCK_POSITION = 0.85;
-    private final double CLAW_OPEN_POSITION = 0.375;
+    private final double CLAW_OPEN_POSITION = 0.3; //.375 for intake
     private final double CLAW_CLOSE_POSITION = 1;
     public boolean isClosed = false;
 
