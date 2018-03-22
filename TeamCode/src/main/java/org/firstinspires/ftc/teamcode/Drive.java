@@ -57,6 +57,10 @@ public class Drive {
     public final double GYRO_OFFSET = 2.25;
 
     public Drive(OpMode opMode) {
+        this(opMode, DcMotor.ZeroPowerBehavior.FLOAT);
+    }
+
+    public Drive(OpMode opMode, DcMotor.ZeroPowerBehavior zeroPowerBehavior) {
         this.hardwareMap = opMode.hardwareMap;
         this.telemetry = opMode.telemetry;
         this.FrontLeft = hardwareMap.dcMotor.get("m1");
@@ -65,6 +69,11 @@ public class Drive {
         this.RearLeft = hardwareMap.dcMotor.get("m3");
         this.RearRight = hardwareMap.dcMotor.get("m4");
         this.RearRight.setDirection(DcMotor.Direction.REVERSE);
+        if(zeroPowerBehavior == DcMotor.ZeroPowerBehavior.BRAKE) {
+            setBRAKE();
+        } else {
+            setFLOAT();
+        }
     }
 
     public void setBRAKE() {
