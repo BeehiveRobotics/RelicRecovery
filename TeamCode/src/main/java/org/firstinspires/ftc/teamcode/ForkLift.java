@@ -107,7 +107,7 @@ public class ForkLift {
         stop();
     }
     public void moveUntilDown() {
-        moveUntilDown(0.75);
+        moveUntilDown(0.4);
     }
     public void moveUntilUp(double speed) {
         while (topButton.getState()) {

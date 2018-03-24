@@ -36,7 +36,7 @@ public class RedRecovery extends LinearOpMode {
             robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
         }
         robot.rightGyro(robot.drive.SPIN_TO_CRYPTOBOX_SPEED, -90);
-        robot.forkLift.moveUntilDown();
+        robot.forkLift.moveMotor(-1, 200);
         robot.drive.forward(robot.drive.DRIVE_INTO_CRYPTOBOX_SPEED, 5);
         robot.pushInBlock();
         robot.drive.backward(robot.drive.BACK_AWAY_FROM_BLOCK_SPEED, 6);
