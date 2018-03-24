@@ -48,11 +48,11 @@ public class ForkLift {
     public void autoInit() {
         openClaw();
         sleep(750);
-        moveMotor(1, 150);
+        moveMotor(1, 80);
         init();
         closeClaw();
         sleep(350);
-        moveMotor(1, 400);
+        moveMotor(1, 200);
     }
 
     public void closeClaw() {

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -40,6 +41,11 @@ public class Robot {
         this.telemetry = opMode.telemetry;
 
     }
+    Robot(LinearOpMode opMode) {
+        this.opMode = opMode;
+        this.hardwareMap = opMode.hardwareMap;
+        this.telemetry = opMode.telemetry;
+    }
     public void mapRobot() {
         drive = new Drive(opMode);
         forkLift = new ForkLift(opMode);
@@ -67,7 +73,7 @@ public class Robot {
         forkLift.moveMotor(0);
         relicClaw.moveMotor(0);
     }
-    public void getMoreGlyphs(double returnHeading) {
+    public void getMoreGlyphs(double returnHeading, LinearOpMode autoMode) {
         jewelArm.up(); //take this out later
         setUpMultiGlyph();
         ElapsedTime findGlyphTime = new ElapsedTime();
@@ -115,6 +121,12 @@ public class Robot {
             rightGyro(drive.SPIN_TO_CRYPTOBOX_SPEED, returnHeading);
         }
         strafeForMultiGlyph(distanceToStrafe);
+        while(autoMode.opModeIsActive()) {
+            telemetry.addData("X pos", glyphDetector.getXOffset());
+            telemetry.addData("Y pos", glyphDetector.getYPos());
+            telemetry.addData("size", glyphDetector.getSize());
+            telemetry.update();
+        }
     }
 
     private void strafeForMultiGlyph(double distanceToStrafe) {
