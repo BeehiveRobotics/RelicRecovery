@@ -18,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.robotcore.internal.vuforia.VuforiaLocalizerImpl;
 
 public class Phone {
+    private static final double SIDE_POSITION = 0.5;
     private ClosableVuforiaLocalizer vuforia;
     private RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.UNKNOWN;
     private HardwareMap hardwareMap;
@@ -74,4 +75,8 @@ public class Phone {
         vuforia.close();
     }
     public void faceFront() {setServoPosition(FRONT_POSITION);}
+
+    public void faceSideways() {
+        setServoPosition(SIDE_POSITION);
+    }
 }

@@ -19,6 +19,7 @@ public class RedRecovery extends LinearOpMode {
         telemetry.addLine("DO NOT PRESS PLAY YET"); telemetry.update();
         robot = new Robot(this);
         robot.mapRobot();
+        robot.drive.setBRAKE();
         robot.calibrateGyro();
         telemetry.addLine("NOW YOU CAN PRESS PLAY"); telemetry.update();
         waitForStart();

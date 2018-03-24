@@ -84,8 +84,7 @@ public class Robot {
         double size = 0;
         Point bestGlyphPos = new Point(AutoGlyphs.DEFAULT_X_POS_VALUE, 0);
         double bestGlyphSize = 0;
-        while (findGlyphTime.seconds() < 0.5) {
-        }
+        sleep(500);
         while (findGlyphTime.seconds() < 3.5) {
             xOffSet = glyphDetector.getXOffset();
             yPos = glyphDetector.getYPos();
@@ -110,22 +109,29 @@ public class Robot {
         strafeForMultiGlyph(distanceToStrafe);
         drive.forward(drive.DRIVE_INTO_GLYPH_PIT_SPEED, drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
         drive.forward(drive.DRIVE_INTO_GLYPHS_SPEED, drive.DRIVE_INTO_GLYPHS_DISTANCE);
+        phone.faceSideways();
         forkLift.closeClaw();
         sleep(300);
-        forkLift.moveMotor(1, 150);
-        drive.backward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPHS_DISTANCE + drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
+        forkLift.moveMotor(1, 750);
+        drive.backward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
+        strafeForMultiGlyph(-distanceToStrafe + 3);
+        drive.backward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPHS_DISTANCE - 4);
         double heading = getHeading();
         if (heading < returnHeading) {
             leftGyro(drive.SPIN_TO_CRYPTOBOX_SPEED, returnHeading);
         } else {
             rightGyro(drive.SPIN_TO_CRYPTOBOX_SPEED, returnHeading);
         }
-        strafeForMultiGlyph(distanceToStrafe);
+        phone.faceFront();
+        double glyphSize = glyphDetector.getSize();
+        Point glyphPos = glyphDetector.getPoint();
         while(autoMode.opModeIsActive()) {
-            telemetry.addData("X pos", glyphDetector.getXOffset());
-            telemetry.addData("Y pos", glyphDetector.getYPos());
-            telemetry.addData("size", glyphDetector.getSize());
-            telemetry.update();
+            if(glyphSize<125 && glyphSize>40) {
+                telemetry.addData("X", glyphPos.x);
+                telemetry.addData("Y", glyphPos.y);
+                telemetry.addData("Size", glyphSize);
+                telemetry.update();
+            }
         }
     }
 
@@ -138,6 +144,7 @@ public class Robot {
     }
 
     public void setUpMultiGlyph() {
+        glyphDetector = new AutoGlyphs(opMode);
         glyphDetector.enable();
         forkLift.closeAllTheWay();
         phone.faceFront();
