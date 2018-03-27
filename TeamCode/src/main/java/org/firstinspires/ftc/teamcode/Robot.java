@@ -100,7 +100,6 @@ public class Robot {
         telemetry.addData("Decision made at", decisionPoint);
         telemetry.addData("Size", bestGlyphSize);
         telemetry.update();
-        glyphDetector.disable();
         forkLift.openClaw();
         if (bestGlyphPos.x == AutoGlyphs.DEFAULT_X_POS_VALUE) {
             bestGlyphPos.x = 0;
@@ -113,9 +112,8 @@ public class Robot {
         forkLift.closeClaw();
         sleep(300);
         forkLift.moveMotor(1, 750);
-        drive.backward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
         strafeForMultiGlyph(-distanceToStrafe + 3);
-        drive.backward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPHS_DISTANCE - 4);
+        drive.backward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPHS_DISTANCE);
         double heading = getHeading();
         if (heading < returnHeading) {
             leftGyro(drive.SPIN_TO_CRYPTOBOX_SPEED, returnHeading);
@@ -123,16 +121,18 @@ public class Robot {
             rightGyro(drive.SPIN_TO_CRYPTOBOX_SPEED, returnHeading);
         }
         phone.faceFront();
+        sleep(750);
         double glyphSize = glyphDetector.getSize();
         Point glyphPos = glyphDetector.getPoint();
-        while(autoMode.opModeIsActive()) {
-            if(glyphSize<125 && glyphSize>40) {
-                telemetry.addData("X", glyphPos.x);
-                telemetry.addData("Y", glyphPos.y);
-                telemetry.addData("Size", glyphSize);
-                telemetry.update();
-            }
-        }
+        strafeForMultiGlyph(glyphDetector.getXOffset() * STRAFING_DAMPEN_FACTOR_FOR_MULTI_GLYPH);
+        glyphDetector.disable();
+        drive.forward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
+        forkLift.openClaw();
+        drive.backward(drive.MIN_MOVE_SPEED, 3);
+        forkLift.moveMotor(-1, 400);
+        forkLift.closeAllTheWay();
+        drive.forwardTime(0.4, 300);
+        drive.backward(Drive.MAX_SPEED, 4);
     }
 
     private void strafeForMultiGlyph(double distanceToStrafe) {
@@ -159,10 +159,13 @@ public class Robot {
         double rl = clip(-y + x - z);
         double rr = clip(-y + -x + z);
         drive.driveSpeeds(fl, fr, rl, rr);
+        double current  = heading;
+        double last = heading;
         if (heading < target) {
-            while (derivative <= 0) {
-                derivative = getHeading() - heading;
-                heading = getHeading();
+            while (derivative <= 180) {
+                current = getHeading();
+                derivative = current - last;
+                last = current;
             }
         }
         double start = getHeading();
@@ -188,10 +191,13 @@ public class Robot {
         double rl = clip(-y + x - z);
         double rr = clip(-y + -x + z);
         drive.driveSpeeds(fl, fr, rl, rr);
-        if (adjustedTarget < heading) {
-            while (derivative >= 0) {
-                derivative = getHeading() - heading;
-                heading = getHeading();
+        double current  = heading;
+        double last = heading;
+        if (target < heading) {
+            while (derivative >= -180) {
+                current = getHeading();
+                derivative = current - last;
+                last = current;
             }
         }
         double start = heading;
