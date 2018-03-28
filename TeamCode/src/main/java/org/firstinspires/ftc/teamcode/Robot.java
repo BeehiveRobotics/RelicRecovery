@@ -133,7 +133,7 @@ public class Robot {
         drive.forward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPHS_DISTANCE);
     }
 
-    private void strafeForMultiGlyph(double distanceToStrafe) {
+    public void strafeForMultiGlyph(double distanceToStrafe) {
         if (distanceToStrafe > 0) {
             drive.strafeRight(drive.MULTI_GLYPH_STRAFE_SPEED, distanceToStrafe);
         } else if (distanceToStrafe < 0) {
