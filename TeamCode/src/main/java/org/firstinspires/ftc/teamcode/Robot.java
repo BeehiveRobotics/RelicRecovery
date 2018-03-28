@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Path;
+
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -73,7 +75,7 @@ public class Robot {
         forkLift.moveMotor(0);
         relicClaw.moveMotor(0);
     }
-    public void getMoreGlyphs(double returnHeading, LinearOpMode autoMode) {
+    public void getMoreGlyphs(double returnHeading, LinearOpMode autoMode, TurnDirection turnDirection) {
         jewelArm.up(); //take this out later
         setUpMultiGlyph();
         ElapsedTime findGlyphTime = new ElapsedTime();
@@ -100,6 +102,7 @@ public class Robot {
         telemetry.addData("Decision made at", decisionPoint);
         telemetry.addData("Size", bestGlyphSize);
         telemetry.update();
+        glyphDetector.disable();
         forkLift.openClaw();
         if (bestGlyphPos.x == AutoGlyphs.DEFAULT_X_POS_VALUE) {
             bestGlyphPos.x = 0;
@@ -112,25 +115,23 @@ public class Robot {
         forkLift.closeClaw();
         sleep(300);
         forkLift.moveMotor(1, 750);
-        strafeForMultiGlyph(-distanceToStrafe + 3);
-        drive.backward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPHS_DISTANCE);
+        drive.backward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
+        strafeForMultiGlyph(-distanceToStrafe);
         double heading = getHeading();
-        if (heading < returnHeading) {
-            leftGyro(drive.SPIN_TO_CRYPTOBOX_SPEED, returnHeading);
+        if (turnDirection == TurnDirection.LEFT) {
+            leftGyro(drive.MAX_SPEED, returnHeading);
         } else {
-            rightGyro(drive.SPIN_TO_CRYPTOBOX_SPEED, returnHeading);
+            rightGyro(drive.MAX_SPEED, returnHeading);
         }
         phone.faceFront();
         sleep(750);
         double glyphSize = glyphDetector.getSize();
         Point glyphPos = glyphDetector.getPoint();
-        strafeForMultiGlyph(glyphDetector.getXOffset() * STRAFING_DAMPEN_FACTOR_FOR_MULTI_GLYPH);
-        glyphDetector.disable();
-        drive.forward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
+        drive.forward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPHS_DISTANCE);
         forkLift.openClaw();
         drive.backward(drive.MIN_MOVE_SPEED, 3);
-        forkLift.moveMotor(-1, 400);
         forkLift.closeAllTheWay();
+        forkLift.moveMotor(-1, 400);
         drive.forwardTime(0.4, 300);
         drive.backward(Drive.MAX_SPEED, 4);
     }
@@ -170,6 +171,7 @@ public class Robot {
         }
         double start = getHeading();
         double distance = Adjustedtarget - start;
+        heading = getHeading();
         while (heading >= Adjustedtarget) {
             heading = getHeading();
             double proportion = 1 - (Math.abs((heading - start) / distance));
