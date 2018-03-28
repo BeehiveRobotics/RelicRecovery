@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.opencv.core.Point;
 
 /**
@@ -75,7 +76,7 @@ public class Robot {
         forkLift.moveMotor(0);
         relicClaw.moveMotor(0);
     }
-    public void getMoreGlyphs(double returnHeading, LinearOpMode autoMode, TurnDirection turnDirection) {
+    public void getMoreGlyphs(double returnHeading, LinearOpMode autoMode, TurnDirection returnTurnDirection, RelicRecoveryVuMark column) {
         jewelArm.up(); //take this out later
         setUpMultiGlyph();
         ElapsedTime findGlyphTime = new ElapsedTime();
@@ -116,24 +117,20 @@ public class Robot {
         sleep(300);
         forkLift.moveMotor(1, 750);
         drive.backward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
-        strafeForMultiGlyph(-distanceToStrafe);
+        if (column == RelicRecoveryVuMark.LEFT) {
+            strafeForMultiGlyph(-distanceToStrafe - drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
+        } else if (column == RelicRecoveryVuMark.CENTER) {
+            strafeForMultiGlyph(-distanceToStrafe);
+        } else if (column == RelicRecoveryVuMark.RIGHT) {
+            strafeForMultiGlyph(-distanceToStrafe + drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
+        }
         double heading = getHeading();
-        if (turnDirection == TurnDirection.LEFT) {
+        if (returnTurnDirection == TurnDirection.LEFT) {
             leftGyro(drive.MAX_SPEED, returnHeading);
         } else {
             rightGyro(drive.MAX_SPEED, returnHeading);
         }
-        phone.faceFront();
-        sleep(750);
-        double glyphSize = glyphDetector.getSize();
-        Point glyphPos = glyphDetector.getPoint();
         drive.forward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPHS_DISTANCE);
-        forkLift.openClaw();
-        drive.backward(drive.MIN_MOVE_SPEED, 3);
-        forkLift.closeAllTheWay();
-        forkLift.moveMotor(-1, 400);
-        drive.forwardTime(0.4, 300);
-        drive.backward(Drive.MAX_SPEED, 4);
     }
 
     private void strafeForMultiGlyph(double distanceToStrafe) {

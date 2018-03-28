@@ -27,13 +27,16 @@ public class RedRecovery extends LinearOpMode {
         robot.forkLift.autoInit();
         //JewelArm.findJewel(Color.RED);
         //pictograph = phone.getMark();
+        if(pictograph == RelicRecoveryVuMark.UNKNOWN) {
+            pictograph = RelicRecoveryVuMark.RIGHT;
+        }
         if (pictograph == RelicRecoveryVuMark.LEFT) {
             robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
         }
         else if (pictograph == RelicRecoveryVuMark.CENTER) {
             robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY);
         }
-        else if (pictograph == RelicRecoveryVuMark.RIGHT || pictograph == RelicRecoveryVuMark.UNKNOWN) {
+        else if (pictograph == RelicRecoveryVuMark.RIGHT) {
             robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
         }
         robot.rightGyro(robot.drive.SPIN_TO_CRYPTOBOX_SPEED, -90);
@@ -43,7 +46,7 @@ public class RedRecovery extends LinearOpMode {
         robot.drive.backward(robot.drive.BACK_AWAY_FROM_BLOCK_SPEED, 6);
         robot.rightGyro(robot.drive.SPIN_TO_CENTER_SPEED, 90);
         robot.forkLift.openClaw();
-        robot.getMoreGlyphs(-90, this, TurnDirection.RIGHT);
+        robot.getMoreGlyphs(-90, this, TurnDirection.RIGHT, pictograph);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
