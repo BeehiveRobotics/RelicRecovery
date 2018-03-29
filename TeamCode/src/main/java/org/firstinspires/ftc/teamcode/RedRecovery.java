@@ -93,9 +93,13 @@ public class RedRecovery extends LinearOpMode {
         } else if (pictograph == RelicRecoveryVuMark.RIGHT) {
             robot.strafeForMultiGlyph(-distanceToStrafe + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
         }
-        double heading = robot.getHeading();
         robot.leftGyro(robot.drive.MAX_SPEED, -90);
         robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE);
+        robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 400);
+        robot.drive.strafeLeftTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 400);
+        robot.forkLift.openClaw();
+        sleep(300);
+        robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 200);
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
