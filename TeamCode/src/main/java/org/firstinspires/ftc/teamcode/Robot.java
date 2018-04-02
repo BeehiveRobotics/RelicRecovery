@@ -199,7 +199,7 @@ public class Robot {
                 last = current;
             }
         }
-        double start = heading;
+        double start = getHeading();
         double distance = adjustedTarget - start;
         while (heading <= adjustedTarget) {
             heading = getHeading();

@@ -32,15 +32,14 @@ public class RedRecovery extends LinearOpMode {
         if(pictograph == RelicRecoveryVuMark.UNKNOWN) {
             pictograph = RelicRecoveryVuMark.RIGHT;
         }
-        if (pictograph == RelicRecoveryVuMark.LEFT) {
-            robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
-        }
-        else if (pictograph == RelicRecoveryVuMark.CENTER) {
-            robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY);
-        }
-        else if (pictograph == RelicRecoveryVuMark.RIGHT) {
-            robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
-        }
+        switch (pictograph) {
+            case LEFT:
+                robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
+            case CENTER:
+                robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY);
+            case RIGHT:
+                robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
+            }
         robot.rightGyro(robot.drive.SPIN_TO_CRYPTOBOX_SPEED, -90);
         robot.forkLift.moveMotor(-1, 200);
         robot.drive.forward(robot.drive.DRIVE_INTO_CRYPTOBOX_SPEED, 5);
@@ -86,12 +85,13 @@ public class RedRecovery extends LinearOpMode {
         sleep(300);
         robot.forkLift.moveMotor(1, 750);
         robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
-        if (pictograph == RelicRecoveryVuMark.LEFT) {
-            robot.strafeForMultiGlyph(-distanceToStrafe - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
-        } else if (pictograph == RelicRecoveryVuMark.CENTER) {
-            robot.strafeForMultiGlyph(-distanceToStrafe);
-        } else if (pictograph == RelicRecoveryVuMark.RIGHT) {
-            robot.strafeForMultiGlyph(-distanceToStrafe + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
+        switch (pictograph) {
+            case LEFT:
+                robot.strafeForMultiGlyph(-distanceToStrafe - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
+            case CENTER:
+                robot.strafeForMultiGlyph(-distanceToStrafe);
+            case RIGHT:
+                robot.strafeForMultiGlyph(-distanceToStrafe + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
         }
         robot.leftGyro(robot.drive.MAX_SPEED, -90);
         robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE);

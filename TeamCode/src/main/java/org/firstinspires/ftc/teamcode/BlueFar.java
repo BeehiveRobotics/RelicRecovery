@@ -16,11 +16,13 @@ public class BlueFar extends LinearOpMode {
     private final double DISTANCE_OFFSET = 3;
 
     public void runOpMode() throws InterruptedException {
-        telemetry.addLine("DO NOT PRESS PLAY YET"); telemetry.update();
+        telemetry.addLine("DO NOT PRESS PLAY YET");
+        telemetry.update();
         robot = new Robot(this);
         robot.mapRobot();
         robot.calibrateGyro();
-        telemetry.addLine("NOW YOU CAN PRESS PLAY"); telemetry.update();
+        telemetry.addLine("NOW YOU CAN PRESS PLAY");
+        telemetry.update();
         waitForStart();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         robot.forkLift.autoInit();
@@ -28,24 +30,28 @@ public class BlueFar extends LinearOpMode {
         pictograph = robot.phone.getMark();
         robot.drive.backward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, robot.drive.DRIVE_TO_CYRPTOBOX_DISTANCE_FAR + 2);
         boolean isDistanceSane = 12 < robot.getDistance() && robot.getDistance() < 19;
-        if (pictograph == RelicRecoveryVuMark.LEFT) {
-            if (isDistanceSane) {
-                robot.driveLeftUntilDistance(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DISTANCE_TO_CLOSE_COLUMN + DISTANCE_OFFSET);
-            } else {
-                robot.drive.strafeLeft(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DEFAULT_MOVING_TOWARDS_CRYPTOBOX_DISTANCE_FAR_POSITION - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_FAR + 2);
-            }
-        } else if (pictograph == RelicRecoveryVuMark.CENTER) {
-            if (isDistanceSane) {
-                robot.driveLeftUntilDistance(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DISTANCE_TO_CENTER_COLUMN + DISTANCE_OFFSET);
-            } else {
-                robot.drive.strafeLeft(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DEFAULT_MOVING_TOWARDS_CRYPTOBOX_DISTANCE_FAR_POSITION);
-            }
-        } else if (pictograph == RelicRecoveryVuMark.RIGHT || pictograph == RelicRecoveryVuMark.UNKNOWN) {
-            if (isDistanceSane) {
-                robot.driveLeftUntilDistance(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DISTANCE_TO_FAR_COLUMN + DISTANCE_OFFSET);
-            } else {
-                robot.drive.strafeLeft(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DEFAULT_MOVING_TOWARDS_CRYPTOBOX_DISTANCE_FAR_POSITION + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_FAR - 3);
-            }
+        if (pictograph == RelicRecoveryVuMark.UNKNOWN) {
+            pictograph = RelicRecoveryVuMark.RIGHT;
+        }
+        switch (pictograph) {
+            case LEFT:
+                if (isDistanceSane) {
+                    robot.driveLeftUntilDistance(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DISTANCE_TO_CLOSE_COLUMN + DISTANCE_OFFSET);
+                } else {
+                    robot.drive.strafeLeft(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DEFAULT_MOVING_TOWARDS_CRYPTOBOX_DISTANCE_FAR_POSITION - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_FAR + 2);
+                }
+            case CENTER:
+                if (isDistanceSane) {
+                    robot.driveLeftUntilDistance(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DISTANCE_TO_CENTER_COLUMN + DISTANCE_OFFSET);
+                } else {
+                    robot.drive.strafeLeft(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DEFAULT_MOVING_TOWARDS_CRYPTOBOX_DISTANCE_FAR_POSITION);
+                }
+            case RIGHT:
+                if (isDistanceSane) {
+                    robot.driveLeftUntilDistance(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DISTANCE_TO_FAR_COLUMN + DISTANCE_OFFSET);
+                } else {
+                    robot.drive.strafeLeft(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DEFAULT_MOVING_TOWARDS_CRYPTOBOX_DISTANCE_FAR_POSITION + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_FAR - 3);
+                }
         }
         robot.rightGyro(robot.drive.SPIN_TO_CRYPTOBOX_SPEED, -180);
         robot.forkLift.moveMotor(-1, 250);
