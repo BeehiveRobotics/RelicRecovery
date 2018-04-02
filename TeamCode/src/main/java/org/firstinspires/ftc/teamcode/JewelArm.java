@@ -29,7 +29,7 @@ public class JewelArm {
         this.endServo = hardwareMap.servo.get("s3");
         this.upDownServo = hardwareMap.servo.get("s4");
         this.cs = hardwareMap.colorSensor.get("cs1");
-        this.telemetry = telemetry;
+        this.telemetry = opMode.telemetry;
     }
 
     public void down() {
