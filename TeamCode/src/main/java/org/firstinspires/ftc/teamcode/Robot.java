@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import android.graphics.Path;
 
+import com.disnodeteam.dogecv.detectors.GlyphDetector;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -12,6 +13,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.opencv.core.Point;
 
 /**
@@ -64,11 +66,7 @@ public class Robot {
     public void pushInBlock() {
         forkLift.openClaw();
         sleep(150);
-        drive.backward(drive.DRIVE_INTO_CRYPTOBOX_SPEED, 3);
-        forkLift.moveUntilDown();
-        forkLift.setClawPositionPushInBlock();
-        sleep(150);
-        drive.forwardTime(drive.DRIVE_INTO_CRYPTOBOX_SPEED, 500);
+        drive.forwardTime(drive.DRIVE_INTO_CRYPTOBOX_SPEED, 400);
     }
 
     public void stopAll() {
@@ -147,6 +145,13 @@ public class Robot {
         forkLift.openAllTheWay();
         phone.faceFront();
 
+    }
+
+    public void setUpMultiGlyph(GlyphDetector.GlyphDetectionSpeed glyphDetectionSpeed) {
+        glyphDetector = new AutoGlyphs(opMode, GlyphDetector.GlyphDetectionSpeed.VERY_SLOW, 0);
+        glyphDetector.enable();
+        forkLift.openAllTheWay();
+        phone.faceFront();
     }
     public void rightGyro(double x, double y, double z, double target) {
         double Adjustedtarget = target + GYRO_OFFSET;

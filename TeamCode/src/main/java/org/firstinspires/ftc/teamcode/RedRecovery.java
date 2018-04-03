@@ -46,6 +46,7 @@ public class RedRecovery extends LinearOpMode {
         robot.pushInBlock();
         robot.drive.backward(robot.drive.BACK_AWAY_FROM_BLOCK_SPEED, 6);
         robot.rightGyro(robot.drive.SPIN_TO_CENTER_SPEED, 90);
+        robot.drive.backwardTime(robot.drive.MAX_SPEED, 300);
         robot.setUpMultiGlyph();
         ElapsedTime findGlyphTime = new ElapsedTime();
         findGlyphTime.reset();
@@ -59,7 +60,7 @@ public class RedRecovery extends LinearOpMode {
             xOffSet = robot.glyphDetector.getXOffset();
             yPos = robot.glyphDetector.getYPos();
             size = robot.glyphDetector.getSize();
-            if ((Math.abs(xOffSet) < Math.abs(bestGlyphPos.x)) && (xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 105) && (size > 40)) {// && (yPos < 60)) {
+            if ((Math.abs(xOffSet) < Math.abs(bestGlyphPos.x)) && (xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 100) && (size > 60) && (yPos<40)) {// && (yPos < 60)) {
                 bestGlyphPos.x = xOffSet;
                 bestGlyphPos.y = yPos;
                 bestGlyphSize = size;
@@ -79,7 +80,7 @@ public class RedRecovery extends LinearOpMode {
         robot.strafeForMultiGlyph(distanceToStrafe);
         robot.drive.forward(robot.drive.DRIVE_INTO_GLYPH_PIT_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
         robot.drive.forward(robot.drive.DRIVE_INTO_GLYPHS_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE);
-        sleep(2000);
+        sleep(1000);
         robot.phone.faceSideways();
         robot.forkLift.closeClaw();
         sleep(300);
@@ -97,8 +98,7 @@ public class RedRecovery extends LinearOpMode {
             case RIGHT:
                 robot.strafeForMultiGlyph(distanceToStrafe - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
         }
-        sleep(2000);
-        robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE);
+        robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE + 4);
         sleep(2000);
         robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 400);
         sleep(2000);
@@ -106,9 +106,10 @@ public class RedRecovery extends LinearOpMode {
         sleep(2000);
         robot.forkLift.openClaw();
         sleep(300);
-        robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 200);
+        robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 600);
         robot.drive.backward(robot.drive.MAX_SPEED,5);
-        stop();
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
+
 }

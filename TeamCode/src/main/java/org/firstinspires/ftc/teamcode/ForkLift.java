@@ -24,7 +24,7 @@ public class ForkLift {
     private final double CLAW_GRAB_POSITION = 0.525;
     private final double CLAW_PUSH_IN_BLOCK_POSITION = 0.85;
     private final double CLAW_OPEN_POSITION = 0.3; //.375 for intake
-    private final double CLAW_OPEN_ALL_THE_WAY_POSITION = 0.15;
+    private final double CLAW_OPEN_ALL_THE_WAY_POSITION = 0;
     private final double CLAW_CLOSE_POSITION = 1;
     public boolean isClosed = false;
 
@@ -36,7 +36,7 @@ public class ForkLift {
         this.motor = hardwareMap.dcMotor.get("m6");
         this.topButton = hardwareMap.digitalChannel.get("b0");
         this.bottomButton = hardwareMap.digitalChannel.get("b1");
-        this.telemetry = telemetry;
+        this.telemetry = opMode.telemetry;
         this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         this.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         resetEncoder();
@@ -112,7 +112,7 @@ public class ForkLift {
         stop();
     }
     public void moveUntilDown() {
-        moveUntilDown(0.4);
+        moveUntilDown(0.6);
     }
     public void moveUntilUp(double speed) {
         while (topButton.getState()) {

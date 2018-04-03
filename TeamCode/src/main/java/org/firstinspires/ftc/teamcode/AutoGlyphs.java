@@ -30,7 +30,7 @@ public class AutoGlyphs extends GlyphDetector {
         this(opMode, speed, cameraDirection.direction);
     }
 
-    private AutoGlyphs(OpMode opMode, GlyphDetectionSpeed speed, int cameraDirection) {
+    public AutoGlyphs(OpMode opMode, GlyphDetectionSpeed speed, int cameraDirection) {
         super();
         super.init(opMode.hardwareMap.appContext, CameraViewDisplay.getInstance(), cameraDirection);
         this.minScore = 0.5;
