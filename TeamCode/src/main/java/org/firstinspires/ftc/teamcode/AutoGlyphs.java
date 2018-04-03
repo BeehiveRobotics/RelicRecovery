@@ -19,7 +19,7 @@ public class AutoGlyphs extends GlyphDetector {
     static final double X_CENTER = X_HIGH_POS / 2;
     static final double Y_HIGH_POS = 216;
     static final double Y_CENTER = Y_HIGH_POS / 2;
-    static final double X_POSITION_OFFSET = 31.5;
+    static final double X_POSITION_OFFSET = 28;
     static final double DEFAULT_X_POS_VALUE = 1000;
 
     public AutoGlyphs(OpMode opMode) {

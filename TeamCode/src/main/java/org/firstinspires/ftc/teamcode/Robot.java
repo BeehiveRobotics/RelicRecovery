@@ -168,7 +168,7 @@ public class Robot {
         }
         double start = getHeading();
         double distance = Adjustedtarget - start;
-        heading = getHeading();
+        heading = start;
         while (heading >= Adjustedtarget) {
             heading = getHeading();
             double proportion = 1 - (Math.abs((heading - start) / distance));
@@ -201,6 +201,7 @@ public class Robot {
         }
         double start = getHeading();
         double distance = adjustedTarget - start;
+        heading = start;
         while (heading <= adjustedTarget) {
             heading = getHeading();
             double proportion = 1 - (Math.abs((heading - start) / distance));

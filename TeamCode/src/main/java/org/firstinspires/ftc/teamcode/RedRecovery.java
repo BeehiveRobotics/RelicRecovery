@@ -52,10 +52,9 @@ public class RedRecovery extends LinearOpMode {
         double xOffSet;
         double yPos;
         double decisionPoint = 0;
-        double size = 0;
+        double size;
         Point bestGlyphPos = new Point(AutoGlyphs.DEFAULT_X_POS_VALUE, 0);
         double bestGlyphSize = 0;
-        sleep(500);
         while (findGlyphTime.seconds() < 3.5) {
             xOffSet = robot.glyphDetector.getXOffset();
             yPos = robot.glyphDetector.getYPos();
@@ -85,22 +84,26 @@ public class RedRecovery extends LinearOpMode {
         sleep(300);
         robot.forkLift.moveMotor(1, 750);
         robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
+        robot.leftGyro(robot.drive.MAX_SPEED, -90);
         switch (pictograph) {
             case LEFT:
-                robot.strafeForMultiGlyph(-distanceToStrafe - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
+                robot.strafeForMultiGlyph(distanceToStrafe + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
             case CENTER:
-                robot.strafeForMultiGlyph(-distanceToStrafe);
+                robot.strafeForMultiGlyph(distanceToStrafe);
             case RIGHT:
-                robot.strafeForMultiGlyph(-distanceToStrafe + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
+                robot.strafeForMultiGlyph(distanceToStrafe - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
         }
-        robot.leftGyro(robot.drive.MAX_SPEED, -90);
+        sleep(2000);
         robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE);
         robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 400);
+        sleep(2000);
         robot.drive.strafeLeftTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 400);
+        sleep(2000);
         robot.forkLift.openClaw();
         sleep(300);
         robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 200);
         robot.drive.backward(robot.drive.MAX_SPEED,5);
+        stop();
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
