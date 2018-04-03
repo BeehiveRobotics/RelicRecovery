@@ -96,6 +96,7 @@ public class RedRecovery extends LinearOpMode {
         }
         sleep(2000);
         robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE);
+        sleep(2000);
         robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 400);
         sleep(2000);
         robot.drive.strafeLeftTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 400);

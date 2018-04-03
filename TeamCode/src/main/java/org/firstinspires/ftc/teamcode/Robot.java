@@ -144,7 +144,7 @@ public class Robot {
     public void setUpMultiGlyph() {
         glyphDetector = new AutoGlyphs(opMode);
         glyphDetector.enable();
-        forkLift.closeAllTheWay();
+        forkLift.openAllTheWay();
         phone.faceFront();
 
     }

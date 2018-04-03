@@ -24,6 +24,7 @@ public class ForkLift {
     private final double CLAW_GRAB_POSITION = 0.525;
     private final double CLAW_PUSH_IN_BLOCK_POSITION = 0.85;
     private final double CLAW_OPEN_POSITION = 0.3; //.375 for intake
+    private final double CLAW_OPEN_ALL_THE_WAY_POSITION = 0.15;
     private final double CLAW_CLOSE_POSITION = 1;
     public boolean isClosed = false;
 
@@ -68,6 +69,11 @@ public class ForkLift {
     public void setClawPositionPushInBlock() {
         setClawPosition(CLAW_PUSH_IN_BLOCK_POSITION);
         isClosed = true;
+    }
+
+    public void openAllTheWay() {
+        setClawPosition(CLAW_OPEN_ALL_THE_WAY_POSITION);
+        isClosed = false;
     }
 
     public void moveMotor(double speed) {

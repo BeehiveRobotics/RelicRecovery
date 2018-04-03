@@ -15,11 +15,11 @@ import org.opencv.core.Point;
 
 public class AutoGlyphs extends GlyphDetector {
     double xPos = DEFAULT_X_POS_VALUE;
-    static final double X_HIGH_POS = 384;
-    static final double X_CENTER = X_HIGH_POS / 2;
-    static final double Y_HIGH_POS = 216;
-    static final double Y_CENTER = Y_HIGH_POS / 2;
-    static final double X_POSITION_OFFSET = 28;
+    private static final double X_HIGH_POS = 384;
+    private static final double X_CENTER = X_HIGH_POS / 2;
+    private static final double Y_HIGH_POS = 216;
+    private static final double Y_CENTER = Y_HIGH_POS / 2;
+    private static final double X_POSITION_OFFSET = 28;
     static final double DEFAULT_X_POS_VALUE = 1000;
 
     public AutoGlyphs(OpMode opMode) {
@@ -30,7 +30,7 @@ public class AutoGlyphs extends GlyphDetector {
         this(opMode, speed, cameraDirection.direction);
     }
 
-    public AutoGlyphs(OpMode opMode, GlyphDetectionSpeed speed, int cameraDirection) {
+    private AutoGlyphs(OpMode opMode, GlyphDetectionSpeed speed, int cameraDirection) {
         super();
         super.init(opMode.hardwareMap.appContext, CameraViewDisplay.getInstance(), cameraDirection);
         this.minScore = 0.5;
@@ -50,7 +50,7 @@ public class AutoGlyphs extends GlyphDetector {
         return getXPos() + X_POSITION_OFFSET;
     }
 
-    public double getXPos() {
+    private double getXPos() {
         return super.getChosenGlyphPosition().y - Y_CENTER;
     }
 
