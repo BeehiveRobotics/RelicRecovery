@@ -98,10 +98,9 @@ public class ForkLift {
         motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
     public void moveMotor(double speed, long miliseconds) {
-        moveMotor(speed);
         ElapsedTime runTime = new ElapsedTime();
         runTime.reset();
-        while(runTime.milliseconds()<=miliseconds){
+        while(runTime.milliseconds()<miliseconds){
             moveMotor(speed);
         }
         stop();

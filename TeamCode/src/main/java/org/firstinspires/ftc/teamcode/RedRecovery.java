@@ -83,7 +83,10 @@ public class RedRecovery extends LinearOpMode {
         robot.phone.faceSideways();
         robot.forkLift.closeClaw();
         sleep(300);
-        robot.forkLift.moveMotor(1, 750);
+        robot.forkLift.moveMotor(1, 50);
+        if(pictograph == RelicRecoveryVuMark.CENTER) {
+            robot.forkLift.moveMotor(1, 250);
+        }
         robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
         robot.leftGyro(robot.drive.MAX_SPEED, -90);
         switch (pictograph) {
