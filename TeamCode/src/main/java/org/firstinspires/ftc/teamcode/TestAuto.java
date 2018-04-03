@@ -22,14 +22,7 @@ public class TestAuto extends LinearOpMode{
         telemetry.addLine("READY TO START");
         telemetry.update();
         waitForStart();
-        Random rand = new Random();
-        double target;
-        while(opModeIsActive()) {
-            target = rand.nextInt(360) - 180;
-            telemetry.addData("Target", target);
-            telemetry.update();
-            robot.rightGyro(robot.drive.MAX_SPEED, target);
-
-        }
+        robot.forkLift.openClaw();
+        sleep(1000);
     }
 }
