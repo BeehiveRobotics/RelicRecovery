@@ -32,15 +32,18 @@ public class RedRecovery extends LinearOpMode {
         //JewelArm.findJewel(Color.RED);
         //pictograph = phone.getMark();
         if (pictograph == RelicRecoveryVuMark.UNKNOWN) {
-            pictograph = RelicRecoveryVuMark.RIGHT;
+            pictograph = RelicRecoveryVuMark.CENTER;
         }
         switch (pictograph) {
             case LEFT:
                 robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
+                break;
             case CENTER:
                 robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY);
+                break;
             case RIGHT:
                 robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
+                break;
         }
         robot.rightGyro(robot.drive.SPIN_TO_CRYPTOBOX_SPEED, -90);
         robot.forkLift.moveMotor(-1, 200);
@@ -55,6 +58,7 @@ public class RedRecovery extends LinearOpMode {
             case RIGHT:
                 robot.drive.strafeRight(robot.drive.MULTI_GLYPH_STRAFE_SPEED, robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY*robot.drive.STRAFING_DISTANCE_CONSTANT);
         }
+        robot.gyroGoTo(robot.drive.MAX_SPEED, 90);
         robot.setUpMultiGlyph();
         ElapsedTime findGlyphTime = new ElapsedTime();
         findGlyphTime.reset();
@@ -64,7 +68,7 @@ public class RedRecovery extends LinearOpMode {
             xOffSet = robot.glyphDetector.getXOffset();
             yPos = robot.glyphDetector.getYPos();
             size = robot.glyphDetector.getSize();
-            if ((Math.abs(xOffSet) < Math.abs(bestGlyphPos.x)) && (xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 160) && (size > 60) && (yPos < 40) && (yPos > -180)) {
+            if ((Math.abs(xOffSet) < Math.abs(bestGlyphPos.x)) && (xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 125) && (size > 60) && (yPos < 40) && (yPos > -180)) {
                 bestGlyphPos.x = xOffSet;
                 bestGlyphPos.y = yPos;
                 bestGlyphSize = size;
