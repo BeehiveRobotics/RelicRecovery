@@ -49,11 +49,12 @@ public class RedRecovery extends LinearOpMode {
         robot.drive.backward(robot.drive.BACK_AWAY_FROM_BLOCK_SPEED, 6);
         robot.rightGyro(robot.drive.SPIN_TO_CENTER_SPEED, 90);
         robot.drive.backwardTime(robot.drive.MAX_SPEED, 300);
+        sleep(2000);
         switch (pictograph) {
             case LEFT:
-                robot.drive.strafeLeft(robot.drive.MULTI_GLYPH_STRAFE_SPEED, robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
+                robot.drive.strafeLeft(robot.drive.MULTI_GLYPH_STRAFE_SPEED, robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY*robot.drive.STRAFING_DISTANCE_CONSTANT);
             case RIGHT:
-                robot.drive.strafeRight(robot.drive.MULTI_GLYPH_STRAFE_SPEED, robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
+                robot.drive.strafeRight(robot.drive.MULTI_GLYPH_STRAFE_SPEED, robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY*robot.drive.STRAFING_DISTANCE_CONSTANT);
         }
         robot.setUpMultiGlyph();
         ElapsedTime findGlyphTime = new ElapsedTime();

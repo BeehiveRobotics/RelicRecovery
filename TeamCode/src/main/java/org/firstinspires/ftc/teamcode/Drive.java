@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
  */
 
 public class Drive {
-    public static final double MULTI_GLYPH_STRAFE_SPEED = 0.8;
+    public static final double MULTI_GLYPH_STRAFE_SPEED = 0.7;
     public static final double DRIVE_INTO_GLYPH_PIT_SPEED = 1;
     public static final double DRIVE_INTO_GLYPH_PIT_DISTANCE = 28;
     public static final double DRIVE_INTO_GLYPHS_SPEED = 0.4;
@@ -42,6 +42,7 @@ public class Drive {
     static final double DISTANCE_TO_CLOSE_COLUMN = 17.5;
     static final double D_PAD_SLOW_SPEED = 0.25;
     static final double BUMPER_SLOW_SPEED = 0.25;
+    static final double STRAFING_DISTANCE_CONSTANT = 1.2;
 
 
     private DcMotor FrontLeft;
