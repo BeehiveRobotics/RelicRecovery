@@ -42,7 +42,7 @@ public class Drive {
     static final double DISTANCE_TO_CLOSE_COLUMN = 17.5;
     static final double D_PAD_SLOW_SPEED = 0.25;
     static final double BUMPER_SLOW_SPEED = 0.25;
-    static final double STRAFING_DISTANCE_CONSTANT = 1.2;
+    static final double STRAFING_DISTANCE_CONSTANT = 1.3;
 
 
     private DcMotor FrontLeft;

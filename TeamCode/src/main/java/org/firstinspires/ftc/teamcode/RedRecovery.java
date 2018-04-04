@@ -46,10 +46,9 @@ public class RedRecovery extends LinearOpMode {
         robot.forkLift.moveMotor(-1, 200);
         robot.drive.forward(robot.drive.DRIVE_INTO_CRYPTOBOX_SPEED, 5);
         robot.pushInBlock();
-        robot.drive.backward(robot.drive.BACK_AWAY_FROM_BLOCK_SPEED, 6);
+        robot.drive.backward(robot.drive.BACK_AWAY_FROM_BLOCK_SPEED, 8);
         robot.rightGyro(robot.drive.SPIN_TO_CENTER_SPEED, 90);
-        robot.drive.backwardTime(robot.drive.MAX_SPEED, 300);
-        sleep(2000);
+        robot.drive.backwardTime(robot.drive.MAX_SPEED, 500);
         switch (pictograph) {
             case LEFT:
                 robot.drive.strafeLeft(robot.drive.MULTI_GLYPH_STRAFE_SPEED, robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY*robot.drive.STRAFING_DISTANCE_CONSTANT);
@@ -59,17 +58,16 @@ public class RedRecovery extends LinearOpMode {
         robot.setUpMultiGlyph();
         ElapsedTime findGlyphTime = new ElapsedTime();
         findGlyphTime.reset();
-        double xOffSet, yPos, size, decisionPoint = 0, bestGlyphSize = 0;
+        double xOffSet, yPos, size, bestGlyphSize = 0;
         Point bestGlyphPos = new Point(AutoGlyphs.DEFAULT_X_POS_VALUE, 0);
         while (findGlyphTime.seconds() < 3.5) {
             xOffSet = robot.glyphDetector.getXOffset();
             yPos = robot.glyphDetector.getYPos();
             size = robot.glyphDetector.getSize();
-            if ((Math.abs(xOffSet) < Math.abs(bestGlyphPos.x)) && (xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 140) && (size > 60) && (yPos < 40) && (yPos > -180)) {
+            if ((Math.abs(xOffSet) < Math.abs(bestGlyphPos.x)) && (xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 160) && (size > 60) && (yPos < 40) && (yPos > -180)) {
                 bestGlyphPos.x = xOffSet;
                 bestGlyphPos.y = yPos;
                 bestGlyphSize = size;
-                decisionPoint = findGlyphTime.seconds();
                 break;
             }
         }
@@ -93,7 +91,7 @@ public class RedRecovery extends LinearOpMode {
         robot.phone.faceSideways();
         robot.forkLift.closeClaw();
         sleep(300);
-        robot.forkLift.moveMotor(1, 50);
+        robot.forkLift.moveMotor(1, 75);
         if (pictograph == RelicRecoveryVuMark.CENTER) {
             robot.forkLift.moveMotor(1, 250);
         }

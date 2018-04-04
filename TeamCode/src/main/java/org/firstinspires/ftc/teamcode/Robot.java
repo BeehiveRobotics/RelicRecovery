@@ -232,6 +232,15 @@ public class Robot {
         leftGyro(0, 0, -Math.abs(speed), target);
     }
 
+    public void gyroGoTo(double speed, double target) {
+        heading = getHeading();
+        if (target < heading) {
+            rightGyro(speed, target);
+        } else if (target > heading) {
+            leftGyro(speed, target);
+        }
+    }
+
     public void driveUntilDistance(double x, double y, double z, double endDistance) {
         double fl = clip(-y + -x - z);
         double fr = clip(-y + x + z);
