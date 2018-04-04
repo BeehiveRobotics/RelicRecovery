@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 /**
- * Created by kaden on 1/23/18.
+ * Created by Kaden on 1/23/18.
  */
 @TeleOp(name = "DriveEverythingRecovery", group = "linear OpMode")
 public class DriveEverythingRecovery extends OpMode {
@@ -19,13 +19,19 @@ public class DriveEverythingRecovery extends OpMode {
     public void loop() {
         //drive
         if (Math.abs(gamepad1.left_stick_x) + Math.abs(gamepad1.left_stick_y) + Math.abs(gamepad1.right_stick_x) + Math.abs(gamepad1.right_stick_y) > Math.abs(gamepad2.left_stick_x) + Math.abs(gamepad2.left_stick_y) + Math.abs(gamepad2.right_stick_x) + Math.abs(gamepad2.right_stick_y)) {
-            if (gamepad1.right_bumper || gamepad1.left_bumper) {
+            if(gamepad1.left_bumper) {
+                robot.drive.setFLOAT();
+            }
+            if (gamepad1.right_bumper) {
                 robot.drive.driveLeftRight(gamepad1.left_stick_x * robot.drive.BUMPER_SLOW_SPEED, gamepad1.right_stick_x * robot.drive.BUMPER_SLOW_SPEED, gamepad1.left_stick_y * robot.drive.BUMPER_SLOW_SPEED, gamepad1.right_stick_y * robot.drive.BUMPER_SLOW_SPEED);
             } else {
                 robot.drive.driveLeftRight(gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_y);
             }
         } else if (Math.abs(gamepad2.left_stick_x) + Math.abs(gamepad2.left_stick_y) + Math.abs(gamepad2.right_stick_x) + Math.abs(gamepad2.right_stick_y) > Math.abs(gamepad1.left_stick_x) + Math.abs(gamepad1.left_stick_y) + Math.abs(gamepad1.right_stick_x) + Math.abs(gamepad1.right_stick_y)) {
-            if (gamepad2.right_bumper || gamepad2.left_bumper) {
+            if(gamepad2.left_bumper) {
+                robot.drive.setBRAKE();
+            }
+            if (gamepad2.right_bumper) {
                 robot.drive.driveLeftRight(gamepad2.left_stick_x * robot.drive.BUMPER_SLOW_SPEED, gamepad2.right_stick_x * robot.drive.BUMPER_SLOW_SPEED, gamepad2.left_stick_y * robot.drive.BUMPER_SLOW_SPEED, gamepad2.right_stick_y * robot.drive.BUMPER_SLOW_SPEED);
             } else {
                 robot.drive.driveLeftRight(gamepad2.left_stick_x, gamepad2.right_stick_x, gamepad2.left_stick_y, gamepad2.right_stick_y);

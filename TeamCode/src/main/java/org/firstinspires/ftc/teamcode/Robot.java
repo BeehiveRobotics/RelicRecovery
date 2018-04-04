@@ -46,11 +46,13 @@ public class Robot {
         this.telemetry = opMode.telemetry;
 
     }
+
     Robot(LinearOpMode opMode) {
         this.opMode = opMode;
         this.hardwareMap = opMode.hardwareMap;
         this.telemetry = opMode.telemetry;
     }
+
     public void mapRobot() {
         drive = new Drive(opMode);
         forkLift = new ForkLift(opMode);
@@ -69,11 +71,21 @@ public class Robot {
         drive.forwardTime(drive.DRIVE_INTO_CRYPTOBOX_SPEED, 400);
     }
 
+    public void grabSecondGlyph() {
+        forkLift.openClaw();
+        forkLift.moveMotor(-.5);
+        drive.backward(0.6, 4);
+        drive.forward(0.6, 5);
+        forkLift.moveUntilDown();
+        forkLift.closeClaw();
+    }
+
     public void stopAll() {
         drive.stopMotors();
         forkLift.moveMotor(0);
         relicClaw.moveMotor(0);
     }
+
     public void getMoreGlyphs(double returnHeading, LinearOpMode autoMode, TurnDirection returnTurnDirection, RelicRecoveryVuMark column) {
         jewelArm.up(); //take this out later
         setUpMultiGlyph();
@@ -153,6 +165,7 @@ public class Robot {
         forkLift.openAllTheWay();
         phone.faceFront();
     }
+
     public void rightGyro(double x, double y, double z, double target) {
         double Adjustedtarget = target + GYRO_OFFSET;
         heading = getHeading();
@@ -162,7 +175,7 @@ public class Robot {
         double rl = clip(-y + x - z);
         double rr = clip(-y + -x + z);
         drive.driveSpeeds(fl, fr, rl, rr);
-        double current  = heading;
+        double current = heading;
         double last = heading;
         if (heading < target) {
             while (derivative <= 180) {
@@ -195,7 +208,7 @@ public class Robot {
         double rl = clip(-y + x - z);
         double rr = clip(-y + -x + z);
         drive.driveSpeeds(fl, fr, rl, rr);
-        double current  = heading;
+        double current = heading;
         double last = heading;
         if (target < heading) {
             while (derivative >= -180) {

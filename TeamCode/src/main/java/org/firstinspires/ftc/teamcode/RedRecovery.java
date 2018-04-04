@@ -47,20 +47,22 @@ public class RedRecovery extends LinearOpMode {
         robot.drive.backward(robot.drive.BACK_AWAY_FROM_BLOCK_SPEED, 6);
         robot.rightGyro(robot.drive.SPIN_TO_CENTER_SPEED, 90);
         robot.drive.backwardTime(robot.drive.MAX_SPEED, 300);
+        switch (pictograph) {
+            case LEFT:
+                robot.drive.strafeLeft(robot.drive.MAX_SPEED, robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
+            case RIGHT:
+                robot.drive.strafeRight(robot.drive.MAX_SPEED, robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
+        }
         robot.setUpMultiGlyph();
         ElapsedTime findGlyphTime = new ElapsedTime();
         findGlyphTime.reset();
-        double xOffSet;
-        double yPos;
-        double decisionPoint = 0;
-        double size;
+        double xOffSet, yPos, size, decisionPoint = 0, bestGlyphSize = 0;
         Point bestGlyphPos = new Point(AutoGlyphs.DEFAULT_X_POS_VALUE, 0);
-        double bestGlyphSize = 0;
         while (findGlyphTime.seconds() < 3.5) {
             xOffSet = robot.glyphDetector.getXOffset();
             yPos = robot.glyphDetector.getYPos();
             size = robot.glyphDetector.getSize();
-            if ((Math.abs(xOffSet) < Math.abs(bestGlyphPos.x)) && (xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 100) && (size > 60) && (yPos<40)) {// && (yPos < 60)) {
+            if ((Math.abs(xOffSet) < Math.abs(bestGlyphPos.x)) && (xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 120) && (size > 60) && (yPos<40)) {// && (yPos < 60)) {
                 bestGlyphPos.x = xOffSet;
                 bestGlyphPos.y = yPos;
                 bestGlyphSize = size;
@@ -80,7 +82,6 @@ public class RedRecovery extends LinearOpMode {
         robot.strafeForMultiGlyph(distanceToStrafe);
         robot.drive.forward(robot.drive.DRIVE_INTO_GLYPH_PIT_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
         robot.drive.forward(robot.drive.DRIVE_INTO_GLYPHS_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE);
-        sleep(1000);
         robot.phone.faceSideways();
         robot.forkLift.closeClaw();
         sleep(300);
@@ -90,25 +91,14 @@ public class RedRecovery extends LinearOpMode {
         }
         robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
         robot.leftGyro(robot.drive.MAX_SPEED, -90);
-        switch (pictograph) {
-            case LEFT:
-                robot.strafeForMultiGlyph(distanceToStrafe + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
-            case CENTER:
-                robot.strafeForMultiGlyph(distanceToStrafe);
-            case RIGHT:
-                robot.strafeForMultiGlyph(distanceToStrafe - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
-        }
+        robot.strafeForMultiGlyph(distanceToStrafe);
         robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE + 4);
-        sleep(2000);
         robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 400);
-        sleep(2000);
         robot.drive.strafeLeftTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 400);
-        sleep(2000);
         robot.forkLift.openClaw();
         sleep(300);
         robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 600);
         robot.drive.backward(robot.drive.MAX_SPEED,5);
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
