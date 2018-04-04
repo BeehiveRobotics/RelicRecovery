@@ -64,7 +64,7 @@ public class RedRecovery extends LinearOpMode {
             xOffSet = robot.glyphDetector.getXOffset();
             yPos = robot.glyphDetector.getYPos();
             size = robot.glyphDetector.getSize();
-            if ((Math.abs(xOffSet) < Math.abs(bestGlyphPos.x)) && (xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 140) && (size > 60) && (yPos < 40) && (yPos > -180)) {// && (yPos < 60)) {
+            if ((Math.abs(xOffSet) < Math.abs(bestGlyphPos.x)) && (xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 140) && (size > 60) && (yPos < 40) && (yPos > -180)) {
                 bestGlyphPos.x = xOffSet;
                 bestGlyphPos.y = yPos;
                 bestGlyphSize = size;
