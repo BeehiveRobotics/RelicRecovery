@@ -18,18 +18,20 @@ public class RedRecovery extends LinearOpMode {
     private final double MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY = 32.5;
 
     public void runOpMode() throws InterruptedException {
-        telemetry.addLine("DO NOT PRESS PLAY YET"); telemetry.update();
+        telemetry.addLine("DO NOT PRESS PLAY YET");
+        telemetry.update();
         robot = new Robot(this);
         robot.mapRobot();
         robot.drive.setBRAKE();
         robot.calibrateGyro();
-        telemetry.addLine("NOW YOU CAN PRESS PLAY"); telemetry.update();
+        telemetry.addLine("NOW YOU CAN PRESS PLAY");
+        telemetry.update();
         waitForStart();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         robot.forkLift.autoInit();
         //JewelArm.findJewel(Color.RED);
         //pictograph = phone.getMark();
-        if(pictograph == RelicRecoveryVuMark.UNKNOWN) {
+        if (pictograph == RelicRecoveryVuMark.UNKNOWN) {
             pictograph = RelicRecoveryVuMark.RIGHT;
         }
         switch (pictograph) {
@@ -39,7 +41,7 @@ public class RedRecovery extends LinearOpMode {
                 robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY);
             case RIGHT:
                 robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
-            }
+        }
         robot.rightGyro(robot.drive.SPIN_TO_CRYPTOBOX_SPEED, -90);
         robot.forkLift.moveMotor(-1, 200);
         robot.drive.forward(robot.drive.DRIVE_INTO_CRYPTOBOX_SPEED, 5);
@@ -62,16 +64,21 @@ public class RedRecovery extends LinearOpMode {
             xOffSet = robot.glyphDetector.getXOffset();
             yPos = robot.glyphDetector.getYPos();
             size = robot.glyphDetector.getSize();
-            if ((Math.abs(xOffSet) < Math.abs(bestGlyphPos.x)) && (xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 120) && (size > 60) && (yPos<40)) {// && (yPos < 60)) {
+            if ((Math.abs(xOffSet) < Math.abs(bestGlyphPos.x)) && (xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 120) && (size > 60) && (yPos < 40)) {// && (yPos < 60)) {
                 bestGlyphPos.x = xOffSet;
                 bestGlyphPos.y = yPos;
                 bestGlyphSize = size;
                 decisionPoint = findGlyphTime.seconds();
+                break;
             }
         }
-        telemetry.addData("Glyph Position", bestGlyphPos.toString());
-        telemetry.addData("Decision made at", decisionPoint);
-        telemetry.addData("Size", bestGlyphSize);
+        if (findGlyphTime.seconds() <= 3.5) {
+            telemetry.addData("Glyph Position", bestGlyphPos.toString());
+            telemetry.addData("Size", bestGlyphSize);
+        } else {
+            telemetry.addData("Would be glyph position", robot.glyphDetector.getPoint().toString());
+            telemetry.addData("Would be glyph size", robot.glyphDetector.getSize());
+        }
         telemetry.update();
         robot.glyphDetector.disable();
         robot.forkLift.openClaw();
@@ -86,7 +93,7 @@ public class RedRecovery extends LinearOpMode {
         robot.forkLift.closeClaw();
         sleep(300);
         robot.forkLift.moveMotor(1, 50);
-        if(pictograph == RelicRecoveryVuMark.CENTER) {
+        if (pictograph == RelicRecoveryVuMark.CENTER) {
             robot.forkLift.moveMotor(1, 250);
         }
         robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
@@ -98,8 +105,7 @@ public class RedRecovery extends LinearOpMode {
         robot.forkLift.openClaw();
         sleep(300);
         robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 600);
-        robot.drive.backward(robot.drive.MAX_SPEED,5);
+        robot.drive.backward(robot.drive.MAX_SPEED, 5);
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
-
 }
