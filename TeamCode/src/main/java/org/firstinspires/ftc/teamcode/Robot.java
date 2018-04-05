@@ -73,11 +73,13 @@ public class Robot {
 
     public void grabSecondGlyph() {
         forkLift.openClaw();
-        forkLift.moveMotor(-.5);
         drive.backward(0.6, 4);
+        forkLift.moveMotor(-.4);
         drive.forward(0.6, 5);
         forkLift.moveUntilDown();
         forkLift.closeClaw();
+        sleep(300);
+        forkLift.moveMotor(1, 100);
     }
 
     public void stopAll() {

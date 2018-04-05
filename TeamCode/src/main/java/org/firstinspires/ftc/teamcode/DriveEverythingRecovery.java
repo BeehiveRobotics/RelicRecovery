@@ -71,7 +71,11 @@ public class DriveEverythingRecovery extends OpMode {
 
         if (gamepad1.b) {
             robot.forkLift.openClaw();
-            robot.jewelArm.up();
+            robot.jewelArm.up(); //just in case
+        }
+
+        if (gamepad1.x) {
+            robot.grabSecondGlyph();
         }
         robot.forkLift.moveMotor(gamepad1.right_trigger - gamepad1.left_trigger);
 

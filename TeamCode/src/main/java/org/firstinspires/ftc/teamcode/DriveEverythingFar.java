@@ -64,6 +64,10 @@ public class DriveEverythingFar extends OpMode {
         if (gamepad1.b) {
             robot.forkLift.openClaw();
         }
+
+        if (gamepad1.x) {
+            robot.grabSecondGlyph();
+        }
         robot.forkLift.moveMotor(gamepad1.right_trigger - gamepad1.left_trigger);
 
         //RelicClaw
