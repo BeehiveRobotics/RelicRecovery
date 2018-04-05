@@ -234,9 +234,9 @@ public class Robot {
 
     public void gyroGoTo(double speed, double target) {
         heading = getHeading();
-        if (target < heading) {
+        if (target + 3 < heading) {
             rightGyro(speed, target);
-        } else if (target > heading) {
+        } else if (target + 3 > heading) {
             leftGyro(speed, target);
         }
     }

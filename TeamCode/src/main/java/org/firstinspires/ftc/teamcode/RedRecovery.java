@@ -68,7 +68,7 @@ public class RedRecovery extends LinearOpMode {
             xOffSet = robot.glyphDetector.getXOffset();
             yPos = robot.glyphDetector.getYPos();
             size = robot.glyphDetector.getSize();
-            if ((Math.abs(xOffSet) < Math.abs(bestGlyphPos.x)) && (xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 125) && (size > 60) && (yPos < 40) && (yPos > -180)) {
+            if ((xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 125) && (size > 60) && (yPos < 40) && (yPos > -180)) {
                 bestGlyphPos.x = xOffSet;
                 bestGlyphPos.y = yPos;
                 bestGlyphSize = size;
@@ -97,17 +97,17 @@ public class RedRecovery extends LinearOpMode {
         sleep(300);
         robot.forkLift.moveMotor(1, 75);
         if (pictograph == RelicRecoveryVuMark.CENTER) {
-            robot.forkLift.moveMotor(1, 250);
+            robot.forkLift.moveMotor(1, 450);
         }
-        robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
+        robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE - 4);
         robot.leftGyro(robot.drive.MAX_SPEED, -90);
-        robot.strafeForMultiGlyph(distanceToStrafe);
+        robot.strafeForMultiGlyph(distanceToStrafe - 4);
         robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE + 4);
         robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 400);
-        robot.drive.strafeLeftTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 400);
+        robot.drive.strafeLeftTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 350);
         robot.forkLift.openClaw();
         sleep(300);
-        robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 600);
+        robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 700);
         robot.drive.backward(robot.drive.MAX_SPEED, 5);
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
