@@ -236,7 +236,7 @@ public class Robot {
         heading = getHeading();
         if (target + 3 < heading) {
             rightGyro(speed, target);
-        } else if (target + 3 > heading) {
+        } else if (target - 3 > heading) {
             leftGyro(speed, target);
         }
     }

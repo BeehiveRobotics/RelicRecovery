@@ -62,13 +62,14 @@ public class RedRecovery extends LinearOpMode {
         robot.setUpMultiGlyph();
         ElapsedTime findGlyphTime = new ElapsedTime();
         findGlyphTime.reset();
-        double xOffSet, yPos, size, bestGlyphSize = 0;
+        double xOffSet = 0, yPos = 0, size = 0, bestGlyphSize = 0;
         Point bestGlyphPos = new Point(AutoGlyphs.DEFAULT_X_POS_VALUE, 0);
+        sleep(500);
         while (findGlyphTime.seconds() < 3.5) {
             xOffSet = robot.glyphDetector.getXOffset();
             yPos = robot.glyphDetector.getYPos();
             size = robot.glyphDetector.getSize();
-            if ((xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 125) && (size > 60) && (yPos < 40) && (yPos > -180)) {
+            if ((xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 125) && (size > 60) && (yPos < 40) && (yPos > -170)) {
                 bestGlyphPos.x = xOffSet;
                 bestGlyphPos.y = yPos;
                 bestGlyphSize = size;
@@ -79,8 +80,8 @@ public class RedRecovery extends LinearOpMode {
             telemetry.addData("Glyph Position", bestGlyphPos.toString());
             telemetry.addData("Size", bestGlyphSize);
         } else {
-            telemetry.addData("Would be glyph position", robot.glyphDetector.getPoint().toString());
-            telemetry.addData("Would be glyph size", robot.glyphDetector.getSize());
+            telemetry.addData("Would be glyph position", xOffSet + ", " + yPos);
+            telemetry.addData("Would be glyph size", size);
         }
         telemetry.update();
         robot.glyphDetector.disable();
@@ -101,7 +102,7 @@ public class RedRecovery extends LinearOpMode {
         }
         robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE - 4);
         robot.leftGyro(robot.drive.MAX_SPEED, -90);
-        robot.strafeForMultiGlyph(distanceToStrafe - 4);
+        robot.strafeForMultiGlyph(distanceToStrafe * 1.125 - 3);
         robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE + 4);
         robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 400);
         robot.drive.strafeLeftTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 350);

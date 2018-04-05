@@ -51,7 +51,6 @@ public class Phone {
         vuMark = RelicRecoveryVuMark.UNKNOWN;
     }
     public RelicRecoveryVuMark getMark() {
-        readyVuforia();
         CameraDevice.getInstance().setFlashTorchMode(true);
         if(!isCameraOpened) {return vuMark;}
         relicTrackables.activate();
