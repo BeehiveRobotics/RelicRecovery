@@ -23,14 +23,17 @@ public class RedRecovery extends LinearOpMode {
         robot = new Robot(this);
         robot.mapRobot();
         robot.drive.setBRAKE();
+        robot.phone.readyVuforia();
         robot.calibrateGyro();
         telemetry.addLine("NOW YOU CAN PRESS PLAY");
         telemetry.update();
         waitForStart();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        robot.jewelArm.down();
+        robot.jewelArm.middle();
         robot.forkLift.autoInit();
-        robot.jewelArm.findJewel(Color.RED);
         pictograph = robot.phone.getMark();
+        robot.jewelArm.findJewel(Color.RED);
         if (pictograph == RelicRecoveryVuMark.UNKNOWN) {
             pictograph = RelicRecoveryVuMark.CENTER;
         }
@@ -45,13 +48,16 @@ public class RedRecovery extends LinearOpMode {
                 robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
                 break;
         }
+        robot.jewelArm.left();
         robot.rightGyro(robot.drive.SPIN_TO_CRYPTOBOX_SPEED, -90);
         robot.forkLift.moveMotor(-1, 200);
-        robot.drive.forward(robot.drive.DRIVE_INTO_CRYPTOBOX_SPEED, 5);
-        robot.pushInBlock();
-        robot.drive.backward(robot.drive.BACK_AWAY_FROM_BLOCK_SPEED, 8);
+        robot.phone.faceFront();
+        robot.drive.forward(robot.drive.MAX_SPEED, 3);
+        robot.forkLift.openClaw();
+        robot.drive.forward(robot.drive.MAX_SPEED, 3);
+        robot.drive.backward(robot.drive.BACK_AWAY_FROM_BLOCK_SPEED, 6);
         robot.rightGyro(robot.drive.SPIN_TO_CENTER_SPEED, 90);
-        robot.drive.backwardTime(robot.drive.MAX_SPEED, 500);
+        robot.drive.backwardTime(robot.drive.MAX_SPEED, 300);
         switch (pictograph) {
             case LEFT:
                 robot.drive.strafeLeft(robot.drive.MULTI_GLYPH_STRAFE_SPEED, robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY*robot.drive.STRAFING_DISTANCE_CONSTANT);
@@ -64,12 +70,11 @@ public class RedRecovery extends LinearOpMode {
         findGlyphTime.reset();
         double xOffSet = 0, yPos = 0, size = 0, bestGlyphSize = 0;
         Point bestGlyphPos = new Point(AutoGlyphs.DEFAULT_X_POS_VALUE, 0);
-        sleep(750);
         while (findGlyphTime.seconds() < 3.5) {
             xOffSet = robot.glyphDetector.getXOffset();
             yPos = robot.glyphDetector.getYPos();
             size = robot.glyphDetector.getSize();
-            if ((xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 125) && (size > 60) && (yPos < 40) && (yPos > -170)) {
+            if ((xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 125) && (size > 60) && (yPos < 40) && (yPos > -170) && (Math.abs(xOffSet) < 85)) {
                 bestGlyphPos.x = xOffSet;
                 bestGlyphPos.y = yPos;
                 bestGlyphSize = size;

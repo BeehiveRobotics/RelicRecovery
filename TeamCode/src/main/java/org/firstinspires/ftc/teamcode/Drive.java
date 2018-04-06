@@ -23,14 +23,14 @@ public class Drive {
     static private final int CPR = 1120; //Clicks per rotation of the encoder with the NeveRest 40 motors. Please do not edit.
     static final double MIN_MOVE_SPEED = 0.25;
     public static final double MAX_SPEED = 1;
-    static final double MIN_SPIN_SPEED = 0.2;
+    static final double MIN_SPIN_SPEED = 0.5;
     static final double MIN_STRAFE_SPEED = 0.35;
     static final double DRIVE_OFF_BALANCE_BOARD_SPEED = 0.6;
     static final double STRAFING_PAST_CRYPTOBOX_SPEED = 0.75;
     static final double SPIN_TO_CRYPTOBOX_SPEED = 1;
     static final double DRIVE_INTO_CRYPTOBOX_SPEED = 0.8;
     static final double DEFAULT_MOVING_TOWARDS_CRYPTOBOX_DISTANCE_FAR_POSITION = 14;
-    static final double CRYPTOBOX_COLUMNS_OFFSET_RECOVERY = 7.5;
+    static final double CRYPTOBOX_COLUMNS_OFFSET_RECOVERY = 7;
     static final double CRYPTOBOX_COLUMNS_OFFSET_FAR = 11;
     static final double BACK_AWAY_FROM_BLOCK_SPEED = 1;
     static final double DRIVE_TO_CYRPTOBOX_DISTANCE_FAR = 24;
@@ -53,7 +53,7 @@ public class Drive {
     private Telemetry telemetry;
 
     public double heading;
-    public final double GYRO_OFFSET = 2.25;
+    public final double GYRO_OFFSET = 10;
     private boolean isBRAKE;
 
     public Drive(OpMode opMode) {
