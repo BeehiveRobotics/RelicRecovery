@@ -110,6 +110,9 @@ public class RedRecovery extends LinearOpMode {
         sleep(300);
         robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 700);
         robot.drive.backward(robot.drive.MAX_SPEED, 5);
+        robot.leftGyro(robot.drive.SPIN_TO_CENTER_SPEED, 90);
+        robot.forkLift.openClaw();
+        robot.forkLift.moveUntilDown();
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }
