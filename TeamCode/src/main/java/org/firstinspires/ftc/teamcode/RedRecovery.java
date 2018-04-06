@@ -29,8 +29,8 @@ public class RedRecovery extends LinearOpMode {
         waitForStart();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         robot.forkLift.autoInit();
-        //JewelArm.findJewel(Color.RED);
-        //pictograph = phone.getMark();
+        robot.jewelArm.findJewel(Color.RED);
+        pictograph = robot.phone.getMark();
         if (pictograph == RelicRecoveryVuMark.UNKNOWN) {
             pictograph = RelicRecoveryVuMark.CENTER;
         }
