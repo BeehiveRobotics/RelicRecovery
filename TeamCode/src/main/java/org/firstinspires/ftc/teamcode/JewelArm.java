@@ -15,12 +15,12 @@ public class JewelArm {
     public Servo upDownServo;
     public Servo endServo;
     ColorSensor cs;
-    private final double DOWN_POSITION = 0.0175;
-    private final double UP_POSITION = 0.06;
+    private final double DOWN_POSITION = 0;
+    private final double UP_POSITION = 1;
     private final double RIGHT_POSITION = 1;
     private final double LEFT_POSITION = 0;
     private final double MIDDLE_POSITION = 0.55;
-    private final double MIN_COLOR_DETECTION_THRESHOLD = 30;
+    private final double MIN_COLOR_DETECTION_THRESHOLD = 25;
     private Telemetry telemetry;
     private HardwareMap hardwareMap;
 
@@ -44,6 +44,8 @@ public class JewelArm {
 
     public void left() {setEndPosition(LEFT_POSITION);}
 
+    public void middle() {setEndPosition(MIDDLE_POSITION);}
+
     public void init() {
         up();
         cs.enableLed(true);
@@ -55,16 +57,6 @@ public class JewelArm {
         down();
         ElapsedTime time = new ElapsedTime();
         time.reset();
-        while(cs.red() < MIN_COLOR_DETECTION_THRESHOLD && cs.blue() < MIN_COLOR_DETECTION_THRESHOLD) {
-            if(time.seconds() > 3) {
-                setEndPosition(MIDDLE_POSITION);
-                cs.enableLed(false);
-                up();
-                Robot.sleep(750);
-                left();
-                return;
-            }
-        }
         if (cs.red() > cs.blue()) {
             jewelColor = Color.RED;
         }

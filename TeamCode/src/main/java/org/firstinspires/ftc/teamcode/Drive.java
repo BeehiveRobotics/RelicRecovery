@@ -23,7 +23,7 @@ public class Drive {
     static private final int CPR = 1120; //Clicks per rotation of the encoder with the NeveRest 40 motors. Please do not edit.
     static final double MIN_MOVE_SPEED = 0.25;
     public static final double MAX_SPEED = 1;
-    static final double MIN_SPIN_SPEED = 0.2;
+    static final double MIN_SPIN_SPEED = 0.5;
     static final double MIN_STRAFE_SPEED = 0.35;
     static final double DRIVE_OFF_BALANCE_BOARD_SPEED = 0.6;
     static final double STRAFING_PAST_CRYPTOBOX_SPEED = 0.75;
@@ -44,7 +44,6 @@ public class Drive {
     static final double BUMPER_SLOW_SPEED = 0.25;
     static final double STRAFING_DISTANCE_CONSTANT = 1.3;
 
-
     private DcMotor FrontLeft;
     private DcMotor FrontRight;
     private DcMotor RearLeft;
@@ -54,7 +53,8 @@ public class Drive {
     private Telemetry telemetry;
 
     public double heading;
-    public final double GYRO_OFFSET = 2.25;
+    public final double GYRO_OFFSET = 10;
+    private boolean isBRAKE;
 
     public Drive(OpMode opMode) {
         this(opMode, DcMotor.ZeroPowerBehavior.FLOAT);
@@ -81,6 +81,7 @@ public class Drive {
         this.FrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         this.RearLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         this.RearRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        isBRAKE = true;
     }
 
     public void setFLOAT() {
@@ -88,8 +89,12 @@ public class Drive {
         this.FrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         this.RearLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         this.RearRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        isBRAKE = false;
     }
 
+    public boolean isBRAKE() {
+        return this.isBRAKE;
+    }
     public void driveTranslateRotate(double x, double y, double z, double distance) {
         resetEncoders();
         double clicks = Math.abs(distance * CPR / CIRCUMFERENCE_Of_WHEELS);

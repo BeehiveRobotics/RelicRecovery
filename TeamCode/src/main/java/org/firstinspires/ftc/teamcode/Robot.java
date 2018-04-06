@@ -21,6 +21,7 @@ import org.opencv.core.Point;
  **/
 
 public class Robot {
+    private static final double SLOW_OFFSET = 10;
     private OpMode opMode;
     private HardwareMap hardwareMap;
     private Telemetry telemetry;
@@ -36,8 +37,10 @@ public class Robot {
     private ModernRoboticsI2cRangeSensor rangeSensor;
 
 
+
     static final double STRAFING_DAMPEN_FACTOR_FOR_MULTI_GLYPH = 0.2;
     static final double GYRO_OFFSET = 2.25;
+    private boolean isBRAKE;
 
 
     Robot(OpMode opMode) {
@@ -72,77 +75,24 @@ public class Robot {
     }
 
     public void grabSecondGlyph() {
+        boolean wasBRAKE = drive.isBRAKE();
+        drive.setBRAKE();
         forkLift.openClaw();
         drive.backward(0.6, 4);
-        forkLift.moveMotor(-.4);
-        drive.forward(0.6, 5);
         forkLift.moveUntilDown();
+        drive.forward(0.6, 5);
         forkLift.closeClaw();
         sleep(300);
-        forkLift.moveMotor(1, 100);
+        forkLift.moveMotor(1, 300);
+        if(!wasBRAKE) {
+            drive.setFLOAT();
+        }
     }
 
     public void stopAll() {
         drive.stopMotors();
         forkLift.moveMotor(0);
         relicClaw.moveMotor(0);
-    }
-
-    public void getMoreGlyphs(double returnHeading, LinearOpMode autoMode, TurnDirection returnTurnDirection, RelicRecoveryVuMark column) {
-        jewelArm.up(); //take this out later
-        setUpMultiGlyph();
-        ElapsedTime findGlyphTime = new ElapsedTime();
-        findGlyphTime.reset();
-        double xOffSet;
-        double yPos;
-        double decisionPoint = 0;
-        double size = 0;
-        Point bestGlyphPos = new Point(AutoGlyphs.DEFAULT_X_POS_VALUE, 0);
-        double bestGlyphSize = 0;
-        sleep(500);
-        while (findGlyphTime.seconds() < 3.5) {
-            xOffSet = glyphDetector.getXOffset();
-            yPos = glyphDetector.getYPos();
-            size = glyphDetector.getSize();
-            if ((Math.abs(xOffSet) < Math.abs(bestGlyphPos.x)) && (xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 105) && (size > 40)) {// && (yPos < 60)) {
-                bestGlyphPos.x = xOffSet;
-                bestGlyphPos.y = yPos;
-                bestGlyphSize = size;
-                decisionPoint = findGlyphTime.seconds();
-            }
-        }
-        telemetry.addData("Glyph Position", bestGlyphPos.toString());
-        telemetry.addData("Decision made at", decisionPoint);
-        telemetry.addData("Size", bestGlyphSize);
-        telemetry.update();
-        glyphDetector.disable();
-        forkLift.openClaw();
-        if (bestGlyphPos.x == AutoGlyphs.DEFAULT_X_POS_VALUE) {
-            bestGlyphPos.x = 0;
-        }
-        double distanceToStrafe = bestGlyphPos.x * STRAFING_DAMPEN_FACTOR_FOR_MULTI_GLYPH;
-        strafeForMultiGlyph(distanceToStrafe);
-        drive.forward(drive.DRIVE_INTO_GLYPH_PIT_SPEED, drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
-        drive.forward(drive.DRIVE_INTO_GLYPHS_SPEED, drive.DRIVE_INTO_GLYPHS_DISTANCE);
-        phone.faceSideways();
-        forkLift.closeClaw();
-        sleep(300);
-        forkLift.moveMotor(1, 750);
-        drive.backward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
-        if (column == RelicRecoveryVuMark.LEFT) {
-            strafeForMultiGlyph(-distanceToStrafe - drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
-        } else if (column == RelicRecoveryVuMark.CENTER) {
-            strafeForMultiGlyph(-distanceToStrafe);
-        } else if (column == RelicRecoveryVuMark.RIGHT) {
-            strafeForMultiGlyph(-distanceToStrafe + drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
-        }
-        double heading = getHeading();
-        if (returnTurnDirection == TurnDirection.LEFT) {
-            leftGyro(drive.MAX_SPEED, returnHeading);
-        } else {
-            rightGyro(drive.MAX_SPEED, returnHeading);
-        }
-        drive.forward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPHS_DISTANCE);
     }
 
     public void strafeForMultiGlyph(double distanceToStrafe) {
@@ -169,7 +119,8 @@ public class Robot {
     }
 
     public void rightGyro(double x, double y, double z, double target) {
-        double Adjustedtarget = target + GYRO_OFFSET;
+        double Adjustedtarget = target + GYRO_OFFSET + SLOW_OFFSET;
+        double finalTarget = target + GYRO_OFFSET;
         heading = getHeading();
         double derivative = 0;
         double fl = clip(-y + -x - z);
@@ -191,8 +142,13 @@ public class Robot {
         heading = start;
         while (heading >= Adjustedtarget) {
             heading = getHeading();
-            double proportion = 1 - (Math.abs((heading - start) / distance));
+            double remaining = heading - start;
+            double proportion = 1 - (Math.abs((remaining) / distance));
             drive.driveSpeeds(drive.clipSpinSpeed(fl * proportion), drive.clipSpinSpeed(fr * proportion), drive.clipSpinSpeed(rl * proportion), drive.clipSpinSpeed(rr * proportion));
+        }
+        while (heading>= finalTarget) {
+            heading = getHeading();
+            drive.driveSpeeds(fl*0.2,fr*0.2,rl*0.2,rr*0.2);
         }
         drive.stopMotors();
     }
@@ -202,7 +158,8 @@ public class Robot {
     }
 
     public void leftGyro(double x, double y, double z, double target) {
-        double adjustedTarget = target - GYRO_OFFSET;
+        double adjustedTarget = target - GYRO_OFFSET - SLOW_OFFSET;
+        double finalTarget = target - GYRO_OFFSET;
         heading = getHeading();
         double derivative = 0;
         double fl = clip(-y + -x - z);
@@ -224,8 +181,13 @@ public class Robot {
         heading = start;
         while (heading <= adjustedTarget) {
             heading = getHeading();
-            double proportion = 1 - (Math.abs((heading - start) / distance));
+            double remaining = heading - start;
+            double proportion = 1 - (Math.abs((remaining) / distance));
             drive.driveSpeeds(drive.clipSpinSpeed(fl * proportion), drive.clipSpinSpeed(fr * proportion), drive.clipSpinSpeed(rl * proportion), drive.clipSpinSpeed(rr * proportion));
+        }
+        while (heading>= finalTarget) {
+            heading = getHeading();
+            drive.driveSpeeds(fl*0.2,fr*0.2,rl*0.2,rr*0.2);
         }
         drive.stopMotors();
     }
