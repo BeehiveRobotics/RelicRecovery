@@ -64,7 +64,7 @@ public class RedRecovery extends LinearOpMode {
         findGlyphTime.reset();
         double xOffSet = 0, yPos = 0, size = 0, bestGlyphSize = 0;
         Point bestGlyphPos = new Point(AutoGlyphs.DEFAULT_X_POS_VALUE, 0);
-        sleep(500);
+        sleep(750);
         while (findGlyphTime.seconds() < 3.5) {
             xOffSet = robot.glyphDetector.getXOffset();
             yPos = robot.glyphDetector.getYPos();

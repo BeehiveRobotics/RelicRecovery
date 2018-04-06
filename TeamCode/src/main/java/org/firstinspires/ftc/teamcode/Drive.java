@@ -44,7 +44,6 @@ public class Drive {
     static final double BUMPER_SLOW_SPEED = 0.25;
     static final double STRAFING_DISTANCE_CONSTANT = 1.3;
 
-
     private DcMotor FrontLeft;
     private DcMotor FrontRight;
     private DcMotor RearLeft;
@@ -55,6 +54,7 @@ public class Drive {
 
     public double heading;
     public final double GYRO_OFFSET = 2.25;
+    private boolean isBRAKE;
 
     public Drive(OpMode opMode) {
         this(opMode, DcMotor.ZeroPowerBehavior.FLOAT);
@@ -81,6 +81,7 @@ public class Drive {
         this.FrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         this.RearLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         this.RearRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        isBRAKE = true;
     }
 
     public void setFLOAT() {
@@ -88,8 +89,12 @@ public class Drive {
         this.FrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         this.RearLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         this.RearRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        isBRAKE = false;
     }
 
+    public boolean isBRAKE() {
+        return this.isBRAKE;
+    }
     public void driveTranslateRotate(double x, double y, double z, double distance) {
         resetEncoders();
         double clicks = Math.abs(distance * CPR / CIRCUMFERENCE_Of_WHEELS);

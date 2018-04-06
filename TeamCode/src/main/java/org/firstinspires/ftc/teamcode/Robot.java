@@ -36,8 +36,10 @@ public class Robot {
     private ModernRoboticsI2cRangeSensor rangeSensor;
 
 
+
     static final double STRAFING_DAMPEN_FACTOR_FOR_MULTI_GLYPH = 0.2;
     static final double GYRO_OFFSET = 2.25;
+    private boolean isBRAKE;
 
 
     Robot(OpMode opMode) {
@@ -72,14 +74,18 @@ public class Robot {
     }
 
     public void grabSecondGlyph() {
+        boolean wasBRAKE = drive.isBRAKE();
+        drive.setBRAKE();
         forkLift.openClaw();
         drive.backward(0.6, 4);
-        forkLift.moveMotor(-.4);
-        drive.forward(0.6, 5);
         forkLift.moveUntilDown();
+        drive.forward(0.6, 5);
         forkLift.closeClaw();
         sleep(300);
-        forkLift.moveMotor(1, 100);
+        forkLift.moveMotor(1, 300);
+        if(!wasBRAKE) {
+            drive.setFLOAT();
+        }
     }
 
     public void stopAll() {
