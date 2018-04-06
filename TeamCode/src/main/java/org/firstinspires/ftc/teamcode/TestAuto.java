@@ -26,6 +26,6 @@ public class TestAuto extends LinearOpMode{
         telemetry.addLine("READY TO START");
         telemetry.update();
         waitForStart();
-        robot.rightGyro(robot.drive.MAX_SPEED, -90);
+        robot.leftGyro(robot.drive.MAX_SPEED, -90);
     }
 }
