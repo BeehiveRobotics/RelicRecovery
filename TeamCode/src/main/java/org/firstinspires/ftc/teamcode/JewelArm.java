@@ -53,7 +53,6 @@ public class JewelArm {
         Color jewelColor = Color.UNKNOWN;
         setEndPosition(MIDDLE_POSITION);
         down();
-        Robot.sleep(500);
         ElapsedTime time = new ElapsedTime();
         time.reset();
         while(cs.red() < MIN_COLOR_DETECTION_THRESHOLD && cs.blue() < MIN_COLOR_DETECTION_THRESHOLD) {
@@ -72,7 +71,6 @@ public class JewelArm {
         else if (cs.blue()>cs.red()) {
             jewelColor = Color.BLUE;
         }
-        Robot.sleep(250);
         if(allianceColor == Color.RED) {
           if (jewelColor == Color.RED) {
             right();
@@ -93,8 +91,6 @@ public class JewelArm {
         setEndPosition(MIDDLE_POSITION);
         cs.enableLed(false);
         up();
-        Robot.sleep(500);
-        left();
     }
 
     public void setUpDownPosition(double postion) {

@@ -102,7 +102,7 @@ public class RedRecovery extends LinearOpMode {
         }
         robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE - 4);
         robot.leftGyro(robot.drive.MAX_SPEED, -90);
-        robot.strafeForMultiGlyph(distanceToStrafe * 1.125 - 3);
+        robot.strafeForMultiGlyph(distanceToStrafe * 1.1 - 3);
         robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE + 4);
         robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 400);
         robot.drive.strafeLeftTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 350);
