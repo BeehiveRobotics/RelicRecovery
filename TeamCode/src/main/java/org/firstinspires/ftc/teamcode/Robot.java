@@ -16,10 +16,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.opencv.core.Point;
 
-/**
- * Created by Kaden on 3/14/2018.
- **/
-
 public class Robot {
     private static final double SLOW_OFFSET = 10;
     private OpMode opMode;

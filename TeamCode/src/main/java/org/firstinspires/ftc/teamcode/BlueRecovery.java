@@ -26,7 +26,7 @@ public class BlueRecovery extends LinearOpMode {
         waitForStart();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         robot.forkLift.autoInit();
-        robot.jewelArm.findJewel(Color.BLUE);
+        robot.jewelArm.knockJewel(Color.BLUE);
         pictograph = robot.phone.getMark();
         if (pictograph == RelicRecoveryVuMark.UNKNOWN) {
             pictograph = RelicRecoveryVuMark.RIGHT;

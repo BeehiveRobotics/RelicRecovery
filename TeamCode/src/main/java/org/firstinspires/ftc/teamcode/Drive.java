@@ -9,15 +9,11 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-/**
- * Created by Kaden on 3/15/18.
- */
-
 public class Drive {
     public static final double MULTI_GLYPH_STRAFE_SPEED = 0.7;
     public static final double DRIVE_INTO_GLYPH_PIT_SPEED = 1;
     public static final double DRIVE_INTO_GLYPH_PIT_DISTANCE = 28;
-    public static final double DRIVE_INTO_GLYPHS_SPEED = 0.4;
+    public static final double DRIVE_INTO_GLYPHS_SPEED = 0.6;
     public static final double DRIVE_INTO_GLYPHS_DISTANCE = 4;
     static private final double CIRCUMFERENCE_Of_WHEELS = 3.937 * Math.PI;
     static private final int CPR = 1120; //Clicks per rotation of the encoder with the NeveRest 40 motors. Please do not edit.
@@ -30,7 +26,7 @@ public class Drive {
     static final double SPIN_TO_CRYPTOBOX_SPEED = 1;
     static final double DRIVE_INTO_CRYPTOBOX_SPEED = 0.8;
     static final double DEFAULT_MOVING_TOWARDS_CRYPTOBOX_DISTANCE_FAR_POSITION = 14;
-    static final double CRYPTOBOX_COLUMNS_OFFSET_RECOVERY = 7;
+    static final double CRYPTOBOX_COLUMNS_OFFSET_RECOVERY = 7.5;
     static final double CRYPTOBOX_COLUMNS_OFFSET_FAR = 11;
     static final double BACK_AWAY_FROM_BLOCK_SPEED = 1;
     static final double DRIVE_TO_CYRPTOBOX_DISTANCE_FAR = 24;

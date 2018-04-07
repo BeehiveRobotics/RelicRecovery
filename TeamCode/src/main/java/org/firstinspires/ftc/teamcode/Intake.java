@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -16,8 +16,8 @@ public class Intake {
     private DcMotor rightMotor;
     private DcMotor leftMotor;
 
-    private Servo rightServo;
-    private Servo leftServo;
+    private CRServo rightServo;
+    private CRServo leftServo;
 
     private HardwareMap hardwareMap;
     private Telemetry telemetry;
@@ -25,12 +25,9 @@ public class Intake {
     private final double ON_SPEED = 1;
     private final double REVERSE_SPEED = -1;
 
-    private final double OUT_POSITION = 0.5;
-    private final double IN_POSITION = 0.57;
-    private double servoPosition;
-
     public boolean isOut = false;
     public boolean isOn = false;
+    private double servoPower;
 
     public Intake(OpMode opMode) {
         this.telemetry = opMode.telemetry;
@@ -42,9 +39,9 @@ public class Intake {
         this.rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         this.leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        this.rightServo = hardwareMap.servo.get("s8");
-        this.leftServo = hardwareMap.servo.get("s9");
-        this.leftServo.setDirection(Servo.Direction.REVERSE);
+        this.rightServo = hardwareMap.crservo.get("s8");
+        this.leftServo = hardwareMap.crservo.get("s9");
+        this.leftServo.setDirection(CRServo.Direction.REVERSE);
     }
 
     public void on() {
@@ -64,14 +61,17 @@ public class Intake {
     }
 
     public void out() {
-        setServoPosition(OUT_POSITION);
         isOut = true;
+        setServoPower(1);
+        Robot.sleep(300);
+        stopServos();
     }
 
     public void in() {
-        setServoPosition(IN_POSITION);
-        off();
         isOut = false;
+        setServoPower(-1);
+        Robot.sleep(300);
+        stopServos();
     }
 
     private void setMotorSpeed(double speed) {
@@ -79,13 +79,17 @@ public class Intake {
         leftMotor.setPower(speed);
     }
 
-    public void setServoPosition(double position) { //SET TO PRIVATE ONCE STUFF IS SET
-        this.servoPosition = Range.clip(position, 0, 1);
-        rightServo.setPosition(position);
-        leftServo.setPosition(position);
+    private void stopServos() {
+        setServoPower(0);
+    }
+    public void setServoPower(double power) { //SET TO PRIVATE ONCE STUFF IS SET
+        power = Range.clip(power, -.85, .85);
+        servoPower = power;
+        rightServo.setPower(power);
+        leftServo.setPower(power);
     }
 
-    public double getServoPosition() {
-        return servoPosition;
+    public double getServoPower() {
+        return servoPower;
     }
 }

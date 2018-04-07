@@ -1,9 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-/**
- * Created by BeehiveRobotics-3648 on 11/28/2017.
- */
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -29,11 +25,15 @@ public class RedRecovery extends LinearOpMode {
         telemetry.update();
         waitForStart();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        robot.forkLift.openClaw();
         robot.jewelArm.down();
         robot.jewelArm.middle();
-        robot.forkLift.autoInit();
         pictograph = robot.phone.getMark();
-        robot.jewelArm.findJewel(Color.RED);
+        robot.forkLift.moveUntilDown();
+        robot.forkLift.closeClaw();
+        robot.jewelArm.knockJewel(Color.RED);
+        robot.forkLift.moveMotor(1, 200);
+        robot.jewelArm.up();
         if (pictograph == RelicRecoveryVuMark.UNKNOWN) {
             pictograph = RelicRecoveryVuMark.CENTER;
         }
@@ -57,7 +57,7 @@ public class RedRecovery extends LinearOpMode {
         robot.drive.forward(robot.drive.MAX_SPEED, 3);
         robot.drive.backward(robot.drive.BACK_AWAY_FROM_BLOCK_SPEED, 6);
         robot.rightGyro(robot.drive.SPIN_TO_CENTER_SPEED, 90);
-        robot.drive.backwardTime(robot.drive.MAX_SPEED, 300);
+        robot.drive.backwardTime(robot.drive.MAX_SPEED, 200);
         switch (pictograph) {
             case LEFT:
                 robot.drive.strafeLeft(robot.drive.MULTI_GLYPH_STRAFE_SPEED, robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY * robot.drive.STRAFING_DISTANCE_CONSTANT);
@@ -74,7 +74,7 @@ public class RedRecovery extends LinearOpMode {
             xOffSet = robot.glyphDetector.getXOffset();
             yPos = robot.glyphDetector.getYPos();
             size = robot.glyphDetector.getSize();
-            if ((xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 125) && (size > 60) && (yPos < 40) && (yPos > -170) && (Math.abs(xOffSet) < 85)) {
+            if ((xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 125) && (size > 60) && (yPos < 40) && (yPos > -170) && (Math.abs(xOffSet) < 70)) {
                 bestGlyphPos.x = xOffSet;
                 bestGlyphPos.y = yPos;
                 bestGlyphSize = size;
@@ -101,11 +101,11 @@ public class RedRecovery extends LinearOpMode {
         robot.phone.faceSideways();
         robot.forkLift.closeClaw();
         sleep(300);
-        robot.forkLift.moveMotor(1, 75);
+        robot.forkLift.moveMotor(1, 150);
         if (pictograph == RelicRecoveryVuMark.CENTER) {
             robot.forkLift.moveMotor(1, 450);
         }
-        robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE - 4);
+        robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE - 7);
         robot.leftGyro(robot.drive.MAX_SPEED, -90);
         robot.strafeForMultiGlyph(distanceToStrafe * 1.1 - 3);
         robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE + 4);
@@ -113,9 +113,10 @@ public class RedRecovery extends LinearOpMode {
         robot.drive.strafeLeftTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 350);
         robot.forkLift.openClaw();
         sleep(300);
-        robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 700);
+        robot.drive.forwardTime(robot.drive.MAX_SPEED, 300);
         robot.drive.backward(robot.drive.MAX_SPEED, 5);
         //start second try
+        robot.forkLift.moveUntilDown();
         robot.phone.faceFront();
         robot.leftGyro(robot.drive.SPIN_TO_CENTER_SPEED, 90);
         robot.setUpMultiGlyph();

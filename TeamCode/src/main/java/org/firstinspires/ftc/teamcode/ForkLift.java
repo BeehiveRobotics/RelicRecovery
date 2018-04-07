@@ -1,9 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-/**
- * Created by Kaden on 1/3/2018.
- */
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -48,8 +44,6 @@ public class ForkLift {
     }
     public void autoInit() {
         openClaw();
-        sleep(750);
-        moveMotor(1, 80);
         init();
         closeClaw();
         sleep(350);

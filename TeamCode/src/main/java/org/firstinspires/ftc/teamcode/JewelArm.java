@@ -1,9 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-/**
- * Created by Kaden on 11/28/2017.
- */
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -51,7 +47,7 @@ public class JewelArm {
         cs.enableLed(true);
     }
 
-    public void findJewel(Color allianceColor) {
+    public void knockJewel(Color allianceColor) {
         Color jewelColor = Color.UNKNOWN;
         setEndPosition(MIDDLE_POSITION);
         down();
@@ -79,10 +75,6 @@ public class JewelArm {
             left();
           }
         }
-        Robot.sleep(500);
-        setEndPosition(MIDDLE_POSITION);
-        cs.enableLed(false);
-        up();
     }
 
     public void setUpDownPosition(double postion) {

@@ -73,6 +73,7 @@ public class DriveIntake extends OpMode {
         bPrev = gamepad1.b;
         xPrev = gamepad1.x;
         yPrev = gamepad1.y;
-
+        telemetry.addData("isOut", robot.intake.isOut);
+        telemetry.update();
     }
 }
