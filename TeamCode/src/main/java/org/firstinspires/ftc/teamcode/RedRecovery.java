@@ -71,7 +71,7 @@ public class RedRecovery extends LinearOpMode {
         double xOffSet = 0, yPos = 0, size = 0, bestGlyphSize = 0;
         Point bestGlyphPos = new Point(AutoGlyphs.DEFAULT_X_POS_VALUE, 0);
         while (findGlyphTime.seconds() < 3.5) {
-            xOffSet = robot.glyphDetector.getXOffset();
+            xOffSet = robot.glyphDetector.getXPos();
             yPos = robot.glyphDetector.getYPos();
             size = robot.glyphDetector.getSize();
             if ((xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 125) && (size > 60) && (yPos < 40) && (yPos > -170) && (Math.abs(xOffSet) < 70)) {
@@ -92,7 +92,7 @@ public class RedRecovery extends LinearOpMode {
         robot.glyphDetector.disable();
         robot.forkLift.openClaw();
         if (bestGlyphPos.x == AutoGlyphs.DEFAULT_X_POS_VALUE) bestGlyphPos.x = 0;
-        double distanceToStrafe = bestGlyphPos.x * robot.STRAFING_DAMPEN_FACTOR_FOR_MULTI_GLYPH;
+        double distanceToStrafe = bestGlyphPos.x * robot.STRAFING_DAMPEN_FACTOR_FOR_MULTI_GLYPH + robot.phone.PHONE_DISTANCE_OFFSET;
         robot.strafeForMultiGlyph(distanceToStrafe);
         robot.drive.forward(robot.drive.DRIVE_INTO_GLYPH_PIT_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
         robot.drive.forward(robot.drive.DRIVE_INTO_GLYPHS_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE);

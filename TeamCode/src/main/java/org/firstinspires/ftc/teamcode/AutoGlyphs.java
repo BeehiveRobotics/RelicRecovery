@@ -50,7 +50,7 @@ public class AutoGlyphs extends GlyphDetector {
         return getXPos() + X_POSITION_OFFSET;
     }
 
-    private double getXPos() {
+    public double getXPos() {
         return super.getChosenGlyphPosition().y - Y_CENTER;
     }
 

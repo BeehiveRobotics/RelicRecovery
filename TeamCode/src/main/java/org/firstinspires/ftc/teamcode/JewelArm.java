@@ -51,7 +51,9 @@ public class JewelArm {
         JewelColor jewelColor = JewelColor.UNKNOWN;
         setEndPosition(MIDDLE_POSITION);
         down();
-
+        ElapsedTime runTime = new ElapsedTime();
+        runTime.reset();
+        while(cs.red() < MIN_COLOR_DETECTION_THRESHOLD && cs.blue() < MIN_COLOR_DETECTION_THRESHOLD && runTime.seconds()<2.5) {if(runTime.seconds() >= 2.5) return;}
         if (cs.red() > cs.blue()) {
             jewelColor = JewelColor.RED;
         }
