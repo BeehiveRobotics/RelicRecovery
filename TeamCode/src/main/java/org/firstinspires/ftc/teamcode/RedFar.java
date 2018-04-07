@@ -25,7 +25,7 @@ public class RedFar extends LinearOpMode {
         waitForStart();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         robot.forkLift.autoInit();
-        robot.jewelArm.knockJewel(Color.RED);
+        robot.jewelArm.knockJewel(JewelColor.RED);
         pictograph = robot.phone.getMark();
         robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, robot.drive.DRIVE_TO_CYRPTOBOX_DISTANCE_FAR);
         robot.forkLift.moveMotor(-1, 250);

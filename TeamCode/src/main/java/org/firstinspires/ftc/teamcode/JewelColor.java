@@ -4,9 +4,9 @@ package org.firstinspires.ftc.teamcode;
  * Created by Kaden on 1/2/2018.
  */
 
-public enum Color {
+public enum JewelColor {
     RED, BLUE, UNKNOWN;
-    Color not(Color target) {
+    JewelColor not(JewelColor target) {
         switch (target) {
             case RED: return BLUE;
             case BLUE: return RED;

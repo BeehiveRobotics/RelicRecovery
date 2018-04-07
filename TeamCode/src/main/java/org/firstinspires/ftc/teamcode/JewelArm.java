@@ -15,7 +15,7 @@ public class JewelArm {
     private final double UP_POSITION = 1;
     private final double RIGHT_POSITION = 1;
     private final double LEFT_POSITION = 0;
-    private final double MIDDLE_POSITION = 0.55;
+    private final double MIDDLE_POSITION = 0.5;
     private final double MIN_COLOR_DETECTION_THRESHOLD = 25;
     private Telemetry telemetry;
     private HardwareMap hardwareMap;
@@ -47,34 +47,34 @@ public class JewelArm {
         cs.enableLed(true);
     }
 
-    public void knockJewel(Color allianceColor) {
-        Color jewelColor = Color.UNKNOWN;
+    public void knockJewel(JewelColor allianceColor) {
+        JewelColor jewelColor = JewelColor.UNKNOWN;
         setEndPosition(MIDDLE_POSITION);
         down();
-        ElapsedTime time = new ElapsedTime();
-        time.reset();
+
         if (cs.red() > cs.blue()) {
-            jewelColor = Color.RED;
+            jewelColor = JewelColor.RED;
         }
         else if (cs.blue()>cs.red()) {
-            jewelColor = Color.BLUE;
+            jewelColor = JewelColor.BLUE;
         }
-        if(allianceColor == Color.RED) {
-          if (jewelColor == Color.RED) {
+        if(allianceColor == JewelColor.RED) {
+          if (jewelColor == JewelColor.RED) {
             right();
           }
-          else if (jewelColor == Color.BLUE) {
+          else if (jewelColor == JewelColor.BLUE) {
             left();
           }
         }
-        if(allianceColor == Color.BLUE) {
-          if (jewelColor == Color.BLUE) {
+        if(allianceColor == JewelColor.BLUE) {
+          if (jewelColor == JewelColor.BLUE) {
             right();
           }
-          else if (jewelColor == Color.RED) {
+          else if (jewelColor == JewelColor.RED) {
             left();
           }
         }
+        Robot.sleep(200);
     }
 
     public void setUpDownPosition(double postion) {
