@@ -3,9 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-/**
- * Created by Kaden on 1/23/18.
- */
 @TeleOp(name = "DriveEverythingRecovery", group = "linear OpMode")
 public class DriveEverythingRecovery extends OpMode {
     private Robot robot;

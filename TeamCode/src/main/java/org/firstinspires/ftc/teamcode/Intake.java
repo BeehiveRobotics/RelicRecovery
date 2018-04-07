@@ -8,10 +8,6 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-/**
- * Created by Kaden on 3/15/18.
- */
-
 public class Intake {
     private DcMotor rightMotor;
     private DcMotor leftMotor;

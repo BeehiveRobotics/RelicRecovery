@@ -1,9 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-/**
- * Created by Kaden on 11/21/2017.
- */
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;

@@ -3,10 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-/**
- * Created by Kaden on 3/22/2018.
- */
-
 @TeleOp(name="Drive No Coast", group="TeleOp")
 public class DriveEverythingBrake extends OpMode{
     private Robot robot;

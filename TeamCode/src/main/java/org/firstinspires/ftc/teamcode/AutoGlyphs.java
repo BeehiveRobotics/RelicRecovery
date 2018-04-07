@@ -9,10 +9,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
 import org.opencv.core.Point;
 
-/**
- * Created by Aus on 2/20/18.
- */
-
 public class AutoGlyphs extends GlyphDetector {
     double xPos = DEFAULT_X_POS_VALUE;
     private static final double X_HIGH_POS = 384;
