@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+@Disabled
 @TeleOp(name = "DriveEverythingFar", group = "linear OpMode")
 public class DriveEverythingFar extends OpMode {
     private Robot robot; 
