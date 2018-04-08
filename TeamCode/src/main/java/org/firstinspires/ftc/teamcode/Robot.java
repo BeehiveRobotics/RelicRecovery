@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.opencv.core.Point;
 
 public class Robot {
-    private static final double SLOW_OFFSET = 10;
+    private static final double SLOW_OFFSET = 18;
     private OpMode opMode;
     private HardwareMap hardwareMap;
     private Telemetry telemetry;
@@ -121,7 +121,7 @@ public class Robot {
         phone.faceFront();
     }
 
-    public void rightGyro(double x, double y, double z, double target) {
+    public void rightGyro(double x, double y, double z, double target, double finalSpeed) {
         double Adjustedtarget = target + GYRO_OFFSET + SLOW_OFFSET;
         double finalTarget = target + GYRO_OFFSET;
         heading = getHeading();
@@ -146,21 +146,26 @@ public class Robot {
         while (heading >= Adjustedtarget) {
             heading = getHeading();
             double remaining = heading - start;
-            double proportion = 1 - (Math.abs((remaining) / distance));
+            double proportion = (1 - (Math.abs((remaining) / distance))) * 0.5 + 0.5;
             drive.driveSpeeds(drive.clipSpinSpeed(fl * proportion), drive.clipSpinSpeed(fr * proportion), drive.clipSpinSpeed(rl * proportion), drive.clipSpinSpeed(rr * proportion));
         }
         while (heading>= finalTarget) {
             heading = getHeading();
-            drive.driveSpeeds(fl*0.2,fr*0.2,rl*0.2,rr*0.2);
+            drive.driveSpeeds(fl*finalSpeed,fr*finalSpeed,rl*finalSpeed,rr*finalSpeed);
         }
         drive.stopMotors();
+
+    }
+
+    public void rightGyro(double x, double y, double z, double target) {
+        rightGyro(x,y,z,target,0.2);
     }
 
     public void rightGyro(double speed, double target) {
         rightGyro(0, 0, Math.abs(speed), target);
     }
 
-    public void leftGyro(double x, double y, double z, double target) {
+    public void leftGyro(double x, double y, double z, double target, double finalSpeed) {
         double adjustedTarget = target - GYRO_OFFSET - SLOW_OFFSET;
         double finalTarget = target - GYRO_OFFSET;
         heading = getHeading();
@@ -185,14 +190,19 @@ public class Robot {
         while (heading <= adjustedTarget) {
             heading = getHeading();
             double remaining = heading - start;
-            double proportion = 1 - (Math.abs((remaining) / distance));
+            double proportion = (1 - (Math.abs((remaining) / distance))) * 0.5 + 0.5;
             drive.driveSpeeds(drive.clipSpinSpeed(fl * proportion), drive.clipSpinSpeed(fr * proportion), drive.clipSpinSpeed(rl * proportion), drive.clipSpinSpeed(rr * proportion));
         }
-        while (heading>= finalTarget) {
+        while (heading <= finalTarget) {
             heading = getHeading();
-            drive.driveSpeeds(fl*0.2,fr*0.2,rl*0.2,rr*0.2);
+            drive.driveSpeeds(fl*finalSpeed,fr*finalSpeed,rl*finalSpeed,rr*finalSpeed);
         }
         drive.stopMotors();
+
+    }
+
+    public void leftGyro(double x, double y, double z, double target) {
+        leftGyro(x, y, z, target, 0.2);
     }
 
     public void leftGyro(double speed, double target) {
@@ -201,10 +211,59 @@ public class Robot {
 
     public void gyroGoTo(double speed, double target) {
         heading = getHeading();
-        if (target + 1.5 < heading) {
-            rightGyro(speed, target);
-        } else if (target - 1.5 > heading) {
-            leftGyro(speed, target);
+        if (target + 1 < heading) {
+            double Adjustedtarget = target + GYRO_OFFSET;
+            heading = getHeading();
+            double derivative = 0;
+            double fl = -speed;
+            double fr = +speed;
+            double rl = -speed;
+            double rr = +speed;
+            drive.driveSpeeds(fl, fr, rl, rr);
+            double current  = heading;
+            double last = heading;
+            if (heading < target) {
+                while (derivative <= 180) {
+                    current = getHeading();
+                    derivative = current - last;
+                    last = current;
+                }
+            }
+            double start = getHeading();
+            double distance = Adjustedtarget - start;
+            heading = getHeading();
+            while (heading >= Adjustedtarget) {
+                heading = getHeading();
+                double proportion = Range.clip(1 - (Math.abs((heading - start) / distance)), 0.01, 1);
+                drive.driveSpeeds(drive.clipSpinSpeed(fl * proportion), drive.clipSpinSpeed(fr * proportion), drive.clipSpinSpeed(rl * proportion), drive.clipSpinSpeed(rr * proportion));
+            }
+            drive.stopMotors();
+        } else if (target - 1 > heading) {
+            double adjustedTarget = target - GYRO_OFFSET;
+            heading = getHeading();
+            double derivative = 0;
+            double fl = -speed;
+            double fr = +speed;
+            double rl = -speed;
+            double rr = +speed;
+            drive.driveSpeeds(fl, fr, rl, rr);
+            double current = heading;
+            double last = heading;
+            if (target < heading) {
+                while (derivative >= -180) {
+                    current = getHeading();
+                    derivative = current - last;
+                    last = current;
+                }
+            }
+            double start = heading;
+            double distance = adjustedTarget - start;
+            while (heading <= adjustedTarget) {
+                heading = getHeading();
+                double proportion = Range.clip(1 - (Math.abs((heading - start) / distance)), 0.01, 1);
+                drive.driveSpeeds(drive.clipSpinSpeed(fl * proportion), drive.clipSpinSpeed(fr * proportion), drive.clipSpinSpeed(rl * proportion), drive.clipSpinSpeed(rr * proportion));
+            }
+            drive.stopMotors();
         }
     }
 
