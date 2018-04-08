@@ -3,9 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-/**
- * Created by Kaden on 3/17/18.
- */
+@Disabled
 @TeleOp(name = "vroom vroom", group = "test")
 public class DriveIntake extends OpMode {
     private Robot robot;

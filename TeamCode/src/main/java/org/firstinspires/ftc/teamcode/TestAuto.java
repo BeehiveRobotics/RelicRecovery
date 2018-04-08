@@ -18,6 +18,7 @@ import java.util.Random;
  * Created by Kaden on 3/27/18.
  */
 
+@Disabled
 @TeleOp(name="Test potentiometer", group="Test")
 public class TestAuto extends OpMode {
     Robot robot;

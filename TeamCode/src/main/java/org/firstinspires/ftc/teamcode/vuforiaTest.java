@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
+@Disabled
 @Autonomous(name="vuforia test", group="test")
 public class vuforiaTest extends LinearOpMode {
     private Robot robot;
