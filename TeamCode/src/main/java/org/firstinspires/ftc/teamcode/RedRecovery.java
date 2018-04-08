@@ -27,6 +27,8 @@ public class RedRecovery extends LinearOpMode {
         waitForStart();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         runTime.reset();
+        robot.relicClaw.openClaw();
+        robot.relicClaw.down();
         robot.forkLift.openClaw();
         robot.jewelArm.down();
         robot.jewelArm.middle();
@@ -48,7 +50,6 @@ public class RedRecovery extends LinearOpMode {
                 robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
                 break;
         }
-        robot.jewelArm.left();
         robot.rightGyro(robot.drive.SPIN_TO_CRYPTOBOX_SPEED, -90);
         robot.forkLift.moveMotor(-1, 200);
         robot.phone.faceFront();
@@ -56,25 +57,29 @@ public class RedRecovery extends LinearOpMode {
         robot.forkLift.openClaw();
         robot.drive.forward(robot.drive.MAX_SPEED, 3);
         robot.drive.backward(robot.drive.BACK_AWAY_FROM_BLOCK_SPEED, 7);
-        robot.rightGyro(robot.drive.SPIN_TO_CENTER_SPEED, 90);
-        robot.drive.backwardTime(robot.drive.MAX_SPEED, 150);
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        robot.leftGyro(robot.drive.SPIN_TO_CENTER_SPEED, 90);
+        robot.forkLift.closeAllTheWay();
+        robot.drive.backwardTime(robot.drive.MAX_SPEED, 200);
+        robot.drive.forward(robot.drive.MAX_SPEED, 2);
         switch (pictograph) {
             case LEFT:
-                robot.drive.strafeLeft(robot.drive.MULTI_GLYPH_STRAFE_SPEED, 2 * robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
+                robot.drive.strafeLeft(robot.drive.MULTI_GLYPH_STRAFE_SPEED, (2 * robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY) - 3);
             case CENTER:
-                robot.drive.strafeLeft(robot.drive.MULTI_GLYPH_STRAFE_SPEED, robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
+                robot.drive.strafeLeft(robot.drive.MULTI_GLYPH_STRAFE_SPEED, robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY - 3);
         }
         robot.setUpMultiGlyph();
+        robot.gyroGoTo(0.5, 90);
         ElapsedTime findGlyphTime = new ElapsedTime();
         findGlyphTime.reset();
-        double xOffSet = 0, yPos = 0, size = 0, bestGlyphSize = 0;
+        double xPos = 0, yPos = 0, size = 0, bestGlyphSize = 0;
         Point bestGlyphPos = new Point(AutoGlyphs.DEFAULT_X_POS_VALUE, 0);
         while (findGlyphTime.seconds() < 3.5) {
-            xOffSet = robot.glyphDetector.getXPos();
+            xPos = robot.glyphDetector.getXPos();
             yPos = robot.glyphDetector.getYPos();
             size = robot.glyphDetector.getSize();
-            if ((xOffSet != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 125) && (size > 60) && (yPos < 40) && (yPos > -170) && (Math.abs(xOffSet) < 70)) {
-                bestGlyphPos.x = xOffSet;
+            if ((xPos != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 125) && (size > 60) && (yPos < 40) && (yPos > -170) && (Math.abs(xPos) < 70)) {
+                bestGlyphPos.x = xPos;
                 bestGlyphPos.y = yPos;
                 bestGlyphSize = size;
                 break;
@@ -83,15 +88,16 @@ public class RedRecovery extends LinearOpMode {
         if (findGlyphTime.seconds() <= 3.5) {
             telemetry.addData("Glyph Position", bestGlyphPos.toString());
             telemetry.addData("Size", bestGlyphSize);
+            telemetry.addData("Found at", findGlyphTime.seconds());
         } else {
-            telemetry.addData("Would be glyph position", xOffSet + ", " + yPos);
+            telemetry.addData("Would be glyph position", xPos + ", " + yPos);
             telemetry.addData("Would be glyph size", size);
         }
         telemetry.update();
         robot.glyphDetector.disable();
         robot.forkLift.openClaw();
         if (bestGlyphPos.x == AutoGlyphs.DEFAULT_X_POS_VALUE) bestGlyphPos.x = 0;
-        double distanceToStrafe = bestGlyphPos.x * robot.STRAFING_DAMPEN_FACTOR_FOR_MULTI_GLYPH + robot.phone.PHONE_DISTANCE_OFFSET;
+        double distanceToStrafe = (bestGlyphPos.x * robot.STRAFING_DAMPEN_FACTOR_FOR_MULTI_GLYPH) + robot.phone.PHONE_DISTANCE_OFFSET;
         robot.strafeForMultiGlyph(distanceToStrafe);
         robot.drive.forward(robot.drive.DRIVE_INTO_GLYPH_PIT_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
         robot.drive.forward(robot.drive.DRIVE_INTO_GLYPHS_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE);
@@ -100,38 +106,71 @@ public class RedRecovery extends LinearOpMode {
         sleep(300);
         robot.forkLift.moveMotor(1, 150);
         if (pictograph == RelicRecoveryVuMark.CENTER) robot.forkLift.moveMotor(1, 450);
+        robot.gyroGoTo(robot.drive.MIN_STRAFE_SPEED, 90);
         robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE - 7);
-        robot.leftGyro(robot.drive.MAX_SPEED, -90);
-        robot.strafeForMultiGlyph(distanceToStrafe - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
+        if (distanceToStrafe > 7) robot.leftGyro(robot.drive.MAX_SPEED, -90);
+        else robot.rightGyro(robot.drive.MAX_SPEED, -90);
+        robot.strafeForMultiGlyph(distanceToStrafe - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY + 3);
         robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE + 4);
         robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 350);
         robot.drive.strafeLeftTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 300);
+        if(pictograph == RelicRecoveryVuMark.CENTER) robot.forkLift.moveMotor(-1, 150);
         robot.forkLift.openClaw();
-        sleep(300);
         robot.drive.forwardTime(robot.drive.MAX_SPEED, 300);
         robot.drive.backward(robot.drive.MAX_SPEED, 5);
-        //start second try
-        if(runTime.seconds() > 23) return;
-        robot.rightGyro(robot.drive.MAX_SPEED, 90);
-        robot.forkLift.moveUntilDown();
-        robot.gyroGoTo(robot.drive.MAX_SPEED, 90);
+        //start second try ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        robot.leftGyro(robot.drive.MAX_SPEED, 90);
+        robot.forkLift.moveMotor(-1, 150);
+        if (pictograph == RelicRecoveryVuMark.CENTER) robot.forkLift.moveMotor(-1, 280);
         robot.forkLift.openClaw();
-        robot.drive.forward(robot.drive.DRIVE_INTO_GLYPH_PIT_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
+        xPos = 0;
+        yPos = 0;
+        size = 0;
+        bestGlyphSize = 0;
+        distanceToStrafe = 0;
+        if (runTime.seconds() > 22) return;
+        else robot.glyphDetector.enable();
+        while (runTime.seconds() < 22) {
+            xPos = robot.glyphDetector.getXPos();
+            yPos = robot.glyphDetector.getYPos();
+            size = robot.glyphDetector.getSize();
+            if ((xPos != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 125) && (size > 60) && (yPos < 40) && (yPos > -170) && (Math.abs(xPos) < 70)) {
+                bestGlyphPos.x = xPos;
+                bestGlyphPos.y = yPos;
+                bestGlyphSize = size;
+                distanceToStrafe = bestGlyphPos.x * robot.STRAFING_DAMPEN_FACTOR_FOR_MULTI_GLYPH + robot.phone.PHONE_DISTANCE_OFFSET;
+                break;
+            }
+        }
+        if (!(distanceToStrafe==0)) {
+            telemetry.addData("Glyph Position", bestGlyphPos.toString());
+            telemetry.addData("Size", bestGlyphSize);
+        } else {
+            telemetry.addData("Would be glyph position", xPos + ", " + yPos);
+            telemetry.addData("Would be glyph size", size);
+        }
+        telemetry.update();
+        robot.glyphDetector.disable();
+        robot.strafeForMultiGlyph(distanceToStrafe);
+        robot.drive.forward(robot.drive.DRIVE_INTO_GLYPH_PIT_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE + 3);
         robot.drive.forward(robot.drive.DRIVE_INTO_GLYPHS_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE);
         robot.phone.faceSideways();
         robot.forkLift.closeClaw();
         sleep(300);
         robot.forkLift.moveMotor(1, 150);
         if (pictograph == RelicRecoveryVuMark.CENTER) robot.forkLift.moveMotor(1, 450);
-        robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE - 7);
-        robot.leftGyro(robot.drive.MAX_SPEED, -90);
+        robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE - 4);
+        if (distanceToStrafe > 7) robot.leftGyro(robot.drive.MAX_SPEED, -90);
+        else robot.rightGyro(robot.drive.MAX_SPEED, -90);
+        robot.strafeForMultiGlyph(distanceToStrafe);
+        robot.drive.strafeRight(robot.drive.MAX_SPEED, robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY + 2);
         robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE + 4);
         robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 350);
-        robot.drive.strafeRightTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 300);
-        robot.forkLift.openClaw();
+        robot.drive.strafeLeftTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 400);
         sleep(300);
+        robot.forkLift.openClaw();
         robot.drive.forwardTime(robot.drive.MAX_SPEED, 300);
-        robot.drive.backward(robot.drive.MAX_SPEED, 5);
+        robot.drive.backward(robot.drive.MAX_SPEED, 9);
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }

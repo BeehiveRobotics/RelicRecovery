@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Drive {
-    public static final double MULTI_GLYPH_STRAFE_SPEED = 0.7;
+    public static final double MULTI_GLYPH_STRAFE_SPEED = 1;
     public static final double DRIVE_INTO_GLYPH_PIT_SPEED = 1;
     public static final double DRIVE_INTO_GLYPH_PIT_DISTANCE = 28;
     public static final double DRIVE_INTO_GLYPHS_SPEED = 0.6;

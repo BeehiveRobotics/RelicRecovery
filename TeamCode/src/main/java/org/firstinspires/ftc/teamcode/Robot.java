@@ -31,10 +31,9 @@ public class Robot {
     private REVGyro imu;
     public double heading;
     private ModernRoboticsI2cRangeSensor rangeSensor;
+    private static Robot instance;
 
-
-
-    static final double STRAFING_DAMPEN_FACTOR_FOR_MULTI_GLYPH = 0.2;
+    static final double STRAFING_DAMPEN_FACTOR_FOR_MULTI_GLYPH = 0.1;
     static final double GYRO_OFFSET = 2.25;
     private boolean isBRAKE;
 
@@ -63,6 +62,14 @@ public class Robot {
         rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "d1");
 
     }
+
+
+    public static Robot getInstance (LinearOpMode linearOpModeInstance) {
+        if (instance==null) instance = new Robot(linearOpModeInstance);
+        return instance;
+    }
+
+    //public static boolean opModeIsActive() {return opMode.opModeIsActive();}
 
     public void pushInBlock() {
         forkLift.openClaw();
@@ -102,7 +109,7 @@ public class Robot {
     public void setUpMultiGlyph() {
         glyphDetector = new AutoGlyphs(opMode);
         glyphDetector.enable();
-        forkLift.openAllTheWay();
+        forkLift.closeAllTheWay();
         phone.faceFront();
 
     }
@@ -194,9 +201,9 @@ public class Robot {
 
     public void gyroGoTo(double speed, double target) {
         heading = getHeading();
-        if (target + 3 < heading) {
+        if (target + 1.5 < heading) {
             rightGyro(speed, target);
-        } else if (target - 3 > heading) {
+        } else if (target - 1.5 > heading) {
             leftGyro(speed, target);
         }
     }
