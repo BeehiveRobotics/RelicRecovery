@@ -131,6 +131,7 @@ public class RedRecovery extends LinearOpMode {
         distanceToStrafe = 0;
         if (runTime.seconds() > 23) {
             robot.phone.faceSideways();
+            Robot.sleep(1000);
             return;
         }
         else {

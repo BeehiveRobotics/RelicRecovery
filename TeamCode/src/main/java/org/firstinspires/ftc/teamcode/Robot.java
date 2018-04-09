@@ -143,13 +143,13 @@ public class Robot {
         double start = getHeading();
         double distance = Adjustedtarget - start;
         heading = start;
-        while (heading >= Adjustedtarget) {
+        while (heading > Adjustedtarget) {
             heading = getHeading();
             double remaining = heading - start;
             double proportion = (1 - (Math.abs((remaining) / distance))) * 0.5 + 0.5;
             drive.driveSpeeds(drive.clipSpinSpeed(fl * proportion), drive.clipSpinSpeed(fr * proportion), drive.clipSpinSpeed(rl * proportion), drive.clipSpinSpeed(rr * proportion));
         }
-        while (heading>= finalTarget) {
+        while (heading > finalTarget) {
             heading = getHeading();
             drive.driveSpeeds(fl*finalSpeed,fr*finalSpeed,rl*finalSpeed,rr*finalSpeed);
         }
@@ -187,13 +187,13 @@ public class Robot {
         double start = getHeading();
         double distance = adjustedTarget - start;
         heading = start;
-        while (heading <= adjustedTarget) {
+        while (heading < adjustedTarget) {
             heading = getHeading();
             double remaining = heading - start;
             double proportion = (1 - (Math.abs((remaining) / distance))) * 0.5 + 0.5;
             drive.driveSpeeds(drive.clipSpinSpeed(fl * proportion), drive.clipSpinSpeed(fr * proportion), drive.clipSpinSpeed(rl * proportion), drive.clipSpinSpeed(rr * proportion));
         }
-        while (heading <= finalTarget) {
+        while (heading < finalTarget) {
             heading = getHeading();
             drive.driveSpeeds(fl*finalSpeed,fr*finalSpeed,rl*finalSpeed,rr*finalSpeed);
         }
@@ -211,54 +211,32 @@ public class Robot {
 
     public void gyroGoTo(double speed, double target) {
         heading = getHeading();
-        if (target + 1 < heading) {
+        speed = Math.abs(speed);
+        if (heading - 1 > target) { //RIGHT TURN
             double Adjustedtarget = target + GYRO_OFFSET;
-            heading = getHeading();
-            double derivative = 0;
-            double fl = -speed;
-            double fr = +speed;
-            double rl = -speed;
-            double rr = +speed;
+            double fl = +speed;
+            double fr = -speed;
+            double rl = +speed;
+            double rr = -speed;
             drive.driveSpeeds(fl, fr, rl, rr);
-            double current  = heading;
-            double last = heading;
-            if (heading < target) {
-                while (derivative <= 180) {
-                    current = getHeading();
-                    derivative = current - last;
-                    last = current;
-                }
-            }
             double start = getHeading();
             double distance = Adjustedtarget - start;
-            heading = getHeading();
-            while (heading >= Adjustedtarget) {
+            while (heading > Adjustedtarget) {
                 heading = getHeading();
                 double proportion = Range.clip(1 - (Math.abs((heading - start) / distance)), 0.01, 1);
                 drive.driveSpeeds(drive.clipSpinSpeed(fl * proportion), drive.clipSpinSpeed(fr * proportion), drive.clipSpinSpeed(rl * proportion), drive.clipSpinSpeed(rr * proportion));
             }
             drive.stopMotors();
-        } else if (target - 1 > heading) {
+        } else if (heading + 1 < target) { //LEFT TURN
             double adjustedTarget = target - GYRO_OFFSET;
-            heading = getHeading();
-            double derivative = 0;
             double fl = -speed;
             double fr = +speed;
             double rl = -speed;
             double rr = +speed;
             drive.driveSpeeds(fl, fr, rl, rr);
-            double current = heading;
-            double last = heading;
-            if (target < heading) {
-                while (derivative >= -180) {
-                    current = getHeading();
-                    derivative = current - last;
-                    last = current;
-                }
-            }
             double start = heading;
             double distance = adjustedTarget - start;
-            while (heading <= adjustedTarget) {
+            while (heading < adjustedTarget) {
                 heading = getHeading();
                 double proportion = Range.clip(1 - (Math.abs((heading - start) / distance)), 0.01, 1);
                 drive.driveSpeeds(drive.clipSpinSpeed(fl * proportion), drive.clipSpinSpeed(fr * proportion), drive.clipSpinSpeed(rl * proportion), drive.clipSpinSpeed(rr * proportion));

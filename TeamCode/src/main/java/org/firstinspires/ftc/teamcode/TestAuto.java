@@ -15,28 +15,20 @@ import org.opencv.core.Point;
 
 import java.util.Random;
 
-/**
- * Created by Kaden on 3/27/18.
- */
-
-@Disabled
-@TeleOp(name="Test potentiometer", group="Test")
-public class TestAuto extends OpMode {
-    Robot robot;
-    AnalogInput potentiometer;
+//@Disabled
+@Autonomous(name="Test gyroGoTo", group="Test")
+public class TestAuto extends LinearOpMode {
+    private Robot robot;
     @Override
-    public void init() {
+    public void runOpMode() {
         robot = new Robot(this);
         robot.mapRobot();
         robot.drive.setBRAKE();
         robot.calibrateGyro();
         telemetry.addLine("READY TO START");
         telemetry.update();
-        potentiometer = hardwareMap.analogInput.get("p1");
+        robot.gyroGoTo(1, -90);
+        robot.gyroGoTo(1, 90);
 
-    }
-    public void loop() {
-        telemetry.addData("Voltage", potentiometer.getVoltage());
-        telemetry.update();
     }
 }
