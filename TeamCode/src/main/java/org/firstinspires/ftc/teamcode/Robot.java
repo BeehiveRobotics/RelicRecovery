@@ -149,6 +149,8 @@ public class Robot {
             double proportion = (1 - (Math.abs((remaining) / distance))) * 0.5 + 0.5;
             drive.driveSpeeds(drive.clipSpinSpeed(fl * proportion), drive.clipSpinSpeed(fr * proportion), drive.clipSpinSpeed(rl * proportion), drive.clipSpinSpeed(rr * proportion));
         }
+        drive.stopMotors();
+        sleep(1000);
         while (heading > finalTarget) {
             heading = getHeading();
             drive.driveSpeeds(fl*finalSpeed,fr*finalSpeed,rl*finalSpeed,rr*finalSpeed);
@@ -211,7 +213,7 @@ public class Robot {
 
     public void gyroGoTo(double speed, double target) {
         heading = getHeading();
-        speed = Math.abs(speed);
+        speed = -Math.abs(speed);
         if (heading - 1 > target) { //RIGHT TURN
             double Adjustedtarget = target + GYRO_OFFSET;
             double fl = +speed;
