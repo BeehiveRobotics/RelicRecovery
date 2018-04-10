@@ -51,8 +51,8 @@ public class RedFar extends LinearOpMode {
         }
         robot.drive.forward(robot.drive.DRIVE_INTO_CRYPTOBOX_SPEED, 6);
         robot.pushInBlock();
-        robot.drive.backward(robot.drive.BACK_AWAY_FROM_BLOCK_SPEED, 7);
-        robot.leftGyro(robot.drive.SPIN_TO_CENTER_SPEED, 120);
+        robot.drive.backward(robot.drive.MAX_SPEED, 7);
+        robot.leftGyro(robot.drive.MAX_SPEED, 120);
         robot.forkLift.openClaw();
         robot.forkLift.moveUntilDown();
         sleep(1000);

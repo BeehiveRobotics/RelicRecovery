@@ -36,11 +36,11 @@ public class BlueRecovery extends LinearOpMode {
                 robot.drive.backward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_BLUE_RECOVERY + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY);
         }
         robot.forkLift.moveMotor(-1, 250);
-        robot.rightGyro(robot.drive.SPIN_TO_CRYPTOBOX_SPEED, -90);
+        robot.rightGyro(robot.drive.MAX_SPEED, -90);
         robot.drive.forward(robot.drive.DRIVE_INTO_CRYPTOBOX_SPEED, 5);
         robot.pushInBlock();
-        robot.drive.backward(robot.drive.BACK_AWAY_FROM_BLOCK_SPEED, 4);
-        robot.leftGyro(robot.drive.SPIN_TO_CENTER_SPEED, 90);
+        robot.drive.backward(robot.drive.MAX_SPEED, 4);
+        robot.leftGyro(robot.drive.MAX_SPEED, 90);
         robot.forkLift.openClaw();
         robot.forkLift.moveUntilDown();
         sleep(1000);
