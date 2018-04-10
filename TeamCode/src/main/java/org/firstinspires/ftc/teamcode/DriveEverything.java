@@ -32,19 +32,19 @@ public class DriveEverything extends LinearOpMode {
                 robot.drive.forward(robot.drive.D_PAD_SLOW_SPEED);
             }
             else if (gamepad1.dpad_left) { //Right
-                robot.drive.driveTranslateRotate(robot.drive.D_PAD_SLOW_SPEED, 0, 0);
+                robot.drive.strafeRight(robot.drive.D_PAD_SLOW_SPEED);
             }
             else if (gamepad1.dpad_down) { //Backward
-                robot.drive.driveTranslateRotate(0, robot.drive.D_PAD_SLOW_SPEED, 0);
+                robot.drive.backward(robot.drive.D_PAD_SLOW_SPEED);
             }
             else if (gamepad1.dpad_right) { //Left
-                robot.drive.driveTranslateRotate(-robot.drive.D_PAD_SLOW_SPEED, 0, 0);
+                robot.drive.strafeLeft(robot.drive.D_PAD_SLOW_SPEED);
             }
             else if(gamepad2.dpad_left) { //Left
-                robot.drive.driveTranslateRotate(-robot.drive.D_PAD_SLOW_SPEED, 0, 0);
+                robot.drive.strafeLeft(robot.drive.D_PAD_SLOW_SPEED);
             }
             else if (gamepad2.dpad_right) { //Right
-                robot.drive.driveTranslateRotate(robot.drive.D_PAD_SLOW_SPEED, 0, 0);
+                robot.drive.strafeRight(robot.drive.D_PAD_SLOW_SPEED);
             }
             else {
                 robot.drive.stopMotors();
