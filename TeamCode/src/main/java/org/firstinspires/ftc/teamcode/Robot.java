@@ -18,7 +18,7 @@ import org.opencv.core.Point;
 
 public class Robot {
     private static final double SLOW_OFFSET = 10;
-    private OpMode opMode;
+    private LinearOpMode opMode;
     private HardwareMap hardwareMap;
     private Telemetry telemetry;
     public Drive drive;
@@ -36,14 +36,6 @@ public class Robot {
     static final double STRAFING_DAMPEN_FACTOR_FOR_MULTI_GLYPH = 0.1;
     static final double GYRO_OFFSET = 2.75; //When the one min speed is .75, GYRO_OFFSET shouldl be 2.75
     private boolean isBRAKE;
-
-
-    Robot(OpMode opMode) {
-        this.opMode = opMode;
-        this.hardwareMap = opMode.hardwareMap;
-        this.telemetry = opMode.telemetry;
-
-    }
 
     Robot(LinearOpMode opMode) {
         this.opMode = opMode;
