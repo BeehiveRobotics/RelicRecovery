@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Drive {
+    private LinearOpMode opMode;
     public static final double MULTI_GLYPH_STRAFE_SPEED = 1;
     public static final double DRIVE_INTO_GLYPH_PIT_SPEED = 1;
     public static final double DRIVE_INTO_GLYPH_PIT_DISTANCE = 28;
@@ -51,11 +53,11 @@ public class Drive {
     public final double GYRO_OFFSET = 10;
     private boolean isBRAKE;
 
-    public Drive(OpMode opMode) {
+    public Drive(LinearOpMode opMode) {
         this(opMode, DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
-    public Drive(OpMode opMode, DcMotor.ZeroPowerBehavior zeroPowerBehavior) {
+    public Drive(LinearOpMode opMode, DcMotor.ZeroPowerBehavior zeroPowerBehavior) {
         this.hardwareMap = opMode.hardwareMap;
         this.telemetry = opMode.telemetry;
         this.FrontLeft = hardwareMap.dcMotor.get("m1");
@@ -209,10 +211,17 @@ public class Drive {
     }
 
     public void driveSpeeds(double flSpeed, double frSpeed, double rlSpeed, double rrSpeed) {
+        if (!opMode.opModeIsActive()) {
+            flSpeed = 0;
+            frSpeed = 0;
+            rlSpeed = 0;
+            rrSpeed = 0;
+        }
         FrontLeft.setPower(clip(flSpeed));
         FrontRight.setPower(clip(frSpeed));
         RearLeft.setPower(clip(rlSpeed));
         RearRight.setPower(clip(rrSpeed));
+
     }
 
     private double clip(double value) {

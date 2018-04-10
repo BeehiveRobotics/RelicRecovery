@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -15,6 +16,7 @@ public class ForkLift {
     public DcMotor motor;
     private DigitalChannel topButton;
     private DigitalChannel bottomButton;
+    private LinearOpMode opMode;
     private HardwareMap hardwareMap;
     private Telemetry telemetry;
     private final double CLAW_GRAB_POSITION = 0.525;
@@ -24,7 +26,8 @@ public class ForkLift {
     private final double CLAW_CLOSE_POSITION = 1;
     public boolean isClosed = false;
 
-    public ForkLift(OpMode opMode) {
+    public ForkLift(LinearOpMode opMode) {
+        this.opMode = opMode;
         this.hardwareMap = opMode.hardwareMap;
         this.rightClaw = hardwareMap.servo.get("s5");
         this.rightClaw.setDirection(Servo.Direction.REVERSE);
@@ -77,6 +80,9 @@ public class ForkLift {
         }
         if (speed > 0 && !topButton.getState()) {
             this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            speed = 0;
+        }
+        if (!opMode.opModeIsActive()) {
             speed = 0;
         }
         motor.setPower(speed);
