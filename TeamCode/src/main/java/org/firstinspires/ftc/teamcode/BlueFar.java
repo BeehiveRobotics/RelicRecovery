@@ -11,7 +11,7 @@ public class BlueFar extends LinearOpMode {
     private RelicRecoveryVuMark pictograph = RelicRecoveryVuMark.UNKNOWN;
     private final double DISTANCE_OFFSET = 3;
 
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         telemetry.addLine("DO NOT PRESS PLAY YET");
         telemetry.update();
         robot = new Robot(this);

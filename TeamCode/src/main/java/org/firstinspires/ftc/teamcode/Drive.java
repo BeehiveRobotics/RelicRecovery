@@ -20,7 +20,7 @@ public class Drive {
     static final double MIN_SPIN_SPEED = 0.5;
     static final double MIN_STRAFE_SPEED = 0.35;
     static final double DRIVE_OFF_BALANCE_BOARD_SPEED = 0.6; //0.6 works for sure. Testing faster
-    static final double DRIVE_OFF_BALANCE_BOARD_DISTANCE = 20;
+    static final double DRIVE_OFF_BALANCE_BOARD_DISTANCE = 18;
     static final double STRAFING_PAST_CRYPTOBOX_SPEED = 0.75;
     static final double DRIVE_INTO_CRYPTOBOX_SPEED = 0.8;
     static final double DEFAULT_MOVING_TOWARDS_CRYPTOBOX_DISTANCE_FAR_POSITION = 14;

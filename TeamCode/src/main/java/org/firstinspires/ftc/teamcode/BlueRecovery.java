@@ -11,7 +11,7 @@ public class BlueRecovery extends LinearOpMode {
     private Robot robot;
     private static final double MOVE_TOWARDS_CRYPTOBOX_DISTANCE_BLUE_RECOVERY = 36.5;
 
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         telemetry.addLine("DO NOT PRESS PLAY YET");
         telemetry.update();
         robot = new Robot(this);

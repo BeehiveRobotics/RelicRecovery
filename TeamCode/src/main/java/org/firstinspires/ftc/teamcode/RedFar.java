@@ -10,7 +10,7 @@ public class RedFar extends LinearOpMode {
     private Robot robot;
     private RelicRecoveryVuMark pictograph = RelicRecoveryVuMark.UNKNOWN;
 
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         telemetry.addLine("DO NOT PRESS PLAY YET");
         telemetry.update();
         robot = new Robot(this);

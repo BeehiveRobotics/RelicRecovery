@@ -11,9 +11,9 @@ import org.opencv.core.Point;
 public class RedRecovery extends LinearOpMode {
     private Robot robot;
     private RelicRecoveryVuMark pictograph = RelicRecoveryVuMark.UNKNOWN;
-    private final double MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY = 32.5;
+    private final double MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY = 31;
 
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         telemetry.addLine("DO NOT PRESS PLAY YET");
         telemetry.update();
         robot = new Robot(this);
@@ -62,7 +62,6 @@ public class RedRecovery extends LinearOpMode {
         robot.leftGyro(robot.drive.MAX_SPEED, 90);
         robot.forkLift.closeAllTheWay();
         robot.drive.backwardTime(robot.drive.MAX_SPEED, 250);
-        robot.drive.forward(robot.drive.MAX_SPEED, 2);
         switch (pictograph) {
             case LEFT:
                 robot.drive.strafeLeft(robot.drive.MAX_SPEED, (2 * robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY) - 3);
@@ -114,13 +113,12 @@ public class RedRecovery extends LinearOpMode {
         robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE + 4);
         robot.drive.forwardTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 350);
         robot.drive.strafeLeftTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 450);
-        robot.forkLift.moveMotor(-1, 150);
         robot.forkLift.openClaw();
         robot.drive.forwardTime(robot.drive.MAX_SPEED, 300);
         robot.sleep(300);
         robot.drive.backward(robot.drive.MAX_SPEED, 5);
         //start second try ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        robot.forkLift.moveMotor(-1, 400);
+        robot.forkLift.moveMotor(-1, 550);
         robot.phone.faceFront();
         robot.leftGyro(robot.drive.MAX_SPEED, 90);
         robot.forkLift.openClaw();
