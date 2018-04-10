@@ -53,6 +53,7 @@ public class Drive {
     }
 
     public Drive(LinearOpMode opMode, DcMotor.ZeroPowerBehavior zeroPowerBehavior) {
+        this.opMode = opMode;
         this.hardwareMap = opMode.hardwareMap;
         this.telemetry = opMode.telemetry;
         this.FrontLeft = hardwareMap.dcMotor.get("m1");
@@ -102,7 +103,7 @@ public class Drive {
         driveSpeeds(fl, fr, rl, rr);
         ElapsedTime time = new ElapsedTime();
         time.reset();
-        while (!(isMotorAtTarget(FrontLeft, flTarget)) && (!(isMotorAtTarget(FrontRight, frTarget))) && (!(isMotorAtTarget(RearLeft, rlTarget))) && (!(isMotorAtTarget(RearRight, rrTarget)))) {
+        while (!(isMotorAtTarget(FrontLeft, flTarget)) && (!(isMotorAtTarget(FrontRight, frTarget))) && (!(isMotorAtTarget(RearLeft, rlTarget))) && (!(isMotorAtTarget(RearRight, rrTarget))) && opMode.opModeIsActive()) {
             if (time.seconds() > 3 * clicks / 420 / highestSpeed) {
                 telemetry.addLine("It timed out...");
                 telemetry.update();
@@ -119,7 +120,7 @@ public class Drive {
         double rr = clip(-y + -x + z);
         ElapsedTime runtime = new ElapsedTime();
         runtime.reset();
-        while (runtime.milliseconds() < miliseconds) {
+        while (runtime.milliseconds() < miliseconds && opMode.opModeIsActive()) {
             driveSpeeds(fl, fr, rl, rr);
         }
         stopMotors();

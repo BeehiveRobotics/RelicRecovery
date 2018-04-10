@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.robotcore.internal.vuforia.VuforiaLocalizerImpl;
 
 public class Phone {
-    private static final double SIDE_POSITION = 0.5;
+    private final double SIDE_POSITION = 0.5;
     public static final double PHONE_DISTANCE_OFFSET = 3;
     private ClosableVuforiaLocalizer vuforia;
     private RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.UNKNOWN;
