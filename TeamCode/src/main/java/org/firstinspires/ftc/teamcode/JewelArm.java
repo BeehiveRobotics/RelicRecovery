@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class JewelArm {
@@ -47,27 +47,27 @@ public class JewelArm {
         cs.enableLed(true);
     }
 
-    public void knockJewel(JewelColor allianceColor) {
-        JewelColor jewelColor = JewelColor.UNKNOWN;
+    public void knockJewel(AllianceColor allianceColor) {
+        AllianceColor jewelColor = AllianceColor.UNKNOWN;
         if (cs.red() > cs.blue()) {
-            jewelColor = JewelColor.RED;
+            jewelColor = AllianceColor.RED;
         }
         else if (cs.blue()>cs.red()) {
-            jewelColor = JewelColor.BLUE;
+            jewelColor = AllianceColor.BLUE;
         }
-        if(allianceColor == JewelColor.RED) {
-          if (jewelColor == JewelColor.RED) {
+        if(allianceColor == AllianceColor.RED) {
+          if (jewelColor == AllianceColor.RED) {
             right();
           }
-          else if (jewelColor == JewelColor.BLUE) {
+          else if (jewelColor == AllianceColor.BLUE) {
             left();
           }
         }
-        if(allianceColor == JewelColor.BLUE) {
-          if (jewelColor == JewelColor.BLUE) {
+        if(allianceColor == AllianceColor.BLUE) {
+          if (jewelColor == AllianceColor.BLUE) {
             right();
           }
-          else if (jewelColor == JewelColor.RED) {
+          else if (jewelColor == AllianceColor.RED) {
             left();
           }
         }

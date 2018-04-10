@@ -22,7 +22,7 @@ public class BlueFar extends LinearOpMode {
         waitForStart();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         robot.forkLift.autoInit();
-        robot.jewelArm.knockJewel(JewelColor.BLUE);
+        robot.jewelArm.knockJewel(AllianceColor.BLUE);
         pictograph = robot.phone.getMark();
         robot.drive.backward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, robot.drive.DRIVE_TO_CYRPTOBOX_DISTANCE_FAR + 2);
         boolean isDistanceSane = 12 < robot.getDistance() && robot.getDistance() < 19;

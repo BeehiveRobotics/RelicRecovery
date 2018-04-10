@@ -25,7 +25,7 @@ public class Drive {
     static final double STRAFING_PAST_CRYPTOBOX_SPEED = 0.75;
     static final double DRIVE_INTO_CRYPTOBOX_SPEED = 0.8;
     static final double DEFAULT_MOVING_TOWARDS_CRYPTOBOX_DISTANCE_FAR_POSITION = 14;
-    static final double CRYPTOBOX_COLUMNS_OFFSET_RECOVERY = 7.5;
+    static final double CRYPTOBOX_COLUMNS_OFFSET_RECOVERY = 8;
     static final double CRYPTOBOX_COLUMNS_OFFSET_FAR = 11;
     static final double DRIVE_TO_CYRPTOBOX_DISTANCE_FAR = 24;
     static final double RAMP_LOG_EXPO = 0.8;
@@ -120,7 +120,7 @@ public class Drive {
         double rr = clip(-y + -x + z);
         ElapsedTime runtime = new ElapsedTime();
         runtime.reset();
-        while (runtime.milliseconds() < miliseconds && opMode.opModeIsActive()) {
+        while ((runtime.milliseconds() < miliseconds) && opMode.opModeIsActive()) {
             driveSpeeds(fl, fr, rl, rr);
         }
         stopMotors();
