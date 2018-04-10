@@ -34,7 +34,7 @@ public class Robot {
     private static Robot instance;
 
     static final double STRAFING_DAMPEN_FACTOR_FOR_MULTI_GLYPH = 0.1;
-    static final double GYRO_OFFSET = 2.25;
+    static final double GYRO_OFFSET = 2.75; //When the one min speed is .75, GYRO_OFFSET shouldl be 2.75
     private boolean isBRAKE;
 
 
@@ -146,11 +146,10 @@ public class Robot {
         while (heading > Adjustedtarget) {
             heading = getHeading();
             double remaining = heading - start;
-            double proportion = (1 - (Math.abs((remaining) / distance))) * 0.5 + 0.5;
+            double proportion = (1 - (Math.abs((remaining) / distance))) * 0.25 + 0.75;
             drive.driveSpeeds(drive.clipSpinSpeed(fl * proportion), drive.clipSpinSpeed(fr * proportion), drive.clipSpinSpeed(rl * proportion), drive.clipSpinSpeed(rr * proportion));
         }
         drive.stopMotors();
-        sleep(1000);
         while (heading > finalTarget) {
             heading = getHeading();
             drive.driveSpeeds(fl*finalSpeed,fr*finalSpeed,rl*finalSpeed,rr*finalSpeed);
