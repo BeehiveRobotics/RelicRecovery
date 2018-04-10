@@ -5,11 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name = "DriveEverything", group = "linear OpMode")
-public class DriveEverythingRecovery extends LinearOpMode {
+public class DriveEverything extends LinearOpMode {
     private Robot robot;
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         robot = new Robot(this);
         robot.mapRobot();
         waitForStart();
