@@ -11,7 +11,7 @@ import org.opencv.core.Point;
 public class BlueRecovery extends LinearOpMode {
     private RelicRecoveryVuMark pictograph = RelicRecoveryVuMark.UNKNOWN;
     private Robot robot;
-    private static final double MOVE_TOWARDS_CRYPTOBOX_DISTANCE_BLUE_RECOVERY = 35.5;
+    private static final double MOVE_TOWARDS_CRYPTOBOX_DISTANCE_BLUE_RECOVERY = 33;
 
     public void runOpMode() {
         telemetry.addLine("DO NOT PRESS PLAY YET");
@@ -48,7 +48,7 @@ public class BlueRecovery extends LinearOpMode {
                 robot.drive.backward(robot.drive.MAX_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_BLUE_RECOVERY - robot.drive.DRIVE_OFF_BALANCE_BOARD_DISTANCE);
                 break;
             case RIGHT:
-                robot.drive.backward(robot.drive.MAX_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_BLUE_RECOVERY + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY - robot.drive.DRIVE_OFF_BALANCE_BOARD_DISTANCE);
+                robot.drive.backward(robot.drive.MAX_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_BLUE_RECOVERY + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY - robot.drive.DRIVE_OFF_BALANCE_BOARD_DISTANCE - 0.5);
                 break;
         }
         robot.rightGyro(robot.drive.MAX_SPEED, -90);
@@ -141,7 +141,7 @@ public class BlueRecovery extends LinearOpMode {
         }
         telemetry.addData("Run Time", runTime.seconds());
         telemetry.update();
-        while (runTime.seconds() < 20) {
+        while (runTime.seconds() < 19) {
             xPos = robot.glyphDetector.getXPos();
             yPos = robot.glyphDetector.getYPos();
             size = robot.glyphDetector.getSize();
@@ -164,14 +164,14 @@ public class BlueRecovery extends LinearOpMode {
         robot.glyphDetector.disable();
         robot.forkLift.openClaw();
         robot.strafeForMultiGlyph(distanceToStrafe);
-        robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE + robot.drive.DRIVE_INTO_GLYPHS_DISTANCE - 8);
+        robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE + robot.drive.DRIVE_INTO_GLYPHS_DISTANCE - 11);
         robot.drive.forward(robot.drive.DRIVE_INTO_GLYPHS_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE);
         robot.phone.faceSideways();
         robot.forkLift.closeClaw();
         sleep(300);
         robot.forkLift.moveMotor(1, 550);
         robot.gyroGoTo(0.5, 90);
-        robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE - 9);
+        robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE - 12);
         robot.leftGyro(robot.drive.MAX_SPEED, -90);
         robot.strafeForMultiGlyph(distanceToStrafe);
         robot.drive.strafeRight(robot.drive.MAX_SPEED, robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY + 5);
@@ -181,6 +181,7 @@ public class BlueRecovery extends LinearOpMode {
         robot.drive.strafeLeftTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 400);
         robot.forkLift.openClaw();
         robot.drive.forwardTime(robot.drive.MAX_SPEED, 300);
+        robot.drive.strafeLeftTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 200);
         robot.sleep(300);
         robot.drive.backward(robot.drive.MAX_SPEED, 6);
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

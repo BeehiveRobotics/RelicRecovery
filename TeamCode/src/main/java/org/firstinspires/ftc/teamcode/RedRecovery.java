@@ -141,7 +141,7 @@ public class RedRecovery extends LinearOpMode {
         }
         telemetry.addData("Run Time", runTime.seconds());
         telemetry.update();
-        while (runTime.seconds() < 20) {
+        while (runTime.seconds() < 19) {
             xPos = robot.glyphDetector.getXPos();
             yPos = robot.glyphDetector.getYPos();
             size = robot.glyphDetector.getSize();
@@ -164,14 +164,14 @@ public class RedRecovery extends LinearOpMode {
         robot.glyphDetector.disable();
         robot.forkLift.openClaw();
         robot.strafeForMultiGlyph(distanceToStrafe);
-        robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE + robot.drive.DRIVE_INTO_GLYPHS_DISTANCE - 8);
+        robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE + robot.drive.DRIVE_INTO_GLYPHS_DISTANCE - 11);
         robot.drive.forward(robot.drive.DRIVE_INTO_GLYPHS_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE);
         robot.phone.faceSideways();
         robot.forkLift.closeClaw();
         sleep(300);
         robot.forkLift.moveMotor(1, 550);
         robot.gyroGoTo(0.5, 90);
-        robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE - 9);
+        robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE - 12);
         robot.leftGyro(robot.drive.MAX_SPEED, -90);
         robot.strafeForMultiGlyph(distanceToStrafe);
         robot.drive.strafeRight(robot.drive.MAX_SPEED, robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY + 5);
