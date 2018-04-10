@@ -18,6 +18,5 @@ android {
     compileSdkVersion 25
 }
 dependencies {
-    implementation project(':openCVLibrary320')
-    implementation project(':DogeCV_')
+
 }
