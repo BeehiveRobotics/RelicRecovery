@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-//@Disabled
+@Disabled
 @Autonomous(name="Test gyroGoTo", group="Test")
 public class TestAuto extends LinearOpMode {
     private Robot robot;
