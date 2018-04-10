@@ -49,11 +49,11 @@ public class BlueFar extends LinearOpMode {
                     robot.drive.strafeLeft(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DEFAULT_MOVING_TOWARDS_CRYPTOBOX_DISTANCE_FAR_POSITION + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_FAR - 3);
                 }
         }
-        robot.rightGyro(robot.drive.SPIN_TO_CRYPTOBOX_SPEED, -180);
+        robot.rightGyro(robot.drive.MAX_SPEED, -180);
         robot.forkLift.moveMotor(-1, 250);
         robot.drive.forward(robot.drive.DRIVE_INTO_CRYPTOBOX_SPEED, 3);
         robot.pushInBlock();
-        robot.drive.backward(robot.drive.BACK_AWAY_FROM_BLOCK_SPEED, 6);
+        robot.drive.backward(robot.drive.MAX_SPEED, 6);
         //drive.leftGyro(-drive.SPIN_TO_CENTER_SPEED, 30);
         robot.forkLift.openClaw();
         robot.forkLift.moveUntilDown();

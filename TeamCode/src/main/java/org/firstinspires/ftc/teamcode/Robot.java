@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.opencv.core.Point;
 
 public class Robot {
-    private static final double SLOW_OFFSET = 18;
+    private static final double SLOW_OFFSET = 10;
     private OpMode opMode;
     private HardwareMap hardwareMap;
     private Telemetry telemetry;
@@ -100,9 +100,9 @@ public class Robot {
 
     public void strafeForMultiGlyph(double distanceToStrafe) {
         if (distanceToStrafe > 0) {
-            drive.strafeRight(drive.MULTI_GLYPH_STRAFE_SPEED, distanceToStrafe);
+            drive.strafeRight(drive.MAX_SPEED, distanceToStrafe);
         } else if (distanceToStrafe < 0) {
-            drive.strafeLeft(drive.MULTI_GLYPH_STRAFE_SPEED, distanceToStrafe);
+            drive.strafeLeft(drive.MAX_SPEED, distanceToStrafe);
         }
     }
 
@@ -194,6 +194,7 @@ public class Robot {
             double proportion = (1 - (Math.abs((remaining) / distance))) * 0.5 + 0.5;
             drive.driveSpeeds(drive.clipSpinSpeed(fl * proportion), drive.clipSpinSpeed(fr * proportion), drive.clipSpinSpeed(rl * proportion), drive.clipSpinSpeed(rr * proportion));
         }
+        drive.stopMotors();
         while (heading < finalTarget) {
             heading = getHeading();
             drive.driveSpeeds(fl*finalSpeed,fr*finalSpeed,rl*finalSpeed,rr*finalSpeed);
