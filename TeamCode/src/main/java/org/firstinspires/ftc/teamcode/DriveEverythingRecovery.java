@@ -1,19 +1,18 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name = "DriveEverything", group = "linear OpMode")
-public class DriveEverythingRecovery extends OpMode {
+public class DriveEverythingRecovery extends LinearOpMode {
     private Robot robot;
-    @Override
-    public void init() {
-        robot = new Robot(this);
-        robot.mapRobot();
-    }
 
     @Override
-    public void loop() {
+    public void runOpMode() throws InterruptedException {
+        robot = new Robot(this);
+        robot.mapRobot();
+        waitForStart();
         //drive
         if (Math.abs(gamepad1.left_stick_x) + Math.abs(gamepad1.left_stick_y) + Math.abs(gamepad1.right_stick_x) + Math.abs(gamepad1.right_stick_y) > Math.abs(gamepad2.left_stick_x) + Math.abs(gamepad2.left_stick_y) + Math.abs(gamepad2.right_stick_x) + Math.abs(gamepad2.right_stick_y)) {
             if(gamepad1.left_bumper) {
