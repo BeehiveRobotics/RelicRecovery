@@ -32,19 +32,19 @@ public class RedFar extends LinearOpMode {
         switch (pictograph) {
             case LEFT:
                 if (isDistanceSane) {
-                    robot.driveLeftUntilDistance(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DISTANCE_TO_FAR_COLUMN);
+                    robot.driveUntilDistance(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DISTANCE_TO_FAR_COLUMN);
                 } else {
                     robot.drive.strafeLeft(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DEFAULT_MOVING_TOWARDS_CRYPTOBOX_DISTANCE_FAR_POSITION + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_FAR + 3);
                 }
             case CENTER:
                 if (isDistanceSane) {
-                    robot.driveLeftUntilDistance(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DISTANCE_TO_CENTER_COLUMN);
+                    robot.driveUntilDistance(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DISTANCE_TO_CENTER_COLUMN);
                 } else {
                     robot.drive.strafeLeft(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DEFAULT_MOVING_TOWARDS_CRYPTOBOX_DISTANCE_FAR_POSITION + 2.5);
                 }
             case RIGHT:
                 if (isDistanceSane) {
-                    robot.driveLeftUntilDistance(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DISTANCE_TO_CLOSE_COLUMN);
+                    robot.driveUntilDistance(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DISTANCE_TO_CLOSE_COLUMN);
                 } else {
                     robot.drive.strafeLeft(robot.drive.STRAFING_PAST_CRYPTOBOX_SPEED, robot.drive.DEFAULT_MOVING_TOWARDS_CRYPTOBOX_DISTANCE_FAR_POSITION - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_FAR + 3);
                 }

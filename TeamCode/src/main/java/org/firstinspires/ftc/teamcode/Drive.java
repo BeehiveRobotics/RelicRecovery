@@ -288,14 +288,22 @@ public class Drive {
             return -expo_speed;
         }
     }
-    private double calculateSpeedLog(double current, double target, double speed) {
-      if (speed > 0) {
-        return Math.pow(Math.abs(clipMoveSpeed(speed * (target - current/target))), RAMP_EXPO_GYRO);
-      } else if (speed < 0) {
-        return -Math.pow(Math.abs(clipMoveSpeed(speed * (target - current/target))), RAMP_EXPO_GYRO);
-      }
-        return 0;
-      }
+
+    public double calculateSpeedLog(double current, double target, double speed) {
+        double k = 4 / target;
+        double finalSpeed;
+        if (speed != 0) {
+            finalSpeed = k * current * (1 - current / target) * speed;
+        } else {
+            return 0;
+        }
+        double expo_speed = Math.pow(Math.abs(finalSpeed), RAMP_LOG_EXPO);
+        if (speed > 0) {
+            return expo_speed;
+        } else {
+            return -expo_speed;
+        }
+    }
 
     public double clipSpinSpeed(double speed) {
         if (speed > 0) {

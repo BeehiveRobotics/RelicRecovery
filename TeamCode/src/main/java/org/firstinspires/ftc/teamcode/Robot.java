@@ -235,39 +235,52 @@ public class Robot {
         }
     }
 
-    public void driveUntilDistance(double x, double y, double z, double endDistance) {
-        double fl = clip(-y + -x - z);
-        double fr = clip(-y + x + z);
-        double rl = clip(-y + x - z);
-        double rr = clip(-y + -x + z);
-        drive.driveSpeeds(fl, fr, rl, rr);
-        double start = getDistance();
-        double distanceToTravel = endDistance - start;
-        double proportion, derivative, current = getDistance(), ranTimes = 0, acceptedSensorValue = 0, last, distance;
-        while (distance < endDistance) {
-            proportion = 1 - Math.abs((distance - start) / distanceToTravel + 0.0001);
-            drive.driveSpeeds(drive.clipStrafeSpeed(fl * proportion), drive.clipStrafeSpeed(fr * proportion), drive.clipStrafeSpeed(rl * proportion), drive.clipStrafeSpeed(rr * proportion));
-            current = getHeading();
-            derivative = getDistance() - distance;
-            if (derivative >= 0 && derivative < 6) {
-                distance = getDistance();
-                acceptedSensorValue++;
-            }
-            ranTimes++;
-            telemetry.addData("Ran times", ranTimes);
-            telemetry.addData("Accepted Ratio", acceptedSensorValue / ranTimes);
-            telemetrizeDistance();
+    public void driveUntilDistance(double speed, double endDistance) {
+        double distance = getDistance();
+        if(distance > endDistance) {
+            speed = Math.abs(speed); //Move right
+        } else if (distance < endDistance) {
+            speed = -Math.abs(speed);
+        } else {
+            return;
         }
-        telemetry.update();
-        drive.stopMotors();
-    }
+        double fl = clip(-speed);
+        double fr = clip(speed);
+        double rl = clip(speed);
+        double rr = clip(-speed);
+        double derivative, current = getDistance(), ranTimes = 0, acceptedSensorValue = 0, last = current;
+        if (distance < endDistance) {
+            while (distance < endDistance) {
+                drive.driveSpeeds(drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, fl)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, fr)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, rl)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, rr)));
+                current = getDistance();
+                derivative = Math.abs(current - last);
+                if ((derivative >= 0) && (derivative < 6)) {
+                    distance = current;
+                    acceptedSensorValue++;
+                }
+                last = distance;
+                ranTimes++;
+                telemetry.addData("Distance", distance);
+                telemetry.update();
+            }
+            drive.stopMotors();
+        } else if (distance > endDistance) {
+            while (distance > endDistance) {
+                drive.driveSpeeds(drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, fl)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, fr)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, rl)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, rr)));
+                current = getDistance();
+                derivative = Math.abs(current - last);
+                if ((derivative >= 0) && (derivative < 6)) {
+                    distance = current;
+                    acceptedSensorValue++;
+                }
+                last = distance;
+                ranTimes++;
+                telemetry.addData("Distance", distance);
+                telemetry.update();
+            }
+            drive.stopMotors();
 
-    public void driveLeftUntilDistance(double speed, double distance) {
-        driveUntilDistance(-Math.abs(speed), 0, 0, distance);
-    }
-
-    public void driveRightUntilDistance(double speed, double distance) {
-        driveUntilDistance(Math.abs(speed), 0, 0, distance);
+        }
     }
 
     public double getDistance(DistanceUnit unit) {
