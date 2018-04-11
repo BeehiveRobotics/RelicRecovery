@@ -2,8 +2,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@Autonomous(name = "test drive until distance", group = "Test")
+@TeleOp(name = "test range sensor values", group = "Test")
 public class TestDriveUntilDistance extends LinearOpMode {
     private Robot robot;
 
@@ -12,7 +13,10 @@ public class TestDriveUntilDistance extends LinearOpMode {
         robot.mapRobot();
         robot.drive.setBRAKE();
         waitForStart();
-        robot.driveUntilDistance(0.2, 48);
+        while (opModeIsActive()) {
+            telemetry.addData("Distance", robot.getDistance());
+            telemetry.update(); //20.5 is right, 27 is mid, 34 is right
+        }
     }
 }
 
