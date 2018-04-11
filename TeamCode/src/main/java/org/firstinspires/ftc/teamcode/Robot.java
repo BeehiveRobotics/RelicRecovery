@@ -248,7 +248,7 @@ public class Robot {
         double fr = clip(speed);
         double rl = clip(speed);
         double rr = clip(-speed);
-        double derivative, current = getDistance(), ranTimes = 0, acceptedSensorValue = 0, last = current;
+        double derivative, current = getDistance(), last = current;
         if (distance < endDistance) {
             while (distance < endDistance) {
                 drive.driveSpeeds(drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, fl)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, fr)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, rl)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, rr)));
@@ -256,10 +256,8 @@ public class Robot {
                 derivative = Math.abs(current - last);
                 if ((derivative >= 0) && (derivative < 6)) {
                     distance = current;
-                    acceptedSensorValue++;
                 }
                 last = distance;
-                ranTimes++;
                 telemetry.addData("Distance", distance);
                 telemetry.update();
             }
@@ -271,10 +269,8 @@ public class Robot {
                 derivative = Math.abs(current - last);
                 if ((derivative >= 0) && (derivative < 6)) {
                     distance = current;
-                    acceptedSensorValue++;
                 }
                 last = distance;
-                ranTimes++;
                 telemetry.addData("Distance", distance);
                 telemetry.update();
             }
