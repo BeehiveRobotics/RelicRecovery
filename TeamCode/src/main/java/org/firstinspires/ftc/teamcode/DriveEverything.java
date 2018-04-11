@@ -61,6 +61,7 @@ public class DriveEverything extends LinearOpMode {
             if (gamepad1.b) {
                 robot.forkLift.openClaw();
                 robot.jewelArm.up(); //just in case
+                robot.phone.faceSideways();
             }
 
             if (gamepad1.x) {
