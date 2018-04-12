@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.opencv.core.Point;
 
 @Autonomous(name = "Red Recovery", group = "Autonomous")
 public class RedRecovery extends LinearOpMode {
@@ -42,13 +41,13 @@ public class RedRecovery extends LinearOpMode {
         robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, robot.drive.DRIVE_OFF_BALANCE_BOARD_DISTANCE);
         switch (pictograph) {
             case LEFT:
-                robot.drive.forward(robot.drive.MAX_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY - robot.drive.DRIVE_OFF_BALANCE_BOARD_DISTANCE);
+                robot.drive.forward(robot.drive.MAX_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY + robot.drive.CRYPTOBOX_COLUMNS_OFFSET - robot.drive.DRIVE_OFF_BALANCE_BOARD_DISTANCE);
                 break;
             case CENTER:
                 robot.drive.forward(robot.drive.MAX_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY - robot.drive.DRIVE_OFF_BALANCE_BOARD_DISTANCE);
                 break;
             case RIGHT:
-                robot.drive.forward(robot.drive.MAX_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY - robot.drive.DRIVE_OFF_BALANCE_BOARD_DISTANCE + 1);
+                robot.drive.forward(robot.drive.MAX_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_RED_RECOVERY - robot.drive.CRYPTOBOX_COLUMNS_OFFSET - robot.drive.DRIVE_OFF_BALANCE_BOARD_DISTANCE + 1);
                 break;
         }
         robot.rightGyro(robot.drive.MAX_SPEED, -90);

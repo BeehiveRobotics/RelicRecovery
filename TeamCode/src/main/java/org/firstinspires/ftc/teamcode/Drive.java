@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Drive {
+    public static final double HALF_SPEED = 0.5;
     private LinearOpMode opMode;
     public static final double DRIVE_INTO_GLYPH_PIT_DISTANCE = 28;
     public static final double DRIVE_INTO_GLYPHS_SPEED = 0.6;
@@ -25,7 +26,7 @@ public class Drive {
     static final double STRAFING_PAST_CRYPTOBOX_SPEED = 0.75;
     static final double DRIVE_INTO_CRYPTOBOX_SPEED = 0.8;
     static final double DEFAULT_MOVING_TOWARDS_CRYPTOBOX_DISTANCE_FAR_POSITION = 14;
-    static final double CRYPTOBOX_COLUMNS_OFFSET_RECOVERY = 8;
+    static final double CRYPTOBOX_COLUMNS_OFFSET = 8;
     static final double CRYPTOBOX_COLUMNS_OFFSET_FAR = 11;
     static final double DRIVE_TO_CYRPTOBOX_DISTANCE_FAR = 24;
     static final double RAMP_LOG_EXPO = 0.8;

@@ -23,9 +23,9 @@ public class Robot {
     public JewelArm jewelArm;
     public RelicClaw relicClaw;
     public Phone phone;
-    public Intake intake;
+    private Intake intake;
     private REVGyro imu;
-    public double heading;
+    private double heading;
     private ModernRoboticsI2cRangeSensor rangeSensor;
     private static Robot instance;
 
@@ -122,7 +122,7 @@ public class Robot {
         double current = heading;
         double last = heading;
         if (heading < target) {
-            while (derivative <= 180) {
+            while (derivative <= 180 && opMode.opModeIsActive()) {
                 current = getHeading();
                 derivative = current - last;
                 last = current;
@@ -131,14 +131,14 @@ public class Robot {
         double start = getHeading();
         double distance = Adjustedtarget - start;
         heading = start;
-        while (heading > Adjustedtarget) {
+        while (heading > Adjustedtarget && opMode.opModeIsActive()) {
             heading = getHeading();
             double remaining = heading - start;
             double proportion = (1 - (Math.abs((remaining) / distance))) * 0.25 + 0.75;
             drive.driveSpeeds(drive.clipSpinSpeed(fl * proportion), drive.clipSpinSpeed(fr * proportion), drive.clipSpinSpeed(rl * proportion), drive.clipSpinSpeed(rr * proportion));
         }
         drive.stopMotors();
-        while (heading > finalTarget) {
+        while (heading > finalTarget && opMode.opModeIsActive()) {
             heading = getHeading();
             drive.driveSpeeds(fl * finalSpeed, fr * finalSpeed, rl * finalSpeed, rr * finalSpeed);
         }
@@ -167,7 +167,7 @@ public class Robot {
         double current = heading;
         double last = heading;
         if (target < heading) {
-            while (derivative >= -180) {
+            while (derivative >= -180 && opMode.opModeIsActive()) {
                 current = getHeading();
                 derivative = current - last;
                 last = current;
@@ -176,14 +176,14 @@ public class Robot {
         double start = getHeading();
         double distance = adjustedTarget - start;
         heading = start;
-        while (heading < adjustedTarget) {
+        while (heading < adjustedTarget && opMode.opModeIsActive()) {
             heading = getHeading();
             double remaining = heading - start;
             double proportion = (1 - (Math.abs((remaining) / distance))) * 0.5 + 0.5;
             drive.driveSpeeds(drive.clipSpinSpeed(fl * proportion), drive.clipSpinSpeed(fr * proportion), drive.clipSpinSpeed(rl * proportion), drive.clipSpinSpeed(rr * proportion));
         }
         drive.stopMotors();
-        while (heading < finalTarget) {
+        while (heading < finalTarget && opMode.opModeIsActive()) {
             heading = getHeading();
             drive.driveSpeeds(fl * finalSpeed, fr * finalSpeed, rl * finalSpeed, rr * finalSpeed);
         }
@@ -202,7 +202,7 @@ public class Robot {
     public void gyroGoTo(double speed, double target) {
         heading = getHeading();
         speed = -Math.abs(speed);
-        if (heading - 1 > target) { //RIGHT TURN
+        if (heading - 0.5 > target) { //RIGHT TURN
             double Adjustedtarget = target + GYRO_OFFSET;
             double fl = +speed;
             double fr = -speed;
@@ -211,13 +211,13 @@ public class Robot {
             drive.driveSpeeds(fl, fr, rl, rr);
             double start = getHeading();
             double distance = Adjustedtarget - start;
-            while (heading > Adjustedtarget) {
+            while (heading > Adjustedtarget && opMode.opModeIsActive()) {
                 heading = getHeading();
                 double proportion = Range.clip(1 - (Math.abs((heading - start) / distance)), 0.01, 1);
                 drive.driveSpeeds(drive.clipSpinSpeed(fl * proportion), drive.clipSpinSpeed(fr * proportion), drive.clipSpinSpeed(rl * proportion), drive.clipSpinSpeed(rr * proportion));
             }
             drive.stopMotors();
-        } else if (heading + 1 < target) { //LEFT TURN
+        } else if (heading + 0.5 < target) { //LEFT TURN
             double adjustedTarget = target - GYRO_OFFSET;
             double fl = -speed;
             double fr = +speed;
@@ -226,7 +226,7 @@ public class Robot {
             drive.driveSpeeds(fl, fr, rl, rr);
             double start = heading;
             double distance = adjustedTarget - start;
-            while (heading < adjustedTarget) {
+            while (heading < adjustedTarget && opMode.opModeIsActive()) {
                 heading = getHeading();
                 double proportion = Range.clip(1 - (Math.abs((heading - start) / distance)), 0.01, 1);
                 drive.driveSpeeds(drive.clipSpinSpeed(fl * proportion), drive.clipSpinSpeed(fr * proportion), drive.clipSpinSpeed(rl * proportion), drive.clipSpinSpeed(rr * proportion));
@@ -236,8 +236,17 @@ public class Robot {
     }
 
     public void driveUntilDistance(double speed, double endDistance) {
+        double derivative = 1;
         double distance = getDistance();
-        if(distance > endDistance) {
+        double current = distance;
+        double last = current;
+        while (derivative != 0) {
+            current = getDistance();
+            derivative = current - last;
+            last = current;
+        }
+        distance = current;
+        if (distance > endDistance) {
             speed = Math.abs(speed); //Move right
         } else if (distance < endDistance) {
             speed = -Math.abs(speed);
@@ -248,9 +257,8 @@ public class Robot {
         double fr = clip(speed);
         double rl = clip(speed);
         double rr = clip(-speed);
-        double derivative, current = getDistance(), last = current;
         if (distance < endDistance) {
-            while (distance < endDistance) {
+            while (distance < endDistance && opMode.opModeIsActive()) {
                 drive.driveSpeeds(drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, fl)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, fr)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, rl)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, rr)));
                 current = getDistance();
                 derivative = Math.abs(current - last);
@@ -263,7 +271,7 @@ public class Robot {
             }
             drive.stopMotors();
         } else if (distance > endDistance) {
-            while (distance > endDistance) {
+            while (distance > endDistance && opMode.opModeIsActive()) {
                 drive.driveSpeeds(drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, fl)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, fr)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, rl)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, rr)));
                 current = getDistance();
                 derivative = Math.abs(current - last);
@@ -279,7 +287,7 @@ public class Robot {
         }
     }
 
-    public double getDistance(DistanceUnit unit) {
+    private double getDistance(DistanceUnit unit) {
         return rangeSensor.getDistance(unit);
     }
 
@@ -292,7 +300,7 @@ public class Robot {
         heading = getHeading();
     }
 
-    public double getHeading() {
+    private double getHeading() {
         return imu.getHeading();
     }
 
@@ -307,7 +315,7 @@ public class Robot {
     public static void sleep(long time) {
         try {
             Thread.sleep(time);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
         }
     }
 
@@ -321,13 +329,13 @@ public class Robot {
         drive.backwardTime(drive.MAX_SPEED, 75);
         switch (pictograph) {
             case LEFT:
-                drive.strafeLeft(drive.MAX_SPEED, (2 * drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY) - 3);
+                drive.strafeLeft(drive.MAX_SPEED, (2 * drive.CRYPTOBOX_COLUMNS_OFFSET) - 3);
                 break;
             case CENTER:
-                drive.strafeLeft(drive.MAX_SPEED, drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY - 3);
+                drive.strafeLeft(drive.MAX_SPEED, drive.CRYPTOBOX_COLUMNS_OFFSET - 3);
                 break;
             case RIGHT:
-                drive.strafeRight(drive.MAX_SPEED, drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY - 3);
+                drive.strafeRight(drive.MAX_SPEED, drive.CRYPTOBOX_COLUMNS_OFFSET - 3);
                 break;
         }
         setUpMultiGlyph();
@@ -370,7 +378,7 @@ public class Robot {
         drive.backward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPH_PIT_DISTANCE - 7);
         if (distanceToStrafe > 7) leftGyro(drive.MAX_SPEED, -90);
         else rightGyro(drive.MAX_SPEED, -90);
-        strafeForMultiGlyph(distanceToStrafe - drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY + 6);
+        strafeForMultiGlyph(distanceToStrafe - drive.CRYPTOBOX_COLUMNS_OFFSET + 6);
         drive.forward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPHS_DISTANCE + 4);
         drive.forwardTime(drive.MAX_SPEED, 250);
         gyroGoTo(0.5, -90);
@@ -432,7 +440,7 @@ public class Robot {
         drive.backward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPH_PIT_DISTANCE - 12);
         leftGyro(drive.MAX_SPEED, -90);
         strafeForMultiGlyph(distanceToStrafe);
-        drive.strafeRight(drive.MAX_SPEED, drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY + 6);
+        drive.strafeRight(drive.MAX_SPEED, drive.CRYPTOBOX_COLUMNS_OFFSET + 6);
         drive.forward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPHS_DISTANCE + 4);
         drive.forwardTime(drive.MAX_SPEED, 250);
         gyroGoTo(0.5, -90);
