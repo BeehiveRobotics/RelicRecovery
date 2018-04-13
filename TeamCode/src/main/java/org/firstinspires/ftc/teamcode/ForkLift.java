@@ -108,6 +108,9 @@ public class ForkLift {
     public void moveUntilDown(double speed) {
         while (bottomButton.getState()) {
             moveMotor(-Math.abs(speed));
+            if(!topButton.getState()) {
+              moveMotor(Math.abs(speed));
+            }
         }
         stop();
     }
@@ -123,7 +126,7 @@ public class ForkLift {
     public void moveUntilUp() {
         moveUntilUp(0.75);
     }
-    public void stop() {
+    public void  stop() {
         moveMotor(0);
     }
 
