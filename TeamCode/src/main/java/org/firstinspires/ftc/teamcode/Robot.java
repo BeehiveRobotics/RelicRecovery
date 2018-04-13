@@ -326,7 +326,7 @@ public class Robot {
     public void getMoreGlyphsRecovery(RelicRecoveryVuMark pictograph, ElapsedTime runTime) {
         leftGyro(drive.MAX_SPEED, 90);
         forkLift.closeAllTheWay();
-        drive.backwardTime(drive.MAX_SPEED, 75);
+        drive.backwardTime(drive.MAX_SPEED, 125);
         switch (pictograph) {
             case LEFT:
                 drive.strafeLeft(drive.MAX_SPEED, (2 * drive.CRYPTOBOX_COLUMNS_OFFSET) - 3);
@@ -389,47 +389,8 @@ public class Robot {
         drive.backward(drive.MAX_SPEED, 6);
         forkLift.closeAllTheWay();
         forkLift.moveMotor(-1, 500);
-        phone.faceFront();
         leftGyro(drive.MAX_SPEED, 90);
-        yPos = 0;
-        size = 0;
-        bestGlyphSize = 0;
-        distanceToStrafe = 0;
-        if (runTime.seconds() > 23) {
-            phone.faceSideways();
-            sleep(1000);
-            return;
-        } else {
-            glyphDetector.enable();
-            while (glyphDetector.getXPos() == xPos) {
-            }
-            xPos = 0;
-        }
-        telemetry.addData("Run Time", runTime.seconds());
-        telemetry.update();
-        while (runTime.seconds() < 19) {
-            xPos = glyphDetector.getXPos();
-            yPos = glyphDetector.getYPos();
-            size = glyphDetector.getSize();
-            if ((xPos != AutoGlyphs.DEFAULT_X_POS_VALUE) && (size < 125) && (size > 60) && (yPos < 40) && (yPos > -170) && (Math.abs(xPos) < 70)) {
-                bestGlyphPos.x = xPos;
-                bestGlyphPos.y = yPos;
-                bestGlyphSize = size;
-                distanceToStrafe = bestGlyphPos.x * STRAFING_DAMPEN_FACTOR_FOR_MULTI_GLYPH + phone.PHONE_DISTANCE_OFFSET;
-                break;
-            }
-        }
-        if (distanceToStrafe != 0) {
-            telemetry.addData("Glyph Position", bestGlyphPos.toString());
-            telemetry.addData("Size", bestGlyphSize);
-        } else {
-            telemetry.addData("Would be glyph position", xPos + ", " + yPos);
-            telemetry.addData("Would be glyph size", size);
-        }
-        telemetry.update();
-        glyphDetector.disable();
         forkLift.openClaw();
-        strafeForMultiGlyph(distanceToStrafe);
         phone.faceSideways();
         drive.forward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPH_PIT_DISTANCE + drive.DRIVE_INTO_GLYPHS_DISTANCE - 11);
         drive.forward(drive.DRIVE_INTO_GLYPHS_SPEED, drive.DRIVE_INTO_GLYPHS_DISTANCE);
@@ -439,7 +400,6 @@ public class Robot {
         gyroGoTo(0.5, 90);
         drive.backward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPH_PIT_DISTANCE - 12);
         leftGyro(drive.MAX_SPEED, -90);
-        strafeForMultiGlyph(distanceToStrafe);
         drive.strafeRight(drive.MAX_SPEED, drive.CRYPTOBOX_COLUMNS_OFFSET + 6);
         drive.forward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPHS_DISTANCE + 4);
         drive.forwardTime(drive.MAX_SPEED, 250);
@@ -449,6 +409,5 @@ public class Robot {
         drive.forwardTime(drive.MAX_SPEED, 300);
         forkLift.moveMotor(1, 150);
         drive.backward(drive.MAX_SPEED, 6);
-
     }
 }

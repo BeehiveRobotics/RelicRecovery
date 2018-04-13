@@ -109,13 +109,13 @@ public class RedFar extends LinearOpMode {
                 break;
             }
         }
-        if (distanceToStrafe != 0) {
+        if (distanceToStrafe == 0) {
+            telemetry.addData("Would be glyph position", xPos + ", " + yPos);
+            telemetry.addData("Would be glyph size", size);
+        } else {
             telemetry.addData("Glyph Position", bestGlyphPos.toString());
             telemetry.addData("Size", bestGlyphSize);
             telemetry.addData("Found at", findGlyphTime.seconds());
-        } else {
-            telemetry.addData("Would be glyph position", xPos + ", " + yPos);
-            telemetry.addData("Would be glyph size", size);
         }
         telemetry.update();
         robot.glyphDetector.disable();
@@ -126,11 +126,16 @@ public class RedFar extends LinearOpMode {
         robot.phone.faceSideways();
         robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE);
         robot.forkLift.closeClaw();
-        sleep(200);
+        sleep(225);
         robot.forkLift.moveMotor(1, 550);
         robot.strafeForMultiGlyph(-distanceToStrafe);
         robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE + robot.drive.DRIVE_INTO_GLYPHS_DISTANCE);
         robot.rightGyro(robot.drive.MAX_SPEED, -15);
+        robot.drive.forward(robot.drive.MAX_SPEED, 5);
+        robot.forkLift.openClaw();
+        robot.drive.forwardTime(robot.drive.MAX_SPEED, 250);
+        robot.drive.backward(robot.drive.MAX_SPEED, 5);
+        robot.leftGyro(robot.drive.MAX_SPEED, 165);
 
     }
 }
