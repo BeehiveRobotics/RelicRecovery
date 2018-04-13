@@ -11,9 +11,9 @@ import org.opencv.core.Point;
 public class RedFar extends LinearOpMode {
     private Robot robot;
     private RelicRecoveryVuMark pictograph = RelicRecoveryVuMark.UNKNOWN;
-    private double DISTANCE_TO_RIGHT_COLUMN = 20.5;
+    private double DISTANCE_TO_RIGHT_COLUMN = 21;
     private double DISTANCE_TO_CENTER_COLUMN = 27;
-    private double DISTANCE_TO_LEFT_COLUMN = 34;
+    private double DISTANCE_TO_LEFT_COLUMN = 34.5;
     private double OVERSHOOT_OFFSET = 3;
     public void runOpMode() {
         telemetry.addLine("DO NOT PRESS PLAY YET");
@@ -50,7 +50,7 @@ public class RedFar extends LinearOpMode {
         switch (pictograph) {
             case LEFT:
                 if (isDistanceSane) {
-                    robot.driveUntilDistance(robot.drive.MAX_SPEED, DISTANCE_TO_LEFT_COLUMN - OVERSHOOT_OFFSET - 0.5 );
+                    robot.driveUntilDistance(robot.drive.MAX_SPEED, DISTANCE_TO_LEFT_COLUMN - OVERSHOOT_OFFSET);
                     break;
                 } else {
                     robot.drive.strafeLeft(robot.drive.MAX_SPEED, robot.drive.DEFAULT_MOVING_TOWARDS_CRYPTOBOX_DISTANCE_FAR_POSITION + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_FAR + 3);
@@ -66,7 +66,7 @@ public class RedFar extends LinearOpMode {
                 }
             case RIGHT:
                 if (isDistanceSane) {
-                    robot.driveUntilDistance(robot.drive.MAX_SPEED, DISTANCE_TO_RIGHT_COLUMN - OVERSHOOT_OFFSET + 0.5);
+                    robot.driveUntilDistance(robot.drive.MAX_SPEED, DISTANCE_TO_RIGHT_COLUMN - OVERSHOOT_OFFSET);
                     break;
                 } else {
                     robot.drive.strafeLeft(robot.drive.MAX_SPEED, robot.drive.DEFAULT_MOVING_TOWARDS_CRYPTOBOX_DISTANCE_FAR_POSITION - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_FAR + 3);
@@ -124,18 +124,18 @@ public class RedFar extends LinearOpMode {
         robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
         robot.strafeForMultiGlyph(distanceToStrafe);
         robot.phone.faceSideways();
-        robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE);
+        robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE + 4);
         robot.forkLift.closeClaw();
         sleep(225);
         robot.forkLift.moveMotor(1, 550);
+        robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE);
         robot.strafeForMultiGlyph(-distanceToStrafe);
-        robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE + robot.drive.DRIVE_INTO_GLYPHS_DISTANCE);
+        robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE);
         robot.rightGyro(robot.drive.MAX_SPEED, -15);
         robot.drive.forward(robot.drive.MAX_SPEED, 5);
         robot.forkLift.openClaw();
         robot.drive.forwardTime(robot.drive.MAX_SPEED, 250);
         robot.drive.backward(robot.drive.MAX_SPEED, 5);
         robot.leftGyro(robot.drive.MAX_SPEED, 165);
-
     }
 }
