@@ -48,10 +48,6 @@ public class BlueRecovery extends LinearOpMode {
                 break;
             case RIGHT:
                 robot.drive.backward(robot.drive.MAX_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_BLUE_RECOVERY + robot.drive.CRYPTOBOX_COLUMNS_OFFSET - robot.drive.DRIVE_OFF_BALANCE_BOARD_DISTANCE - 0.75);
-                robot.drive.backward(robot.drive.MAX_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_BLUE_RECOVERY + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY - robot.drive.DRIVE_OFF_BALANCE_BOARD_DISTANCE);
-                robot.drive.backward(robot.drive.MAX_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_BLUE_RECOVERY + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY - robot.drive.DRIVE_OFF_BALANCE_BOARD_DISTANCE);
-                robot.drive.backward(robot.drive.MAX_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_BLUE_RECOVERY + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY - robot.drive.DRIVE_OFF_BALANCE_BOARD_DISTANCE);
-                robot.drive.backward(robot.drive.MAX_SPEED, MOVE_TOWARDS_CRYPTOBOX_DISTANCE_BLUE_RECOVERY + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_RECOVERY - robot.drive.DRIVE_OFF_BALANCE_BOARD_DISTANCE);
                 break;
         }
         robot.rightGyro(robot.drive.MAX_SPEED, -90);
