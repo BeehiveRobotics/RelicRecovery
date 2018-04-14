@@ -37,7 +37,7 @@ public class RedRecovery extends LinearOpMode {
         robot.jewelArm.knockJewel(AllianceColor.RED);
         robot.forkLift.moveMotor(1, 200);
         robot.jewelArm.up();
-        if (pictograph == RelicRecoveryVuMark.UNKNOWN) pictograph = RelicRecoveryVuMark.CENTER;
+        if (pictograph == RelicRecoveryVuMark.UNKNOWN) pictograph = RelicRecoveryVuMark.RIGHT;
         robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, robot.drive.DRIVE_OFF_BALANCE_BOARD_DISTANCE);
         switch (pictograph) {
             case LEFT:

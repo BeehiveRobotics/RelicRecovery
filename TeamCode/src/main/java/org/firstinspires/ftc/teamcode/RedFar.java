@@ -15,6 +15,7 @@ public class RedFar extends LinearOpMode {
     private double DISTANCE_TO_CENTER_COLUMN = 28.5;
     private double DISTANCE_TO_LEFT_COLUMN = 34.5;
     private double OVERSHOOT_OFFSET = 3;
+
     public void runOpMode() {
         telemetry.addLine("DO NOT PRESS PLAY YET");
         telemetry.update();
@@ -40,10 +41,8 @@ public class RedFar extends LinearOpMode {
         robot.jewelArm.knockJewel(AllianceColor.RED);
         robot.forkLift.moveMotor(1, 200);
         robot.jewelArm.up();
-        boolean isDistanceSane = true;
-        if (pictograph == RelicRecoveryVuMark.UNKNOWN) {
-            pictograph = RelicRecoveryVuMark.LEFT;
-        }
+        boolean isDistanceSane = true; // change to is between 12 and 19
+        if (pictograph == RelicRecoveryVuMark.UNKNOWN) pictograph = RelicRecoveryVuMark.LEFT;
         robot.drive.forward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, robot.drive.DRIVE_OFF_BALANCE_BOARD_DISTANCE);
         robot.drive.forward(robot.drive.MAX_SPEED, 5);
         robot.gyroGoTo(robot.drive.HALF_SPEED, 0);
@@ -79,7 +78,7 @@ public class RedFar extends LinearOpMode {
         robot.pushInBlock();
         robot.drive.backward(robot.drive.MAX_SPEED, 4);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        switch(pictograph) {
+        switch (pictograph) {
             case RIGHT:
                 robot.drive.strafeLeft(robot.drive.MAX_SPEED, 2 * robot.drive.CRYPTOBOX_COLUMNS_OFFSET + 2);
                 break;
@@ -120,7 +119,6 @@ public class RedFar extends LinearOpMode {
         telemetry.update();
         robot.glyphDetector.disable();
         robot.forkLift.openClaw();
-        if (bestGlyphPos.x == AutoGlyphs.DEFAULT_X_POS_VALUE) bestGlyphPos.x = 0;
         robot.drive.forward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPH_PIT_DISTANCE - 6);
         robot.strafeForMultiGlyph(distanceToStrafe);
         robot.phone.faceSideways();
@@ -149,7 +147,7 @@ public class RedFar extends LinearOpMode {
         sleep(225);
         robot.forkLift.moveMotor(1, 550);
         robot.drive.backward(robot.drive.MAX_SPEED, robot.drive.DRIVE_INTO_GLYPHS_DISTANCE);
-        if(pictograph == RelicRecoveryVuMark.CENTER) {
+        if (pictograph == RelicRecoveryVuMark.CENTER) {
             robot.drive.strafeLeft(robot.drive.CRYPTOBOX_COLUMNS_OFFSET + 2);
         } else {
             robot.forkLift.moveUntilUp();
@@ -163,7 +161,5 @@ public class RedFar extends LinearOpMode {
         robot.forkLift.openClaw();
         robot.drive.strafeLeftTime(robot.drive.DRIVE_INTO_GLYPHS_SPEED, 200);
         robot.drive.backward(robot.drive.MAX_SPEED, 5);
-
-
     }
 }

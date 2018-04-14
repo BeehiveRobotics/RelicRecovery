@@ -67,14 +67,17 @@ public class Robot {
         boolean wasBRAKE = drive.isBRAKE();
         drive.setBRAKE();
         forkLift.openClaw();
-        drive.backward(0.6, 4);
+        drive.backward(1, 4);
         forkLift.moveUntilDown();
-        drive.forward(0.6, 5);
+        drive.setFLOAT();
+        drive.forward(1, 5);
         forkLift.closeClaw();
-        sleep(300);
+        sleep(250);
         forkLift.moveMotor(1, 300);
         if (!wasBRAKE) {
             drive.setFLOAT();
+        } else {
+            drive.setBRAKE();
         }
     }
 
@@ -119,14 +122,15 @@ public class Robot {
         drive.driveSpeeds(fl, fr, rl, rr);
         double current = heading;
         double last = heading;
-        if (heading < target) {
+        while (current < target) {
             while (derivative <= 180 && opMode.opModeIsActive()) {
-                current = getHeading();
                 derivative = current - last;
                 last = current;
+                current = getHeading();
             }
         }
-        double start = getHeading();
+        Robot.sleep(100);
+        double start = current;
         double distance = Adjustedtarget - start;
         heading = start;
         while (heading > Adjustedtarget && opMode.opModeIsActive()) {
@@ -238,7 +242,7 @@ public class Robot {
         double distance = getDistance();
         double current = distance;
         double last = current;
-        while ((derivative != 0) && (current < 40) && (current > 8)) {
+        while ((derivative != 0) && ((current > 20) || (current < 10))) {
             current = getDistance();
             derivative = current - last;
             last = current;
