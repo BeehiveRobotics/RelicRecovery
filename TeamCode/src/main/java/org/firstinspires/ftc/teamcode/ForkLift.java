@@ -124,7 +124,7 @@ public class ForkLift {
         stop();
     }
     public void moveUntilUp() {
-        moveUntilUp(0.75);
+        moveUntilUp(1);
     }
     public void  stop() {
         moveMotor(0);
