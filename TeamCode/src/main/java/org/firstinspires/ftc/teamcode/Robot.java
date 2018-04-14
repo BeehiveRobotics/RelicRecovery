@@ -233,17 +233,19 @@ public class Robot {
         }
     }
 
-    public void driveUntilDistance(double speed, double endDistance) {
+    public void strafeUntilDistance(double speed, double endDistance) {
         double derivative = 1;
         double distance = getDistance();
         double current = distance;
         double last = current;
-        while (derivative != 0) {
+        while ((derivative != 0) && (current < 40) && (current > 8)) {
             current = getDistance();
             derivative = current - last;
             last = current;
         }
         distance = current;
+        telemetry.addData("Initial Distance", distance);
+        telemetry.update();
         if (distance > endDistance) {
             speed = Math.abs(speed); //Move right
         } else if (distance < endDistance) {
@@ -264,8 +266,6 @@ public class Robot {
                     distance = current;
                 }
                 last = distance;
-                telemetry.addData("Distance", distance);
-                telemetry.update();
             }
             drive.stopMotors();
         } else if (distance > endDistance) {
@@ -277,8 +277,6 @@ public class Robot {
                     distance = current;
                 }
                 last = distance;
-                telemetry.addData("Distance", distance);
-                telemetry.update();
             }
             drive.stopMotors();
 
