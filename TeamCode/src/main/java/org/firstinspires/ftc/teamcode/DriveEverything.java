@@ -67,6 +67,10 @@ public class DriveEverything extends LinearOpMode {
             if (gamepad1.x) {
                 robot.grabSecondGlyph();
             }
+
+            if(gamepad1.y) {
+                robot.grabSecondGlyphSimple();
+            }
             robot.forkLift.moveMotor(gamepad1.right_trigger - gamepad1.left_trigger);
 
             //RelicClaw

@@ -45,6 +45,7 @@ public class ForkLift {
         openClaw();
         moveUntilDown();
     }
+
     public void autoInit() {
         openClaw();
         init();
@@ -87,7 +88,13 @@ public class ForkLift {
         }
         motor.setPower(speed);
     }
-
+    private void moveMotor(double speed, boolean safety) {
+        if(!safety) {
+            motor.setPower(speed);
+            return;
+        }
+        moveMotor(speed);
+    }
     private void setClawPosition(double position) {
         rightClaw.setPosition(position);
         leftClaw.setPosition(position);
@@ -97,39 +104,58 @@ public class ForkLift {
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
-    public void moveMotor(double speed, long miliseconds) {
+
+    public void moveMotor(double speed, long milliseconds) {
         ElapsedTime runTime = new ElapsedTime();
         runTime.reset();
-        while(runTime.milliseconds()<miliseconds){
+        while (runTime.milliseconds() < milliseconds) {
             moveMotor(speed);
         }
         stop();
     }
+
     public void moveUntilDown(double speed) {
-        while (bottomButton.getState()) {
-            moveMotor(-Math.abs(speed));
-            if(!topButton.getState()) {
-              moveMotor(Math.abs(speed));
+        double calculatedSpeed = -Math.abs(speed);
+        while (bottomButton.getState() && opMode.opModeIsActive()) {
+            moveMotor(calculatedSpeed);
+            if (!topButton.getState()) {
+                calculatedSpeed = -calculatedSpeed;
+                moveMotor(calculatedSpeed, false);
+                while ((!topButton.getState()) && opMode.opModeIsActive()) {
+                }
+                Robot.sleep(200);
             }
         }
         stop();
     }
+
     public void moveUntilDown() {
-        moveUntilDown(0.6);
+        moveUntilDown(1);
     }
+
     public void moveUntilUp(double speed) {
         while (topButton.getState()) {
             moveMotor(Math.abs(speed));
         }
         stop();
     }
+
     public void moveUntilUp() {
         moveUntilUp(1);
     }
-    public void  stop() {
+
+    public void stop() {
         moveMotor(0);
     }
 
-    private void sleep(long time) {try {Thread.sleep(time);} catch (InterruptedException e) {}}
-    public void closeAllTheWay() {setClawPosition(CLAW_CLOSE_POSITION);}
+    private void sleep(long time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+        }
+    }
+
+    public void closeAllTheWay() {
+        setClawPosition(CLAW_CLOSE_POSITION);
+    }
 }

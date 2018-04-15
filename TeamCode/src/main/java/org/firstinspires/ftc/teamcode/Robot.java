@@ -81,6 +81,24 @@ public class Robot {
         }
     }
 
+    public void grabSecondGlyphSimple() {
+        boolean wasBRAKE = drive.isBRAKE();
+        drive.setBRAKE();
+        forkLift.openClaw();
+        drive.backward(1, 1);
+        forkLift.moveUntilDown();
+        drive.setFLOAT();
+        drive.forward(1, 1.5);
+        forkLift.closeClaw();
+        sleep(250);
+        forkLift.moveMotor(1, 300);
+        if (!wasBRAKE) {
+            drive.setFLOAT();
+        } else {
+            drive.setBRAKE();
+        }
+    }
+
     public void stopAll() {
         drive.stopMotors();
         forkLift.moveMotor(0);
@@ -352,7 +370,7 @@ public class Robot {
                 bestGlyphPos.x = xPos;
                 bestGlyphPos.y = yPos;
                 bestGlyphSize = size;
-                distanceToStrafe = (bestGlyphPos.x * STRAFING_DAMPEN_FACTOR_FOR_MULTI_GLYPH) + phone.PHONE_DISTANCE_OFFSET;
+                distanceToStrafe = (bestGlyphPos.x * STRAFING_DAMPEN_FACTOR_FOR_MULTI_GLYPH) + phone.PHONE_DISTANCE_OFFSET + 2;
                 break;
             }
         }
@@ -370,7 +388,8 @@ public class Robot {
         if (bestGlyphPos.x == AutoGlyphs.DEFAULT_X_POS_VALUE) bestGlyphPos.x = 0;
         strafeForMultiGlyph(distanceToStrafe);
         phone.faceSideways();
-        drive.forward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPH_PIT_DISTANCE + drive.DRIVE_INTO_GLYPHS_DISTANCE);
+        gyroGoTo(drive.HALF_SPEED, 90);
+        drive.forward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPH_PIT_DISTANCE + drive.DRIVE_INTO_GLYPHS_DISTANCE - 2);
         forkLift.closeClaw();
         sleep(200);
         forkLift.moveMotor(1, 550);
@@ -379,35 +398,37 @@ public class Robot {
         if (distanceToStrafe > 7) leftGyro(drive.MAX_SPEED, -90);
         else rightGyro(drive.MAX_SPEED, -90);
         strafeForMultiGlyph(distanceToStrafe - drive.CRYPTOBOX_COLUMNS_OFFSET + 6);
-        drive.forward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPHS_DISTANCE + 4);
+        drive.forward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPHS_DISTANCE);
         drive.forwardTime(drive.MAX_SPEED, 250);
         gyroGoTo(0.5, -90);
         drive.strafeLeftTime(drive.DRIVE_INTO_GLYPHS_SPEED, 300);
         forkLift.openClaw();
-        drive.forwardTime(drive.MAX_SPEED, 300);
+        drive.forwardTime(drive.MAX_SPEED, 350);
+        drive.backward(drive.MAX_SPEED, 1);
         sleep(200);
         drive.backward(drive.MAX_SPEED, 6);
         forkLift.closeAllTheWay();
         forkLift.moveMotor(-1, 500);
+        //Start second trip
         leftGyro(drive.MAX_SPEED, 90);
         forkLift.openClaw();
         phone.faceSideways();
-        drive.forward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPH_PIT_DISTANCE + drive.DRIVE_INTO_GLYPHS_DISTANCE - 11);
+        drive.forward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPH_PIT_DISTANCE + drive.DRIVE_INTO_GLYPHS_DISTANCE - 9);
         drive.forward(drive.DRIVE_INTO_GLYPHS_SPEED, drive.DRIVE_INTO_GLYPHS_DISTANCE);
         forkLift.closeClaw();
         sleep(300);
         forkLift.moveMotor(1, 550);
         gyroGoTo(0.5, 90);
-        drive.backward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPH_PIT_DISTANCE - 12);
+        drive.backward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPH_PIT_DISTANCE - 14);
         leftGyro(drive.MAX_SPEED, -90);
-        drive.strafeRight(drive.MAX_SPEED, drive.CRYPTOBOX_COLUMNS_OFFSET + 6);
+        drive.strafeRight(drive.MAX_SPEED, drive.CRYPTOBOX_COLUMNS_OFFSET + 5);
         drive.forward(drive.MAX_SPEED, drive.DRIVE_INTO_GLYPHS_DISTANCE + 4);
         drive.forwardTime(drive.MAX_SPEED, 250);
         gyroGoTo(0.5, -90);
-        drive.strafeLeftTime(drive.DRIVE_INTO_GLYPHS_SPEED, 350);
-        forkLift.openClaw();
+        drive.strafeLeftTime(drive.DRIVE_INTO_GLYPHS_SPEED, 450);
         drive.forwardTime(drive.MAX_SPEED, 300);
-        forkLift.moveMotor(1, 150);
+        forkLift.openClaw();
+        drive.strafeRightTime(drive.MAX_SPEED, 150);
         drive.backward(drive.MAX_SPEED, 6);
     }
 }

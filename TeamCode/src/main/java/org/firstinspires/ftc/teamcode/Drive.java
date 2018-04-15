@@ -208,17 +208,12 @@ public class Drive {
     }
 
     public void driveSpeeds(double flSpeed, double frSpeed, double rlSpeed, double rrSpeed) {
-        if (!opMode.opModeIsActive()) {
-            flSpeed = 0;
-            frSpeed = 0;
-            rlSpeed = 0;
-            rrSpeed = 0;
+        if(opMode.opModeIsActive()) {
+            FrontLeft.setPower(clip(flSpeed));
+            FrontRight.setPower(clip(frSpeed));
+            RearLeft.setPower(clip(rlSpeed));
+            RearRight.setPower(clip(rrSpeed));
         }
-        FrontLeft.setPower(clip(flSpeed));
-        FrontRight.setPower(clip(frSpeed));
-        RearLeft.setPower(clip(rlSpeed));
-        RearRight.setPower(clip(rrSpeed));
-
     }
 
     private double clip(double value) {

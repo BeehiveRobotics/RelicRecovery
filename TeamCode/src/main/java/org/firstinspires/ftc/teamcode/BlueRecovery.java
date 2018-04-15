@@ -35,7 +35,7 @@ public class BlueRecovery extends LinearOpMode {
         robot.forkLift.moveUntilDown();
         robot.forkLift.closeClaw();
         robot.jewelArm.knockJewel(AllianceColor.BLUE);
-        robot.forkLift.moveMotor(1, 200);
+        robot.forkLift.moveMotor(1, 300);
         robot.jewelArm.up();
         if (pictograph == RelicRecoveryVuMark.UNKNOWN) pictograph = RelicRecoveryVuMark.LEFT;
         robot.drive.backward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, robot.drive.DRIVE_OFF_BALANCE_BOARD_DISTANCE);
