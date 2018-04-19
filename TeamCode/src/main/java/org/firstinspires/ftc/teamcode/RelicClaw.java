@@ -18,9 +18,9 @@ public class RelicClaw {
     private DigitalChannel inButton;
     private final double CLOSE_POSITION = 0.0;
     private final double OPEN_POSITION = 1.0;
-    private final double STORAGE_POSITION = 1.0;
+    private final double DOWN_POSITION = 1.0;
     private final double PICKUP_POSITION = 0.67;
-    private final double DRIVING_POSITION = 0.6;
+    private final double DRIVING_POSITION = 0.58;
     private final double UP_POSITION = 0.0;
 
     public RelicClaw(OpMode opMode) {
@@ -30,7 +30,7 @@ public class RelicClaw {
         this.motor = hardwareMap.dcMotor.get("m5");
         this.outButton = hardwareMap.digitalChannel.get("b2");
         this.inButton = hardwareMap.digitalChannel.get("b3");
-        this.telemetry = telemetry;
+        this.telemetry = opMode.telemetry;
     }
 
     public void init() {
@@ -51,7 +51,7 @@ public class RelicClaw {
     }
 
     public void down() {
-        setArmPosition(STORAGE_POSITION);
+        setArmPosition(DOWN_POSITION);
     }
 
     public void driving() {

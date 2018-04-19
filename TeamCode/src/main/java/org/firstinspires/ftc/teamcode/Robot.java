@@ -255,7 +255,8 @@ public class Robot {
         }
     }
 
-    public void strafeUntilDistance(double speed, double endDistance) {
+    public boolean strafeUntilDistance(double speed, double endDistance) {
+        ElapsedTime runTime = new ElapsedTime();
         double derivative = 1;
         double distance = getDistance();
         double current = distance;
@@ -273,14 +274,14 @@ public class Robot {
         } else if (distance < endDistance) {
             speed = -Math.abs(speed);
         } else {
-            return;
+            return false;
         }
         double fl = clip(-speed);
         double fr = clip(speed);
         double rl = clip(speed);
         double rr = clip(-speed);
         if (distance < endDistance) {
-            while (distance < endDistance && opMode.opModeIsActive()) {
+            while ((distance < endDistance) && (opMode.opModeIsActive())) {
                 drive.driveSpeeds(drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, fl)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, fr)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, rl)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, rr)));
                 current = getDistance();
                 derivative = Math.abs(current - last);
@@ -288,10 +289,14 @@ public class Robot {
                     distance = current;
                 }
                 last = distance;
+                if (runTime.seconds() > 2.178) {
+                    drive.stopMotors();
+                    return false;
+                }
             }
             drive.stopMotors();
         } else if (distance > endDistance) {
-            while (distance > endDistance && opMode.opModeIsActive()) {
+            while ((distance > endDistance) && (opMode.opModeIsActive())) {
                 drive.driveSpeeds(drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, fl)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, fr)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, rl)), drive.clipStrafeSpeed(drive.calculateSpeedLog(distance, endDistance, rr)));
                 current = getDistance();
                 derivative = Math.abs(current - last);
@@ -299,10 +304,15 @@ public class Robot {
                     distance = current;
                 }
                 last = distance;
+                if (runTime.seconds() > 2.178) {
+                    drive.stopMotors();
+                    return false;
+                }
             }
             drive.stopMotors();
 
         }
+        return true;
     }
 
     private double getDistance(DistanceUnit unit) {
