@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.opencv.core.Point;
 
-public class AlternateBlueFar extends LinearOpMode {
+@Autonomous(name="ALT BR Left", group="Test")
+public class AlternateBlueFarLeft extends LinearOpMode {
     private Robot robot;
     private RelicRecoveryVuMark pictograph = RelicRecoveryVuMark.UNKNOWN;
     private double DISTANCE_TO_RIGHT_COLUMN = 20;
@@ -39,7 +41,7 @@ public class AlternateBlueFar extends LinearOpMode {
         robot.jewelArm.knockJewel(AllianceColor.BLUE);
         robot.forkLift.moveMotor(1, 300);
         robot.jewelArm.up();
-        if (pictograph == RelicRecoveryVuMark.UNKNOWN) pictograph = RelicRecoveryVuMark.RIGHT;
+        if (pictograph == RelicRecoveryVuMark.UNKNOWN) pictograph = RelicRecoveryVuMark.LEFT;
         robot.drive.backward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, robot.drive.DRIVE_OFF_BALANCE_BOARD_DISTANCE);
         robot.drive.backward(robot.drive.MAX_SPEED, 5);
         robot.gyroGoTo(robot.drive.HALF_SPEED, 0);
