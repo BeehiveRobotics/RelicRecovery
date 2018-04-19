@@ -1,24 +1,19 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.opencv.core.Point;
 
-@Autonomous(name = "Blue Far", group = "Autonomous")
-public class BlueFar extends LinearOpMode {
+public class AlternateBlueFar extends LinearOpMode {
     private Robot robot;
     private RelicRecoveryVuMark pictograph = RelicRecoveryVuMark.UNKNOWN;
-    private double DISTANCE_TO_RIGHT_COLUMN = 34.5;
-    private double DISTANCE_TO_CENTER_COLUMN = 28.5;
-    private double DISTANCE_TO_LEFT_COLUMN = 22.5;
-    private double OVERSHOOT_OFFSET = 3;
-
+    private double DISTANCE_TO_RIGHT_COLUMN = 20;
+    private double DISTANCE_TO_CENTER_COLUMN = 12;
+    private double DISTANCE_TO_LEFT_COLUMN = 3;
 
     public void runOpMode() {
-        boolean itWorked = false;
         telemetry.addLine("DO NOT PRESS PLAY YET");
         telemetry.update();
         robot = new Robot(this);
@@ -37,42 +32,27 @@ public class BlueFar extends LinearOpMode {
         robot.forkLift.openClaw();
         robot.jewelArm.down();
         robot.jewelArm.middle();
-        pictograph = robot.phone.getMark();
+        //pictograph = robot.phone.getMark();
+        pictograph = RelicRecoveryVuMark.CENTER;
         robot.forkLift.moveUntilDown();
         robot.forkLift.closeClaw();
         robot.jewelArm.knockJewel(AllianceColor.BLUE);
         robot.forkLift.moveMotor(1, 300);
         robot.jewelArm.up();
-        boolean isDistanceSane = true; // change to is between 12 and 19
         if (pictograph == RelicRecoveryVuMark.UNKNOWN) pictograph = RelicRecoveryVuMark.RIGHT;
         robot.drive.backward(robot.drive.DRIVE_OFF_BALANCE_BOARD_SPEED, robot.drive.DRIVE_OFF_BALANCE_BOARD_DISTANCE);
         robot.drive.backward(robot.drive.MAX_SPEED, 5);
         robot.gyroGoTo(robot.drive.HALF_SPEED, 0);
         switch (pictograph) {
             case LEFT:
-                if (isDistanceSane) {
-                    itWorked = robot.strafeUntilDistance(robot.drive.MAX_SPEED, DISTANCE_TO_LEFT_COLUMN - OVERSHOOT_OFFSET);
-                    break;
-                } else {
-                    robot.drive.strafeLeft(robot.drive.MAX_SPEED, robot.drive.DEFAULT_MOVING_TOWARDS_CRYPTOBOX_DISTANCE_FAR_POSITION + robot.drive.CRYPTOBOX_COLUMNS_OFFSET_FAR + 3);
-                    break;
-                }
+                robot.drive.strafeLeft(robot.drive.MAX_SPEED, DISTANCE_TO_LEFT_COLUMN);
+                break;
             case CENTER:
-                if (isDistanceSane) {
-                    itWorked = robot.strafeUntilDistance(robot.drive.MAX_SPEED, DISTANCE_TO_CENTER_COLUMN - OVERSHOOT_OFFSET);
-                    break;
-                } else {
-                    robot.drive.strafeLeft(robot.drive.MAX_SPEED, robot.drive.DEFAULT_MOVING_TOWARDS_CRYPTOBOX_DISTANCE_FAR_POSITION + 2.5);
-                    break;
-                }
+                robot.drive.strafeLeft(robot.drive.MAX_SPEED, DISTANCE_TO_CENTER_COLUMN);
+                break;
             case RIGHT:
-                if (isDistanceSane) {
-                    itWorked = robot.strafeUntilDistance(robot.drive.MAX_SPEED, DISTANCE_TO_RIGHT_COLUMN - OVERSHOOT_OFFSET);
-                    break;
-                } else {
-                    robot.drive.strafeLeft(robot.drive.MAX_SPEED, robot.drive.DEFAULT_MOVING_TOWARDS_CRYPTOBOX_DISTANCE_FAR_POSITION - robot.drive.CRYPTOBOX_COLUMNS_OFFSET_FAR + 3);
-                    break;
-                }
+                robot.drive.strafeLeft(robot.drive.MAX_SPEED, DISTANCE_TO_RIGHT_COLUMN);
+                break;
         }
         robot.rightGyro(robot.drive.MAX_SPEED, -180);
         robot.drive.forward(robot.drive.DRIVE_INTO_CRYPTOBOX_SPEED, 2);
@@ -80,7 +60,6 @@ public class BlueFar extends LinearOpMode {
         robot.pushInBlock();
         robot.drive.backward(robot.drive.MAX_SPEED, 4);
         /////////////////////////////////////////////////////////////////////////////////////////
-        if(!itWorked) return;
         switch (pictograph) {
             case LEFT:
                 robot.drive.strafeRight(robot.drive.MAX_SPEED, robot.drive.CRYPTOBOX_COLUMNS_OFFSET * 2 + 2);
@@ -169,4 +148,5 @@ public class BlueFar extends LinearOpMode {
         robot.drive.backward(robot.drive.MAX_SPEED, 5);
 
     }
+
 }
